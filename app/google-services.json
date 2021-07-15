@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "305675177518",
+    "project_id": "venuify-d867a",
+    "storage_bucket": "venuify-d867a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:305675177518:android:f4356f75fa64a172bfd9bf",
+        "android_client_info": {
+          "package_name": "edu.neu.venuify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "305675177518-nnvjigcol3mk2qmlj0hu51vf4g6ihf66.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.neu.venuify",
+            "certificate_hash": "2460f9b76af3c1658c398756bc1bed1f878505f9"
+          }
+        },
+        {
+          "client_id": "305675177518-ec1itghhh1gro9ij3tl5av0k2p8u4tlb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-xN1GJQJxNd2ydiwyQvN8-rs5f_IkIOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "305675177518-ec1itghhh1gro9ij3tl5av0k2p8u4tlb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
