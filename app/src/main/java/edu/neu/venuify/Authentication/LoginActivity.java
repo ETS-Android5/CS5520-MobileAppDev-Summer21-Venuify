@@ -43,38 +43,46 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void openRegisterActivity(View view) {
-        Intent intent = new Intent(this, RegisterUserActivity.class);
-        startActivity(intent);
-    }
-
     private void loginUser() {
         String entered_email = username.getText().toString();
         String entered_password = password.getText().toString();
 
-        if (TextUtils.isEmpty(entered_email)) {
-            username.setError("Please enter an email address");
-            username.requestFocus();
-        }
-        else if (TextUtils.isEmpty(entered_password)) {
-            password.setError("Please enter a password");
-            password.requestFocus();
-        }
-        else {
+        if (validateUserInfo(entered_email, entered_password)) {
             mAuth.signInWithEmailAndPassword(entered_email, entered_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        Toast.makeText(LoginActivity.this, "User logged in successfully!",
+                        Toast.makeText(LoginActivity.this, "Success - you are now logged in!",
                                 Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     }
                     else {
-                        Toast.makeText(LoginActivity.this, "Login not successful",
+                        Toast.makeText(LoginActivity.this, "Error signing in - please try again",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
+    }
+
+    //Checks to make sure email and password are not blank.
+    private boolean validateUserInfo(String entered_email, String entered_password) {
+        if (TextUtils.isEmpty(entered_email)) {
+            username.setError("Please enter an email address");
+            username.requestFocus();
+            return false;
+        }
+        else if (TextUtils.isEmpty(entered_password)) {
+            password.setError("Please enter a password");
+            password.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    //Onclick for Registration page link
+    public void openRegisterActivity(View view) {
+        Intent intent = new Intent(this, RegisterUserActivity.class);
+        startActivity(intent);
     }
 }
