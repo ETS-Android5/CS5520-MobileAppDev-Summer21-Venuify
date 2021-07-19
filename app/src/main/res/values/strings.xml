@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Venuify</string>
+    <string name="venue_image">Venue Image</string>
 </resources>
