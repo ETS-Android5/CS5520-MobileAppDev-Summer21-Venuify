@@ -1,4 +1,4 @@
-package edu.neu.venuify.reservationPage;
+package edu.neu.venuify.reservationPageRedo;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,10 +12,10 @@ import edu.neu.venuify.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PastListOfInvitesFragment#newInstance} factory method to
+ * Use the {@link PendingListOfInvitesFragment1#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PastListOfInvitesFragment extends Fragment {
+public class PendingListOfInvitesFragment1 extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class PastListOfInvitesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public PastListOfInvitesFragment() {
+    public PendingListOfInvitesFragment1() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class PastListOfInvitesFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment UpcomingListOfInvitesFragment.
+     * @return A new instance of fragment UpcomingListOfInvitesFragment1.
      */
     // TODO: Rename and change types and number of parameters
-    public static PastListOfInvitesFragment newInstance(String param1, String param2) {
-        PastListOfInvitesFragment fragment = new PastListOfInvitesFragment();
+    public static PendingListOfInvitesFragment1 newInstance(String param1, String param2) {
+        PendingListOfInvitesFragment1 fragment = new PendingListOfInvitesFragment1();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,7 +61,7 @@ public class PastListOfInvitesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_past_list_of_invites, container, false);
+        return inflater.inflate(R.layout.fragment_pending_list_of_invites1, container, false);
     }
     public interface OnFragmentInteractionListener {
 

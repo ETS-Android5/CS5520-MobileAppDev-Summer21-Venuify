@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import edu.neu.venuify.reservationPage.ReservationPageActivity;
+import edu.neu.venuify.reservationPageRedo.ReservationPageActivity1;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //TODO: remove before merge to master branch
-        Intent i = new Intent(this, ReservationPageActivity.class);
+        Intent i = new Intent(this, ReservationPageActivity1.class);
         startActivity(i);
     }
 
