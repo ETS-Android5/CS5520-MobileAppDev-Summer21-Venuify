@@ -1,4 +1,4 @@
-package edu.neu.venuify.reservationPageRedo;
+package edu.neu.venuify.reservationPage;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,16 +14,15 @@ import androidx.viewpager.widget.ViewPager;
 //import edu.neu.venuify.reservationPage.databinding.ActivityReservationPage1Binding;
 
 import edu.neu.venuify.R;
-import edu.neu.venuify.reservationPage.TabPagerAdapter1;
 
-public class ReservationPageActivity1 extends AppCompatActivity implements UpcomingListOfInvitesFragment1.OnFragmentInteractionListener,
-        PendingListOfInvitesFragment1.OnFragmentInteractionListener, PastListOfInvitesFragment1.OnFragmentInteractionListener{
+public class ReservationPageActivity extends AppCompatActivity implements UpcomingListOfInvitesFragment.OnFragmentInteractionListener,
+        PendingListOfInvitesFragment.OnFragmentInteractionListener, PastListOfInvitesFragment.OnFragmentInteractionListener{
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reservation_page1);
+        setContentView(R.layout.activity_reservation_page);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         configureTabLayout();
@@ -36,7 +35,7 @@ public class ReservationPageActivity1 extends AppCompatActivity implements Upcom
         tabLayout.addTab(tabLayout.newTab().setText("Past Reservations"));
 
         final ViewPager viewPager = findViewById(R.id.pager);
-        final PagerAdapter adapter = new TabPagerAdapter1(getSupportFragmentManager(), tabLayout.getTabCount());
+        final PagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

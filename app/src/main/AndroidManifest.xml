@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Venuify">
         <activity
-            android:name=".reservationPageRedo.ReservationPageActivity1"
+            android:name=".reservationPage.ReservationPageActivity"
             android:label="@string/title_activity_reservation_page1"
             android:theme="@style/Theme.Venuify.NoActionBar"></activity>
         <activity android:name=".MainActivity">
