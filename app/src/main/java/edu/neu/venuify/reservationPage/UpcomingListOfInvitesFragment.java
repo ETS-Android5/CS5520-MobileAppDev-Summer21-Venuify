@@ -1,5 +1,6 @@
 package edu.neu.venuify.reservationPage;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -62,5 +63,10 @@ public class UpcomingListOfInvitesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_pending_list_of_invites, container, false);
+    }
+    public interface OnFragmentInteractionListener {
+
+        //TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 }
