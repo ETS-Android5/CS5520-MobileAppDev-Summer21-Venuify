@@ -26,13 +26,11 @@ public class HomePage extends AppCompatActivity {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
-        VenueCategoryAdapter venueCategoryAdapter = new VenueCategoryAdapter(venueCategories, HomePage.this);
+        VenueCategoryAdapter venueCategoryAdapter = new VenueCategoryAdapter(venueCategories);
 
 
         venueCategoryRecyclerView.setLayoutManager(linearLayoutManager);
         venueCategoryRecyclerView.setAdapter(venueCategoryAdapter);
-
-        venueCategoryAdapter.notifyDataSetChanged();
 
     }
 

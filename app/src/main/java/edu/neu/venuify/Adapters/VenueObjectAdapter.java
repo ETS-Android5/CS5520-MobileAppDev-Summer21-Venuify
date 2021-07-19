@@ -1,6 +1,5 @@
 package edu.neu.venuify.Adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,29 +17,15 @@ import edu.neu.venuify.Models.VenueObject;
 
 public class VenueObjectAdapter extends RecyclerView.Adapter<VenueObjectAdapter.VenueObjectViewHolder> {
     private List<VenueObject> venueObjectList;
-    Context cxt;
 
-    public VenueObjectAdapter(List<VenueObject> venueObjectList, Context context) {
+    public VenueObjectAdapter(List<VenueObject> venueObjectList) {
         this.venueObjectList = venueObjectList;
-        this.cxt = context;
     }
-
-    public class VenueObjectViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
-        public TextView venueName;
-
-        public VenueObjectViewHolder(@NonNull View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.img_child_item);
-            venueName = itemView.findViewById(R.id.child_item_title);
-        }
-    }
-
 
     @NonNull
     @Override
     public VenueObjectViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(cxt).inflate(R.layout.venue_object, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.venue_object, viewGroup, false);
         return new VenueObjectViewHolder(view);
     }
 
@@ -55,6 +40,17 @@ public class VenueObjectAdapter extends RecyclerView.Adapter<VenueObjectAdapter.
     @Override
     public int getItemCount() {
         return venueObjectList.size();
+    }
+
+    static class VenueObjectViewHolder extends RecyclerView.ViewHolder {
+        public ImageView imageView;
+        public TextView venueName;
+
+        public VenueObjectViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.img_child_item);
+            venueName = itemView.findViewById(R.id.child_item_title);
+        }
     }
 
 

@@ -1,6 +1,5 @@
 package edu.neu.venuify.Adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,65 +11,66 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import edu.neu.venuify.R;
 import edu.neu.venuify.Models.VenueCategory;
+import edu.neu.venuify.R;
 
 public class VenueCategoryAdapter extends RecyclerView.Adapter<VenueCategoryAdapter.VenueCategoryViewHolder> {
 
-    private RecyclerView.RecycledViewPool viewPool;
+
+    private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
     private List<VenueCategory> venueCategories;
-    private VenueObjectAdapter venueObjectAdapter;
-    public Context cxt;
 
-    public VenueCategoryAdapter(List<VenueCategory> venueCategories, Context context) {
+    public VenueCategoryAdapter(List<VenueCategory> venueCategories) {
         this.venueCategories = venueCategories;
-        this.cxt = context;
-        viewPool = new RecyclerView.RecycledViewPool();
-    }
-
-    public class VenueCategoryViewHolder extends RecyclerView.ViewHolder {
-        public TextView categoryTitle;
-        public RecyclerView venueCategoryRecyclerView;
-        LinearLayoutManager layoutManager = new LinearLayoutManager(cxt, LinearLayoutManager.HORIZONTAL, false);
-
-        public VenueCategoryViewHolder(final View itemView) {
-            super(itemView);
-
-            categoryTitle = itemView.findViewById(R.id.parent_item_title);
-            venueCategoryRecyclerView = itemView.findViewById(R.id.child_recyclerview);
-            venueCategoryRecyclerView.setNestedScrollingEnabled(false);
-
-
-            venueCategoryRecyclerView.setLayoutManager(layoutManager);
-        }
     }
 
     @NonNull
     @Override
-    public VenueCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public VenueCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType)
+    {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.category_object, viewGroup, false);
-        return new VenueCategoryViewHolder(view);
 
+        return new VenueCategoryViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull VenueCategoryViewHolder venueCategoryViewHolder, int position) {
+
         VenueCategory venueCategory = venueCategories.get(position);
-        venueCategoryViewHolder.categoryTitle.setText(venueCategory.getVenueCategory());
+
+        venueCategoryViewHolder.VenueCategory.setText(venueCategory.getVenueCategory());
+
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(venueCategoryViewHolder.venueCategoryRecyclerView.getContext(),
+                        LinearLayoutManager.HORIZONTAL,false);
+
+        layoutManager.setInitialPrefetchItemCount(venueCategory.getVenueObjectList().size());
 
 
-//        layoutManager.setInitialPrefetchItemCount(venueCategory.getVenueObjectList().size());
-//        venueCategoryViewHolder.venueCategoryRecyclerView.setLayoutManager(layoutManager);
-
-        venueObjectAdapter = new VenueObjectAdapter(venueCategory.getVenueObjectList(), cxt);
+        VenueObjectAdapter venueObjectAdapter = new VenueObjectAdapter(venueCategory.getVenueObjectList());
+        venueCategoryViewHolder.venueCategoryRecyclerView.setLayoutManager(layoutManager);
         venueCategoryViewHolder.venueCategoryRecyclerView.setAdapter(venueObjectAdapter);
-
         venueCategoryViewHolder.venueCategoryRecyclerView.setRecycledViewPool(viewPool);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+
+        return venueCategories.size();
     }
 
+
+    static class VenueCategoryViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView VenueCategory;
+        private RecyclerView venueCategoryRecyclerView;
+
+        VenueCategoryViewHolder(final View itemView)
+        {
+            super(itemView);
+
+            VenueCategory = itemView.findViewById(R.id.parent_item_title);
+            venueCategoryRecyclerView = itemView.findViewById(R.id.child_recyclerview);
+        }
+    }
 }
