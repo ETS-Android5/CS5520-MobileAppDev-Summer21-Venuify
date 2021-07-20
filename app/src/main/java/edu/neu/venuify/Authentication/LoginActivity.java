@@ -15,7 +15,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import edu.neu.venuify.HomePage;
 
 import edu.neu.venuify.MainActivity;
 import edu.neu.venuify.R;
@@ -53,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this, "Success - you are now logged in!",
                                 Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, HomePage.class));
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     }
                     else {
                         Toast.makeText(LoginActivity.this, "Error signing in - please try again",
