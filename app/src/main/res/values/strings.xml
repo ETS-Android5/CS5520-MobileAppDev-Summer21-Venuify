@@ -6,4 +6,6 @@
     <string name="enter_first_name">Enter First Name</string>
     <string name="enter_last_name">Enter Last Name</string>
     <string name="venue_image">Venue Image</string>
+    <string name="logout">Logout</string>
+    <string name="homepage">homepage</string>
 </resources>
