@@ -20,6 +20,7 @@
         <activity android:name=".ReservationDetailsPage"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
         </activity>
+
     </application>
 
 </manifest>
