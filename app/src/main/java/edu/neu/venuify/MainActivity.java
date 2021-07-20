@@ -48,4 +48,9 @@ public class MainActivity extends AppCompatActivity {
     public void HomePageActivity(View view) {
         startActivity(new Intent(this, HomePage.class));
     }
+
+    public void reservationDetailsPageNavigation(View view){
+        Intent intentClick = new Intent(this, ReservationDetailsPage.class);
+        startActivity(intentClick);
+    }
 }

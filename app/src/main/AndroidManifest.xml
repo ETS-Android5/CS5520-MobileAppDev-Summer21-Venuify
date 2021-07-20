@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Venuify">
-        <activity android:name=".Authentication.RegisterUserActivity"></activity>
+        <activity android:name=".Authentication.RegisterUserActivity"/>
         <activity android:name=".Authentication.LoginActivity" />
         <activity
             android:name=".reservationPage.ReservationPageActivity"
@@ -23,6 +23,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".HomePage"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
+        </activity>
+
+        <activity android:name=".ReservationDetailsPage"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
         </activity>
     </application>
