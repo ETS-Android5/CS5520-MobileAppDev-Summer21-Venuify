@@ -42,6 +42,8 @@ public class ReservationDetailsPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reservation_details_page);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        createDatabaseListener();
 
 
         /*mDatabase = FirebaseDatabase.getInstance().getReference("reservations").child("reservation1");
@@ -95,6 +97,7 @@ public class ReservationDetailsPage extends AppCompatActivity {
 
                                 Snackbar.make(v, "Reservation Canceled", Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
+                                finish();
                         }
 
 
@@ -118,7 +121,7 @@ public class ReservationDetailsPage extends AppCompatActivity {
 
     //getData();
 
-    // createDatabaseListener();
+
     // addListener2();
 
 
@@ -192,7 +195,7 @@ public class ReservationDetailsPage extends AppCompatActivity {
         });
     }*/
 
-   /* private void createDatabaseListener() {
+    private void createDatabaseListener() {
         mDatabase.child("reservations").addChildEventListener(
                 new ChildEventListener() {
                     @Override
@@ -213,7 +216,7 @@ public class ReservationDetailsPage extends AppCompatActivity {
                         venueInfo.setText(venue);
                         dateInfo.setText(date);
                         timeInfo.setText(time);
-                        numGuestsInfo.setText(numGuests);
+                        numGuestsInfo.setText(String.valueOf(numGuests));
                         priceInfo.setText(price);
 
 
@@ -221,6 +224,24 @@ public class ReservationDetailsPage extends AppCompatActivity {
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {
+                        Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
+                        String venue = reservation.getVenue();
+                        String date = reservation.getDate();
+                        String time = reservation.getTime();
+                        Integer numGuests = reservation.getNumGuests();
+                        String price = reservation.getPrice();
+
+                        TextView venueInfo = (TextView) findViewById(R.id.venueInfo);
+                        TextView dateInfo = (TextView) findViewById(R.id.dateInfo);
+                        TextView timeInfo = (TextView) findViewById(R.id.timeInfo);
+                        TextView numGuestsInfo = (TextView) findViewById(R.id.numGuestInfo);
+                        TextView priceInfo = (TextView) findViewById(R.id.priceInfo);
+
+                        venueInfo.setText(venue);
+                        dateInfo.setText(date);
+                        timeInfo.setText(time);
+                        numGuestsInfo.setText(numGuests);
+                        priceInfo.setText(price);
                     }
 
                     @Override
@@ -236,6 +257,6 @@ public class ReservationDetailsPage extends AppCompatActivity {
                     }
                 }
         );
-    }*/
+    }
 }
 
