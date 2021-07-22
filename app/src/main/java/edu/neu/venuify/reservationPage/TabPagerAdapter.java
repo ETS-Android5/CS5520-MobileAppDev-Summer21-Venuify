@@ -22,7 +22,7 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
                 return new UpcomingListOfInvitesFragment();
             case 1:
                 return new PendingListOfInvitesFragment();
-            case 3:
+            case 2:
                 return new PastListOfInvitesFragment();
             default:
                 return null;

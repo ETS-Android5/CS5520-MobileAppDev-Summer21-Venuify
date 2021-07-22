@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import edu.neu.venuify.Authentication.LoginActivity;
+import edu.neu.venuify.reservationPage.ReservationPageActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -52,5 +53,9 @@ public class MainActivity extends AppCompatActivity {
     public void reservationDetailsPageNavigation(View view){
         Intent intentClick = new Intent(this, ReservationDetailsPage.class);
         startActivity(intentClick);
+    }
+    public void reservationPageActivity(View view){
+        Intent intentForRes = new Intent(this, ReservationPageActivity.class);
+        startActivity(intentForRes);
     }
 }
