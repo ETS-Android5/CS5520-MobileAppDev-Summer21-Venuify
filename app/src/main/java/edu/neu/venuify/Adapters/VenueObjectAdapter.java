@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
 
 import edu.neu.venuify.R;
@@ -50,6 +52,14 @@ public class VenueObjectAdapter extends RecyclerView.Adapter<VenueObjectAdapter.
             super(itemView);
             imageView = itemView.findViewById(R.id.img_child_item);
             venueName = itemView.findViewById(R.id.child_item_title);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAbsoluteAdapterPosition();
+                    Snackbar.make(v, "Click detected on " + venueName.getText().toString(), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
         }
     }
 
