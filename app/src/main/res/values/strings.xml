@@ -32,4 +32,8 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="qr_reader">QR Reader</string>
+    <string name="reservation">Reservation</string>
 </resources>

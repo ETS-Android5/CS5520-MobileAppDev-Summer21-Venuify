@@ -1,6 +1,5 @@
 package edu.neu.venuify;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -12,7 +11,7 @@ import android.widget.Button;
 import edu.neu.venuify.Authentication.LoginActivity;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private Button logOutBtn;
     FirebaseAuth mAuth;
@@ -38,6 +37,16 @@ public class MainActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser() == null) {
             openLoginPage();
         }
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.homepage_activity;
+    }
+
+    @Override
+    public int getNavigationMenuItemId() {
+        return 0;
     }
 
     public void openLoginPage() {
