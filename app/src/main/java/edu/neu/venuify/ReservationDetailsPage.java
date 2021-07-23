@@ -46,32 +46,6 @@ public class ReservationDetailsPage extends AppCompatActivity {
         createDatabaseListener();
 
 
-        /*mDatabase = FirebaseDatabase.getInstance().getReference("reservations").child("reservation1");
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                    Reservation reservation = snapshot1.getValue(Reservation.class);
-                    String venue = reservation.getVenue();
-                    String date = reservation.getDate();
-                    String time = reservation.getTime();
-                    Integer numGuests = reservation.getNumGuests();
-                    String price = reservation.getPrice();
-                    TextView venueInfoDisplay = (TextView) findViewById(R.id.venueInfo);
-                    venueInfoDisplay.setText(venue);
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-            }
-        };
-        mDatabase.addListenerForSingleValueEvent(valueEventListener);*/
-
-
-
         cancelButton = findViewById(R.id.cancelButton);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,13 +64,14 @@ public class ReservationDetailsPage extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        //TODO: handle cancel reservation - remove the reservation from database,
-                        // and maybe navigate to the reservations page
+                        //TODO: handle cancel reservation - remove the reservation from database
 
-                        // setContentView(R.layout.activity_main); ---> make is go to reservations page
+
 
                                 Snackbar.make(v, "Reservation Canceled", Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
+
+                                //finish() should navigate to the reservations page
                                 finish();
                         }
 
@@ -116,84 +91,6 @@ public class ReservationDetailsPage extends AppCompatActivity {
 
     }
 
-
-//        TextView venueInfoDisplay = (TextView)findViewById(R.id.venueInfo);
-
-    //getData();
-
-
-    // addListener2();
-
-
-//    private void getData() {
-//        mDatabase.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-//                String value = snapshot.getChildren().toString();
-//                TextView venueInfoDisplay = (TextView) findViewById(R.id.venueInfo);
-//                venueInfoDisplay.setText(value);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
-
-    // DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("reservations");
-    //createDatabaseListener();
-
-    /*private void setReservationInfo() {
-        mDatabase = FirebaseDatabase.getInstance().getReference("reservations");
-        String info = mDatabase.child("reservation1").child("venue").toString();
-        TextView venueInfoDisplay = (TextView) findViewById(R.id.venueInfo);
-        venueInfoDisplay.setText(info);
-       //.addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-           @Override
-           public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
-               TextView venueInfoDisplay = (TextView)findViewById(R.id.venueInfo);
-               venueInfoDisplay.setText(String.valueOf(task.getResult().getValue()));
-           }
-       });
-       TextView venueInfoDisplay = (TextView)findViewById(R.id.venueInfo);
-       venueInfoDisplay.setText(venuInfo);
-    }*/
-
-
-    /*private void addListener2() {
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Reservation reservation = snapshot.getValue(Reservation.class);
-                //   System.out.println(reservation);
-
-                venue = reservation.venue;
-                date = reservation.date;
-                time = reservation.time;
-                numGuests = reservation.numGuests;
-                price = reservation.price;
-
-                TextView venueInfo = (TextView) findViewById(R.id.venueInfo);
-                TextView dateInfo = (TextView) findViewById(R.id.dateInfo);
-                TextView timeInfo = (TextView) findViewById(R.id.timeInfo);
-                TextView numGuestsInfo = (TextView) findViewById(R.id.numGuestInfo);
-                TextView priceInfo = (TextView) findViewById(R.id.priceInfo);
-
-                venueInfo.setText(venue);
-                dateInfo.setText(date);
-                timeInfo.setText(time);
-                numGuestsInfo.setText(numGuests);
-                priceInfo.setText(price);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }*/
 
     private void createDatabaseListener() {
         mDatabase.child("reservations").addChildEventListener(
