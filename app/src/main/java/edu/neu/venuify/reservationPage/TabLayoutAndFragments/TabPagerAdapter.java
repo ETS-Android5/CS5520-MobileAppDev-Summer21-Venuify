@@ -24,9 +24,9 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position){
         switch(position) {
-            case 2:
+            case 1:
                 return new PendingListOfInvitesFragment();
-            case 3:
+            case 2:
                 return new PastListOfInvitesFragment();
             default:
                 return new UpcomingListOfInvitesFragment();
