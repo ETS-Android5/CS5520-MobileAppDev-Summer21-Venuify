@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/home"
+        android:id="@+id/nav_bar_home"
+        android:icon="@drawable/home_icon"/>
+
+    <item android:title="@string/search"
+        android:id="@+id/nav_bar_search"
+        android:icon="@drawable/search_icon"/>
+
+    <item android:title="@string/qr_reader"
+        android:id="@+id/nav_bar_qr"
+        android:icon="@drawable/qr_code_icon"/>
+
+    <item android:title="@string/reservation"
+        android:id="@+id/nav_bar_reservation"
+        android:icon="@drawable/calendar_icon"/>
+</menu>

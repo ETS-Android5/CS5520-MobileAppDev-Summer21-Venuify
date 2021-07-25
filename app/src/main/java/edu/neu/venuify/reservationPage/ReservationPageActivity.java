@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-//import edu.neu.venuify.reservationPage.databinding.ActivityReservationPage1Binding;
 
+import edu.neu.venuify.BaseActivity;
 import java.util.ArrayList;
 
 import edu.neu.venuify.R;
@@ -25,20 +24,26 @@ import edu.neu.venuify.reservationPage.TabLayoutAndFragments.PendingListOfInvite
 import edu.neu.venuify.reservationPage.TabLayoutAndFragments.TabPagerAdapter;
 import edu.neu.venuify.reservationPage.TabLayoutAndFragments.UpcomingListOfInvitesFragment;
 
-/**
- * Adapted from Chapter 47, Android Studio 4.1 Development Essentials
- */
-public class ReservationPageActivity extends AppCompatActivity implements UpcomingListOfInvitesFragment.OnFragmentInteractionListener,
-        PendingListOfInvitesFragment.OnFragmentInteractionListener, PastListOfInvitesFragment.OnFragmentInteractionListener {
+public class ReservationPageActivity extends BaseActivity implements UpcomingListOfInvitesFragment.OnFragmentInteractionListener,
+        PendingListOfInvitesFragment.OnFragmentInteractionListener, PastListOfInvitesFragment.OnFragmentInteractionListener{
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reservation_page);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         configureTabLayout();
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_reservation_page;
+    }
+
+    @Override
+    public int getNavigationMenuItemId() {
+        return R.id.nav_bar_reservation;
     }
 
     private void configureTabLayout() {

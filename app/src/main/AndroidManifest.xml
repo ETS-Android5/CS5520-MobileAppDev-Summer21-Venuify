@@ -26,6 +26,14 @@
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
         </activity>
 
+        <activity android:name=".QR_Activity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
+        </activity>
+
+        <activity android:name=".SearchActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
+        </activity>
+
         <activity android:name=".ReservationDetailsPage"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
         </activity>

@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,13 +15,16 @@ import edu.neu.venuify.Adapters.VenueCategoryAdapter;
 import edu.neu.venuify.Models.VenueCategory;
 import edu.neu.venuify.Models.VenueObject;
 
-public class HomePage extends AppCompatActivity {
+public class HomePage extends BaseActivity {
     List<VenueCategory> venueCategories = initCategories();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.homepage_activity);
+//        setContentView(R.layout.homepage_activity);
+
+//        bottomNavigationView.setSelectedItemId(R.id.nav_bar_home);
+
 
         RecyclerView venueCategoryRecyclerView = findViewById(R.id.parent_recyclerview);
         venueCategoryRecyclerView.setHasFixedSize(true);
@@ -32,6 +37,14 @@ public class HomePage extends AppCompatActivity {
         venueCategoryRecyclerView.setLayoutManager(linearLayoutManager);
         venueCategoryRecyclerView.setAdapter(venueCategoryAdapter);
 
+    }
+
+    @Override
+    public int getContentViewId() { return R.layout.homepage_activity; }
+
+    @Override
+    public int getNavigationMenuItemId() {
+        return R.id.nav_bar_home;
     }
 
     private List<VenueCategory> initCategories() {
