@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import edu.neu.venuify.Authentication.LoginActivity;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends AppCompatActivity {
 
     private Button logOutBtn;
     FirebaseAuth mAuth;
@@ -37,16 +39,6 @@ public class MainActivity extends BaseActivity {
         if (mAuth.getCurrentUser() == null) {
             openLoginPage();
         }
-    }
-
-    @Override
-    public int getContentViewId() {
-        return R.layout.homepage_activity;
-    }
-
-    @Override
-    public int getNavigationMenuItemId() {
-        return 0;
     }
 
     public void openLoginPage() {

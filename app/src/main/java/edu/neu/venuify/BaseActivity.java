@@ -31,6 +31,12 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        updateNavigationBarState();
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         overridePendingTransition(0, 0);
@@ -39,20 +45,36 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        navigationView.postDelayed(() -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.HomePageActivity) {
-                startActivity(new Intent(this, HomePage.class));
-            } else if (itemId == R.id.qr_activity) {
-                startActivity(new Intent(this, QR_Activity.class));
-            } else if (itemId == R.id.search_activity) {
-                startActivity(new Intent(this, SearchActivity.class));
-            } else if (itemId == R.id.reservationPageActivity) {
-                startActivity(new Intent(this, ReservationPageActivity.class));
-            }
-            finish();
-        }, 300);
-        return true;
+        int itemId = item.getItemId();
+
+//        // handle case where the current item is selected again
+        if (navigationView.getSelectedItemId() ==  itemId) {
+            return true;
+        }
+
+        // new navigation button selected
+        if (itemId == R.id.nav_bar_home) {
+            startActivity(new Intent(this, HomePage.class));
+            overridePendingTransition(0, 0);
+            return true;
+
+        } else if (itemId == R.id.nav_bar_qr) {
+            startActivity(new Intent(this, QR_Activity.class));
+            overridePendingTransition(0, 0);
+            return true;
+
+        } else if (itemId == R.id.nav_bar_search) {
+            startActivity(new Intent(this, SearchActivity.class));
+            overridePendingTransition(0, 0);
+            return true;
+
+        } else if (itemId == R.id.nav_bar_reservation) {
+            startActivity(new Intent(this, ReservationPageActivity.class));
+            overridePendingTransition(0, 0);
+            return true;
+
+        }
+        return false;
     }
 
 

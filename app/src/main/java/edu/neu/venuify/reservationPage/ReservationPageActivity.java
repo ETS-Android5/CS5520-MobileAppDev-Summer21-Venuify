@@ -5,27 +5,35 @@ import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-//import edu.neu.venuify.reservationPage.databinding.ActivityReservationPage1Binding;
 
+import edu.neu.venuify.BaseActivity;
 import edu.neu.venuify.R;
 
-public class ReservationPageActivity extends AppCompatActivity implements UpcomingListOfInvitesFragment.OnFragmentInteractionListener,
+public class ReservationPageActivity extends BaseActivity implements UpcomingListOfInvitesFragment.OnFragmentInteractionListener,
         PendingListOfInvitesFragment.OnFragmentInteractionListener, PastListOfInvitesFragment.OnFragmentInteractionListener{
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reservation_page);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         configureTabLayout();
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_reservation_page;
+    }
+
+    @Override
+    public int getNavigationMenuItemId() {
+        return R.id.nav_bar_reservation;
     }
 
     private void configureTabLayout() {
