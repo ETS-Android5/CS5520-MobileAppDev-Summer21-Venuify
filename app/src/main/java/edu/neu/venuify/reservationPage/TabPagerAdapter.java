@@ -1,6 +1,7 @@
 package edu.neu.venuify.reservationPage;
 
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -14,18 +15,16 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
         this.tabCount = numberOfTabs;
     }
 
-
+    @NonNull
     @Override
     public Fragment getItem(int position){
         switch(position) {
-            case 0:
-                return new UpcomingListOfInvitesFragment();
-            case 1:
+            case 2:
                 return new PendingListOfInvitesFragment();
             case 3:
                 return new PastListOfInvitesFragment();
             default:
-                return null;
+                return new UpcomingListOfInvitesFragment();
         }
     }
 
