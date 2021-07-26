@@ -40,4 +40,6 @@
     <string name="search">Search</string>
     <string name="qr_reader">QR Reader</string>
     <string name="reservation">Reservation</string>
+    <string name="search_hint">Search Venues</string>
+    <string name="account">Account</string>
 </resources>

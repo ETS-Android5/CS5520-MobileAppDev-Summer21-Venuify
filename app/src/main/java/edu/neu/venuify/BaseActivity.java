@@ -3,6 +3,7 @@ package edu.neu.venuify;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -41,6 +42,13 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
         super.onPause();
         overridePendingTransition(0, 0);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+        return true;
+    }
+
 
 
     @Override
