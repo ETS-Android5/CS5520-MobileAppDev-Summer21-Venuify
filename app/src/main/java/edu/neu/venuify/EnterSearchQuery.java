@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -12,6 +13,7 @@ import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,7 +45,10 @@ public class EnterSearchQuery extends AppCompatActivity {
         setTitle("");
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+
+//        Toolbar toolbar = findViewById(R.id.toolbar);
 //        progressBar = findViewById(R.id.progressBar);
         RecyclerView searchRecyclerView = findViewById(R.id.searchRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -52,12 +57,6 @@ public class EnterSearchQuery extends AppCompatActivity {
         searchRecyclerView.setLayoutManager(linearLayoutManager);
         handleIntent(getIntent());
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     @Override
@@ -71,6 +70,15 @@ public class EnterSearchQuery extends AppCompatActivity {
         searchView.setIconifiedByDefault(false);
         searchView.requestFocus();
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            this.finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
