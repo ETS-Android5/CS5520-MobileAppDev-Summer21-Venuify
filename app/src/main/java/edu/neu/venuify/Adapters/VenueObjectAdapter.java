@@ -18,6 +18,7 @@ import edu.neu.venuify.R;
 import edu.neu.venuify.Models.VenueObject;
 
 public class VenueObjectAdapter extends RecyclerView.Adapter<VenueObjectAdapter.VenueObjectViewHolder> {
+
     private List<VenueObject> venueObjectList;
 
     public VenueObjectAdapter(List<VenueObject> venueObjectList) {
@@ -42,6 +43,10 @@ public class VenueObjectAdapter extends RecyclerView.Adapter<VenueObjectAdapter.
     @Override
     public int getItemCount() {
         return venueObjectList.size();
+    }
+
+    public void setVenueObjectList(List<VenueObject> venueObjectList) {
+        this.venueObjectList = venueObjectList;
     }
 
     static class VenueObjectViewHolder extends RecyclerView.ViewHolder {

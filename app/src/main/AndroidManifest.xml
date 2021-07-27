@@ -31,12 +31,18 @@
         </activity>
 
         <activity android:name=".SearchActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
+        </activity>
+
+        <activity android:name=".EnterSearchQuery"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            android:windowSoftInputMode="adjustPan"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan">
+        <intent-filter>
+            <action android:name="android.intent.action.SEARCH" />
+        </intent-filter>
+        <meta-data android:name="android.app.searchable"
+            android:resource="@xml/searchable"/>
         </activity>
 
         <activity android:name=".ReservationDetailsPage"

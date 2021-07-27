@@ -4,6 +4,10 @@ public class VenueObject {
     private String venueName;
     private int imageId;
 
+    public VenueObject() {
+
+    }
+
     public VenueObject(String venueName, int ImageId) {
 
         this.venueName = venueName;
