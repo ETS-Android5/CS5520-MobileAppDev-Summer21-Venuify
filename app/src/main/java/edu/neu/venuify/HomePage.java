@@ -27,7 +27,6 @@ public class HomePage extends BaseActivity {
 
 
         RecyclerView venueCategoryRecyclerView = findViewById(R.id.parent_recyclerview);
-        venueCategoryRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
