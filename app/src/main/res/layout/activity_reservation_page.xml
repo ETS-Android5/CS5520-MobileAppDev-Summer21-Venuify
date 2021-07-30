@@ -18,22 +18,8 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/Theme.Venuify.PopupOverlay" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/Tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabMode="fixed"
-            app:tabGravity="fill"/>
-
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
-        android:layout_width = "match_parent"
-        android:layout_height = "match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-    <include layout="@layout/content_reservation_page" />
     <include
         layout="@layout/bottom_navigation_bar"
         android:layout_width="match_parent"
