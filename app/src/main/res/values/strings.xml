@@ -55,4 +55,7 @@
     <string name="resvenuename">ResVenueName</string>
     <string name="resdate">resDate</string>
     <string name="restime">ResTime</string>
+    <string name="time">Time:</string>
+    <string name="date">Date:</string>
+    <string name="reservation_venue">Reservation Venue:</string>
 </resources>
