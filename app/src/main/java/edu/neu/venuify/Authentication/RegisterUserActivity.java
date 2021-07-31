@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,6 +22,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import edu.neu.venuify.Entities.User;
 import edu.neu.venuify.MainActivity;
 import edu.neu.venuify.R;
@@ -32,6 +36,7 @@ public class RegisterUserActivity extends AppCompatActivity {
     private EditText user_email;
     private EditText user_password1;
     private EditText user_password2;
+    private CheckBox user_isAdmin;
     private Button registerBtn;
 
     private FirebaseAuth mAuth;
@@ -61,6 +66,7 @@ public class RegisterUserActivity extends AppCompatActivity {
         String email  = user_email.getText().toString();
         String password1 = user_password1.getText().toString();
         String password2 = user_password2.getText().toString();
+        Boolean isAdmin = user_isAdmin.isChecked();
 
         if (validateUserInfo(firstName, lastName, email, password1, password2)) {
             mAuth.createUserWithEmailAndPassword(email, password1)
@@ -69,7 +75,7 @@ public class RegisterUserActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 FirebaseUser loggedInUser = mAuth.getCurrentUser();
-                                writeNewUser(loggedInUser, firstName, lastName);
+                                writeNewUser(loggedInUser, firstName, lastName, isAdmin);
                             } else {
                                 Toast.makeText(RegisterUserActivity.this, "Error creating account" + task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
@@ -83,9 +89,10 @@ public class RegisterUserActivity extends AppCompatActivity {
     //Writes user to "users" document in database and redirects user to MainActivity if successful
     //Uid stored in user entry corresponds to the uid of the user in firebase authentication
     //User signed in and taken to homepage if successful
-    private void writeNewUser(FirebaseUser loggedInUser, String firstName, String lastName) {
+    private void writeNewUser(FirebaseUser loggedInUser, String firstName, String lastName, Boolean adminFlag) {
         String id = mDatabase.push().getKey();
-        User user = new User(loggedInUser.getUid(), firstName, lastName);
+        User user = new User(loggedInUser.getUid(), firstName, lastName, adminFlag);
+
 
         mDatabase.child("users").child(id).setValue(user)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -139,5 +146,6 @@ public class RegisterUserActivity extends AppCompatActivity {
         user_email = findViewById(R.id.email);
         user_password1 = findViewById(R.id.password1);
         user_password2 = findViewById(R.id.password2);
+        user_isAdmin = findViewById((R.id.chkAdmin));
     }
 }
