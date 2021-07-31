@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 import edu.neu.venuify.BaseActivity;
@@ -97,8 +98,70 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
                     public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
 
-                        //might need?
-                        addReservationObjectToRecycler(reservation);
+
+                        //get the date according to the current info
+                        Integer currentYear = Integer.valueOf(new Date().getYear() + 1900);
+                        Integer currentMonth = Integer.valueOf(new Date().getMonth());
+                        Integer currentDay = Integer.valueOf(new Date().getDay());
+
+                        //get the reservation date
+                        String reservationDate = reservation.getDate();
+                        String[] datePartsOfReservationDate = reservationDate.split("/");
+                        Integer reservationMonth = Integer.valueOf(datePartsOfReservationDate[0]);
+
+                        //accounts for the weird format of 08 and 09 being too large to be an "int"?
+                        if (reservationMonth.toString() == "08") {
+                            reservationMonth = 8;
+                        }
+                        if (reservationMonth.toString() == "09") {
+                            reservationMonth = 9;
+                        }
+
+
+                        Integer reservationDay = Integer.valueOf(datePartsOfReservationDate[1]);
+
+                        //accounts for the weird format of 08 and 09 being too large to be an "int"?
+                        //to see the prob try this: int i = 08;
+                        if (reservationDay.toString() == "08") {
+                            reservationDay = 8;
+                        }
+                        if (reservationDay.toString() == "09") {
+                            reservationDay = 9;
+                        }
+
+
+                        Integer reservationYear = Integer.valueOf(datePartsOfReservationDate[2]);
+
+                        //conditional that if the date is today or in the future, then add it here
+                        //we want to add reservations that are in the future (haven't happened)
+                        //if its next year, then add it
+                        if (currentYear> reservationYear) {
+                            addReservationObjectToRecycler(reservation);
+                            return;
+                        }
+                        //if its this year
+                        if (currentYear.equals(reservationYear)) {
+                            //then need to check if our month is less than reservation month
+                            if (currentMonth > reservationMonth) {
+                                addReservationObjectToRecycler(reservation);
+                                return;
+                            }
+
+                            //if its this year, and this month, then compare day
+                            if (currentMonth.equals(reservationMonth)) {
+                                //check day
+                                if (currentDay > reservationDay) {
+                                    addReservationObjectToRecycler(reservation);
+                                    return;
+                                }
+
+                            }
+                        }
+
+
+
+                        //adds a reservation object to the recycler
+                        //addReservationObjectToRecycler(reservation);
 
                         /*
                         TextView venueName = findViewById(R.id.reservationVenueNameText);
