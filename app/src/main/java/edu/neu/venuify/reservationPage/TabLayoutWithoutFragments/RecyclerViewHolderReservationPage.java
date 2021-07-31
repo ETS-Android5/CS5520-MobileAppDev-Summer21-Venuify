@@ -3,6 +3,7 @@ package edu.neu.venuify.reservationPage.TabLayoutWithoutFragments;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar;
 import org.jetbrains.annotations.NotNull;
 
 import edu.neu.venuify.R;
+import edu.neu.venuify.reservationPage.ReservationPageActivity;
 
 public class RecyclerViewHolderReservationPage extends RecyclerView.ViewHolder {
 
@@ -34,8 +36,8 @@ public class RecyclerViewHolderReservationPage extends RecyclerView.ViewHolder {
             public void onClick(View v) {
 
                 int position = getAdapterPosition();
+                Snackbar.make(v, "click detected on item" + (position + 1), Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
-                Snackbar.make(v, "click detected on item", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
                 //can set a message to popup if want when click a card
             }

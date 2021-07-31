@@ -23,7 +23,6 @@ public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<Rec
 
     public RecyclerViewAdapterReservationPage(ArrayList<Reservation> reservations) {
         this.reservationsList = reservations;
-
     }
 
     //creates the venue object layout for the recycler view
@@ -48,6 +47,8 @@ public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<Rec
     public int getItemCount() {
         return reservationsList.size();
     }
+
+
 
 
 

@@ -2,10 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayoutRes"
     android:layout_width="match_parent"
     android:layout_height="130dp"
-    android:foreground="?selectableItemBackground"
-    android:clickable="true">
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="9dp"
+    android:fadingEdge="vertical"
+    android:elevation="50dp"
+    android:clickable="true"
+    android:foreground="?selectableItemBackground">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -72,8 +77,6 @@
             android:textStyle="bold"
             android:translationX="-250dp"
             android:translationY="33dp" />
-
-
 
 
     </LinearLayout>
