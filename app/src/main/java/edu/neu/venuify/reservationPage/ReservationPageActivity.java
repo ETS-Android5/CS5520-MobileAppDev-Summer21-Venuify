@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +32,7 @@ import java.util.Objects;
 
 import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
+import edu.neu.venuify.ReservationDetailsPage;
 import edu.neu.venuify.reservationPage.TabLayoutWithoutFragments.RecyclerViewAdapterReservationPage;
 
 
@@ -86,6 +88,12 @@ public class ReservationPageActivity extends BaseActivity implements View.OnClic
                 Intent j = new Intent(this, ReservationPagePastActivity.class);
                 startActivity(j);
                 break;
+
+            //case R.id.linearLayout2:
+
+                //Intent k = new Intent(this, ReservationDetailsPage.class);
+                //startActivity(k);
+                //break;
 
         }
     }
