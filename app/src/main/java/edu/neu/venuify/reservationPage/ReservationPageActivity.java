@@ -26,6 +26,7 @@ import org.w3c.dom.Text;
 
 import edu.neu.venuify.BaseActivity;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 import edu.neu.venuify.R;
@@ -60,6 +61,8 @@ public class ReservationPageActivity extends BaseActivity implements View.OnClic
         mDatabase = FirebaseDatabase.getInstance().getReference();
         createRecyclerView();
         createDatabaseListener();
+
+
 
     }
 
@@ -108,8 +111,57 @@ public class ReservationPageActivity extends BaseActivity implements View.OnClic
                     public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
 
-                        //might need?
-                        addReservationObjectToRecycler(reservation);
+                        //get the date according to the current info
+                        Integer currentYear = Integer.valueOf(new Date().getYear() + 1900);
+                        Integer currentMonth = Integer.valueOf(new Date().getMonth());
+                        Integer currentDay = Integer.valueOf(new Date().getDay());
+
+                        //get the reservation date
+                        String reservationDate = reservation.getDate();
+                        String[] datePartsOfReservationDate = reservationDate.split("/");
+                        Integer reservationMonth = Integer.valueOf(datePartsOfReservationDate[0]);
+                        if (reservationMonth.toString() == "08") {
+                            reservationMonth = 8;
+                        }
+                        if (reservationMonth.toString() == "09") {
+                            reservationMonth = 9;
+                        }
+
+
+                        Integer reservationDay = Integer.valueOf(datePartsOfReservationDate[1]);
+                        Integer reservationYear = Integer.valueOf(datePartsOfReservationDate[2]);
+
+
+                        //make a conditional that if the date is today or in the future, then add it here
+
+                        //we want to add reservations that are in the future (haven't happened)
+                        //if its next year, then add it
+                        if (currentYear< reservationYear) {
+                            addReservationObjectToRecycler(reservation);
+                            return;
+                        }
+                        //if its this year
+                        if (currentYear.equals(reservationYear)) {
+                            //then need to check if our month is less than reservation month
+                            if (currentMonth < reservationMonth) {
+                                addReservationObjectToRecycler(reservation);
+                                return;
+                            }
+
+                            if (currentMonth.equals(reservationMonth)) {
+                                //check day
+                                if (currentDay <= reservationDay) {
+                                    addReservationObjectToRecycler(reservation);
+                                    return;
+                                }
+
+                            }
+                        }
+
+
+
+                        //adds the object to the recycler
+                        //addReservationObjectToRecycler(reservation);
 
                         /*
                         TextView venueName = findViewById(R.id.reservationVenueNameText);
