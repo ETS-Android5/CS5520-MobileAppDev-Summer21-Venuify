@@ -4,45 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".reservationPage.ReservationPageActivity">
+    tools:context=".reservationPage.ReservationPagePendingActivity">
+
+    <include
+        layout="@layout/bottom_navigation_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/upcoming1button"
+            android:id="@+id/upcoming2button"
             android:layout_width="138dp"
             android:layout_height="59dp"
-            android:text="@string/upcoming1"
+            android:text="@string/upcoming2"
             android:translationY="-5dp"
-            app:layout_constraintEnd_toStartOf="@+id/pending1button"
+            android:onClick="onClick"
+            app:layout_constraintEnd_toStartOf="@+id/pending2button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
 
         <Button
-            android:id="@+id/past1button"
+            android:id="@+id/past2button"
             android:layout_width="138dp"
             android:layout_height="59dp"
-            android:onClick="onClick"
-            android:text="@string/past1"
+            android:text="@string/past2"
             android:translationY="-5dp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/pending1button"
+            android:onClick="onClick"
+            app:layout_constraintBaseline_toBaselineOf="@+id/pending2button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/pending1button" />
+            app:layout_constraintStart_toEndOf="@+id/pending2button" />
 
         <Button
-            android:id="@+id/pending1button"
+            android:id="@+id/pending2button"
             android:layout_width="138dp"
             android:layout_height="59dp"
-            android:onClick="onClick"
-            android:text="@string/pending1"
+            android:text="@string/pending2"
             android:translationY="-5dp"
-            app:layout_constraintEnd_toStartOf="@+id/past1button"
+            app:layout_constraintEnd_toStartOf="@+id/past2button"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/upcoming1button"
+            app:layout_constraintStart_toEndOf="@+id/upcoming2button"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
 
         <com.google.android.material.appbar.AppBarLayout
@@ -64,7 +73,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewUpcomingReservationPage"
+            android:id="@+id/recyclerViewPendingReservationPage"
             android:layout_width="409dp"
             android:layout_height="562dp"
             android:layout_marginStart="1dp"
@@ -72,17 +81,6 @@
             android:layout_marginEnd="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pending1button" />
+            app:layout_constraintTop_toBottomOf="@+id/pending2button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <include
-        layout="@layout/bottom_navigation_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

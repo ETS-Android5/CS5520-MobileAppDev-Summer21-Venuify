@@ -42,4 +42,20 @@
     <string name="reservation">Reservation</string>
     <string name="search_hint">Search Venues</string>
     <string name="account">Account</string>
+    <string name="pending1">Pending</string>
+    <string name="upcoming1">Upcoming</string>
+    <string name="past1">Past</string>
+    <string name="pending2">Pending</string>
+    <string name="upcoming2">Upcoming</string>
+    <string name="past2">Past</string>
+    <string name="pending3">Pending</string>
+    <string name="upcoming3">Upcoming</string>
+    <string name="past3">Past</string>
+    <string name="reservation_at">Reservation at:</string>
+    <string name="resvenuename">ResVenueName</string>
+    <string name="resdate">resDate</string>
+    <string name="restime">ResTime</string>
+    <string name="time">Time:</string>
+    <string name="date">Date:</string>
+    <string name="reservation_venue">Reservation Venue:</string>
 </resources>

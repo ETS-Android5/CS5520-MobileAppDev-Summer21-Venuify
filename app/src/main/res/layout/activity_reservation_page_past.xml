@@ -4,49 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".reservationPage.ReservationPageActivity">
+    tools:context=".reservationPage.ReservationPagePastActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/upcoming1button"
+            android:id="@+id/upcoming3button"
             android:layout_width="138dp"
             android:layout_height="59dp"
-            android:text="@string/upcoming1"
+            android:onClick="onClick"
+            android:text="@string/upcoming3"
             android:translationY="-5dp"
-            app:layout_constraintEnd_toStartOf="@+id/pending1button"
+            app:layout_constraintEnd_toStartOf="@+id/pending3button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout3" />
 
         <Button
-            android:id="@+id/past1button"
+            android:id="@+id/past3button"
             android:layout_width="138dp"
             android:layout_height="59dp"
-            android:onClick="onClick"
-            android:text="@string/past1"
+            android:text="@string/past3"
             android:translationY="-5dp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/pending1button"
+            app:layout_constraintBaseline_toBaselineOf="@+id/pending3button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/pending1button" />
+            app:layout_constraintStart_toEndOf="@+id/pending3button" />
 
         <Button
-            android:id="@+id/pending1button"
+            android:id="@+id/pending3button"
             android:layout_width="138dp"
             android:layout_height="59dp"
             android:onClick="onClick"
-            android:text="@string/pending1"
+            android:text="@string/pending3"
             android:translationY="-5dp"
-            app:layout_constraintEnd_toStartOf="@+id/past1button"
+            app:layout_constraintEnd_toStartOf="@+id/past3button"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/upcoming1button"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
+            app:layout_constraintStart_toEndOf="@+id/upcoming3button"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout3" />
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout2"
+            android:id="@+id/appBarLayout3"
             android:layout_width="0dp"
             android:layout_height="58dp"
             android:theme="@style/Theme.Venuify.AppBarOverlay"
@@ -64,7 +64,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewUpcomingReservationPage"
+            android:id="@+id/recyclerViewPastReservationPage"
             android:layout_width="409dp"
             android:layout_height="562dp"
             android:layout_marginStart="1dp"
@@ -72,7 +72,7 @@
             android:layout_marginEnd="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pending1button" />
+            app:layout_constraintTop_toBottomOf="@+id/pending3button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
@@ -83,6 +83,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
