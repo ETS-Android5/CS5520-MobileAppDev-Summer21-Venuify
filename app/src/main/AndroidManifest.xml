@@ -10,7 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Venuify">
         <activity android:name=".reservationPage.ReservationPagePastActivity"></activity>
-        <activity android:name=".reservationPage.ReservationPagePendingActivity" />
         <activity android:name=".Authentication.RegisterUserActivity" />
         <activity android:name=".Authentication.LoginActivity" />
         <activity

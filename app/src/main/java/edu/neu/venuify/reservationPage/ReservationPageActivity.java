@@ -81,10 +81,7 @@ public class ReservationPageActivity extends BaseActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.pending1button:
-                Intent i = new Intent(this, ReservationPagePendingActivity.class);
-                startActivity(i);
-                break;
+
             case R.id.past1button:
                 Intent j = new Intent(this, ReservationPagePastActivity.class);
                 startActivity(j);
@@ -175,22 +172,6 @@ public class ReservationPageActivity extends BaseActivity implements View.OnClic
                         //adds the object to the recycler
                         //addReservationObjectToRecycler(reservation);
 
-                        /*
-                        TextView venueName = findViewById(R.id.reservationVenueNameText);
-                        TextView venueDate = findViewById(R.id.reservationDateText);
-                        TextView venueTime = findViewById(R.id.resTimeText);
-
-                        venueName.setText(reservation.venue);
-                        venueDate.setText(reservation.date);
-                        venueTime.setText(reservation.time);
-
-                         */
-
-
-
-
-
-
 
                         //may decide later to put a total count?
                         /*
@@ -212,16 +193,6 @@ public class ReservationPageActivity extends BaseActivity implements View.OnClic
                     public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
 
-                        /*
-                        TextView venueName = findViewById(R.id.reservationVenueNameText);
-                        TextView venueDate = findViewById(R.id.reservationDateText);
-                        TextView venueTime = findViewById(R.id.resTimeText);
-
-                        venueName.setText(reservation.venue);
-                        venueDate.setText(reservation.date);
-                        venueTime.setText(reservation.time);
-
-                         */
 
                     }
 
@@ -251,7 +222,6 @@ public class ReservationPageActivity extends BaseActivity implements View.OnClic
 
 
     //need this for when tilt screen?
-
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
 

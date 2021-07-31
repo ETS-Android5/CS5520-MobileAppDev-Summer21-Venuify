@@ -2,6 +2,7 @@ package edu.neu.venuify.reservationPage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,11 +43,11 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reservation_page_past);
+        //setContentView(R.layout.activity_reservation_page_past);
 
         //sets bottom tool bar
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarPast);
+        setSupportActionBar(toolbar);
 
         //creating the database and recycler views
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -57,7 +58,7 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
     //method for bottom nav bar
     @Override
     public int getContentViewId() {
-        return R.layout.activity_reservation_page;
+        return R.layout.activity_reservation_page_past;
     }
 
     //method for bottom nav bar
@@ -69,10 +70,7 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.pending3button:
-                Intent i = new Intent(this, ReservationPagePendingActivity.class);
-                startActivity(i);
-                break;
+
 
             case R.id.upcoming3button:
                 Intent j = new Intent(this, ReservationPageActivity.class);
@@ -159,27 +157,6 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
                         }
 
 
-
-                        //adds a reservation object to the recycler
-                        //addReservationObjectToRecycler(reservation);
-
-                        /*
-                        TextView venueName = findViewById(R.id.reservationVenueNameText);
-                        TextView venueDate = findViewById(R.id.reservationDateText);
-                        TextView venueTime = findViewById(R.id.resTimeText);
-
-                        venueName.setText(reservation.venue);
-                        venueDate.setText(reservation.date);
-                        venueTime.setText(reservation.time);
-
-                         */
-
-
-
-
-
-
-
                         //may decide later to put a total count?
                         /*
                         Transaction transaction = Objects.requireNonNull(snapshot.getValue(Transaction.class));
@@ -200,16 +177,6 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
                     public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
 
-                        /*
-                        TextView venueName = findViewById(R.id.reservationVenueNameText);
-                        TextView venueDate = findViewById(R.id.reservationDateText);
-                        TextView venueTime = findViewById(R.id.resTimeText);
-
-                        venueName.setText(reservation.venue);
-                        venueDate.setText(reservation.date);
-                        venueTime.setText(reservation.time);
-
-                         */
 
                     }
 
@@ -239,7 +206,6 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
 
 
     //need this for when tilt screen?
-
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
 
