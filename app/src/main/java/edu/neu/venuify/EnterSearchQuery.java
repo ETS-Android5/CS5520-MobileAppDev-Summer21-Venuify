@@ -1,22 +1,19 @@
 package edu.neu.venuify;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,16 +22,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-import edu.neu.venuify.Adapters.VenueObjectAdapter;
 import edu.neu.venuify.Models.VenueObject;
 
 public class EnterSearchQuery extends AppCompatActivity {
-    private VenueObjectAdapter venueObjectAdapter;
-//    private ProgressBar progressBar;
-    private final List<VenueObject> results = new ArrayList<>();
+    private final ArrayList<VenueObject> results = new ArrayList<>();
     private final String STOPSTRING = "\\uf8ff";
 
 
@@ -42,19 +35,10 @@ public class EnterSearchQuery extends AppCompatActivity {
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_search_query);
-        setTitle("");
-        Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        ActionBar actionBar = getSupportActionBar();
-
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        progressBar = findViewById(R.id.progressBar);
-        RecyclerView searchRecyclerView = findViewById(R.id.searchRecyclerView);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        venueObjectAdapter = new VenueObjectAdapter(results);
-        searchRecyclerView.setAdapter(venueObjectAdapter);
-        searchRecyclerView.setLayoutManager(linearLayoutManager);
+        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
+        actionBar.setTitle("");
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
         handleIntent(getIntent());
 
     }
@@ -97,23 +81,31 @@ public class EnterSearchQuery extends AppCompatActivity {
     }
 
     private void doSearch(String venueQuery) {
-//        progressBar.setVisibility(View.VISIBLE);
+        String firstChar = venueQuery.substring(0, 1);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Venues");
-        databaseReference.orderByChild("VenueName").startAt(venueQuery).endAt(STOPSTRING).addValueEventListener(new ValueEventListener() {
+        databaseReference.orderByChild("VenueName").startAt(firstChar).endAt(STOPSTRING).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 results.clear();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    String venueName = postSnapshot.child("VenueName").getValue(String.class);
-                    if (venueQuery.equalsIgnoreCase(venueName) || Objects.requireNonNull(venueName).toLowerCase().contains(venueQuery.toLowerCase())) {
+                    String venueName = Objects.requireNonNull(postSnapshot.child("VenueName").getValue(String.class));
+                    if (venueQuery.equalsIgnoreCase(venueName) || venueName.toLowerCase().contains(venueQuery.toLowerCase())) {
                         Integer imageID = Objects.requireNonNull(postSnapshot.child("ImageID").getValue(Integer.class));
                         VenueObject venueObject = new VenueObject(venueName, imageID);
                         results.add(venueObject);
                     }
                 }
-                venueObjectAdapter.setVenueObjectList(results);
-                venueObjectAdapter.notifyDataSetChanged();
-//                progressBar.setVisibility(View.GONE);
+                if (results.size() > 0) {
+                    Intent intent = new Intent(getApplicationContext(), EnterSearchQuery.class);
+                    intent.putParcelableArrayListExtra("data", results);
+                    setResult(Activity.RESULT_OK, intent);
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), EnterSearchQuery.class);
+                    setResult(RESULT_CANCELED, intent);
+                }
+
+                onBackPressed();
             }
 
             @Override

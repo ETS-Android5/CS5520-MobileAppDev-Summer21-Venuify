@@ -49,6 +49,11 @@ public class VenueObjectAdapter extends RecyclerView.Adapter<VenueObjectAdapter.
         this.venueObjectList = venueObjectList;
     }
 
+    public void clearVenueObjectList() {
+        this.venueObjectList.clear();
+        notifyDataSetChanged();
+    }
+
     static class VenueObjectViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
         public TextView venueName;
