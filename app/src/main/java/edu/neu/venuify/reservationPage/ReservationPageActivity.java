@@ -120,6 +120,8 @@ public class ReservationPageActivity extends BaseActivity implements View.OnClic
                         String reservationDate = reservation.getDate();
                         String[] datePartsOfReservationDate = reservationDate.split("/");
                         Integer reservationMonth = Integer.valueOf(datePartsOfReservationDate[0]);
+
+                        //accounts for the weird format of 08 and 09 being too large to be an "int"?
                         if (reservationMonth.toString() == "08") {
                             reservationMonth = 8;
                         }
@@ -129,11 +131,20 @@ public class ReservationPageActivity extends BaseActivity implements View.OnClic
 
 
                         Integer reservationDay = Integer.valueOf(datePartsOfReservationDate[1]);
+
+                        //accounts for the weird format of 08 and 09 being too large to be an "int"?
+                        //to see the prob try this: int i = 08;
+                        if (reservationDay.toString() == "08") {
+                            reservationDay = 8;
+                        }
+                        if (reservationDay.toString() == "09") {
+                            reservationDay = 9;
+                        }
+
+
                         Integer reservationYear = Integer.valueOf(datePartsOfReservationDate[2]);
 
-
-                        //make a conditional that if the date is today or in the future, then add it here
-
+                        //conditional that if the date is today or in the future, then add it here
                         //we want to add reservations that are in the future (haven't happened)
                         //if its next year, then add it
                         if (currentYear< reservationYear) {
@@ -148,6 +159,7 @@ public class ReservationPageActivity extends BaseActivity implements View.OnClic
                                 return;
                             }
 
+                            //if its this year, and this month, then compare day
                             if (currentMonth.equals(reservationMonth)) {
                                 //check day
                                 if (currentDay <= reservationDay) {
