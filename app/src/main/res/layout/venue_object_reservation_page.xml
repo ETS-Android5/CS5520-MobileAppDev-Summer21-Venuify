@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="130dp">
+    android:layout_height="130dp"
+    android:foreground="?selectableItemBackground"
+    android:clickable="true">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -70,6 +72,9 @@
             android:textStyle="bold"
             android:translationX="-250dp"
             android:translationY="33dp" />
+
+
+
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

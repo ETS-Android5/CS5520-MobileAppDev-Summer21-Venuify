@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<Rec
 
     public RecyclerViewAdapterReservationPage(ArrayList<Reservation> reservations) {
         this.reservationsList = reservations;
+
     }
 
     //creates the venue object layout for the recycler view
@@ -45,6 +48,7 @@ public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<Rec
     public int getItemCount() {
         return reservationsList.size();
     }
+
 
 
 

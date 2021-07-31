@@ -43,11 +43,11 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_reservation_page_past);
+        setContentView(R.layout.activity_reservation_page_past);
 
         //sets bottom tool bar
-        Toolbar toolbar = findViewById(R.id.toolbarPast);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = findViewById(R.id.toolbarPast);
+        //setSupportActionBar(toolbar);
 
         //creating the database and recycler views
         mDatabase = FirebaseDatabase.getInstance().getReference();
