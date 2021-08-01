@@ -1,7 +1,6 @@
 package edu.neu.venuify.reservationPage;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,9 +22,8 @@ import java.util.Objects;
 import edu.neu.venuify.BaseActivity;
 import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
-import edu.neu.venuify.reservationPage.TabLayoutWithoutFragments.RecyclerViewAdapterReservationPage;
 
-public class ReservationPagePastActivity extends BaseActivity implements View.OnClickListener {
+public class ReservationPagePastActivity extends BaseActivity {
 
     private DatabaseReference mDatabase;
 
@@ -61,16 +59,15 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
         return R.layout.activity_reservation_page_past;
     }
 
-    //method for bottom nav bar
+    //method for menu
     @Override
     public int getNavigationMenuItemId() {
         return R.id.nav_bar_reservation;
     }
 
-    @Override
+
     public void onClick(View v) {
         switch (v.getId()) {
-
 
             case R.id.upcoming3button:
                 Intent j = new Intent(this, ReservationPageActivity.class);

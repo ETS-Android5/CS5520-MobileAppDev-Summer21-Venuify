@@ -59,7 +59,9 @@ public class Reservation {
             this.numGuests = numGuests;
             this.price = price;
 
+
         }
+
 
 
 
