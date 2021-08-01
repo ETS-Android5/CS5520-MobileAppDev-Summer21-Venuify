@@ -1,10 +1,17 @@
 package edu.neu.venuify.Adapters;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 import androidx.annotation.NonNull;
@@ -14,10 +21,12 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
+import edu.neu.venuify.Authentication.LoginActivity;
 import edu.neu.venuify.R;
 import edu.neu.venuify.Models.VenueObject;
+import edu.neu.venuify.VenueDetailsPage;
 
-public class VenueObjectAdapter extends RecyclerView.Adapter<VenueObjectAdapter.VenueObjectViewHolder> {
+public class VenueObjectAdapter extends RecyclerView.Adapter<VenueObjectAdapter.VenueObjectViewHolder>  {
 
     private List<VenueObject> venueObjectList;
 
@@ -63,6 +72,24 @@ public class VenueObjectAdapter extends RecyclerView.Adapter<VenueObjectAdapter.
                     int position = getAbsoluteAdapterPosition();
                     Snackbar.make(v, "Click detected on " + venueName.getText().toString(), Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+
+
+                //    TextView venueTitleOnDetailsPage = v.findViewById(R.id.venueTitleOnDetailsPg);
+                //    ImageView venueImgOnDetailsPage = v.findViewById(R.id.venueImgOnDetailsPage);
+                //    venueTitleOnDetailsPage.setText(venueName.getText().toString());
+                  //  venueImgOnDetailsPage.setImageDrawable(imageView.getDrawable());
+
+
+                    Intent i = new Intent(v.getContext(), VenueDetailsPage.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title", venueName.getText().toString());
+               //     Drawable drawable = imageView.getDrawable();
+                 //   Bitmap bitmap = imageView.;
+                 //   bundle.putParcelable("image", (Parcelable) drawable);
+                    i.putExtras(bundle);
+                    v.getContext().startActivity(i);
+
+
                 }
             });
         }
