@@ -14,6 +14,6 @@ public class ReservationObject {
 
     @Override
     public String toString() {
-        return time;
+        return date;
     }
 }

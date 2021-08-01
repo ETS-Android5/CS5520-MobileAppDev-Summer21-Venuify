@@ -2,8 +2,13 @@ package edu.neu.venuify;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -17,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.neu.venuify.Adapters.AvailableTimeslotAdapter;
 import edu.neu.venuify.Models.ReservationObject;
 
 public class VenueDetailPage extends AppCompatActivity {
@@ -25,6 +31,15 @@ public class VenueDetailPage extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private final List<ReservationObject> reservationList = new ArrayList<>();
     private final ArrayList<String> keys = new ArrayList<>();
+
+    private RecyclerView recyclerView;
+    ArrayList<String> availableSlotsByDayList;
+
+    RecyclerView.LayoutManager RecyclerViewLayoutManager;
+    AvailableTimeslotAdapter byDayAdapter;
+    LinearLayoutManager HorizontalLayout;
+    View ChildView;
+    int RecylerViewItemPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,5 +91,49 @@ public class VenueDetailPage extends AppCompatActivity {
                 }
         );
 
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+        RecyclerViewLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(RecyclerViewLayoutManager);
+        AddItemsToRecyclerViewArrayList();
+        byDayAdapter = new AvailableTimeslotAdapter(availableSlotsByDayList);
+
+        HorizontalLayout = new LinearLayoutManager(VenueDetailPage.this, LinearLayoutManager.HORIZONTAL,
+                false);
+        recyclerView.setLayoutManager(HorizontalLayout);
+        recyclerView.setAdapter(byDayAdapter);
+
+        dateSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                updateList();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+        });
+
+    }
+
+    // Function to add items in RecyclerView.
+    public void AddItemsToRecyclerViewArrayList()
+    {
+        // Adding items to ArrayList
+        availableSlotsByDayList = new ArrayList<>();
+        availableSlotsByDayList.add("gfg");
+        availableSlotsByDayList.add("is");
+        availableSlotsByDayList.add("best");
+        availableSlotsByDayList.add("site");
+        availableSlotsByDayList.add("for");
+        availableSlotsByDayList.add("interview");
+        availableSlotsByDayList.add("preparation");
+    }
+
+    public void updateList() {
+        availableSlotsByDayList.clear();
+        availableSlotsByDayList.add("helloo");
+        availableSlotsByDayList.add("helloo2");
     }
 }
