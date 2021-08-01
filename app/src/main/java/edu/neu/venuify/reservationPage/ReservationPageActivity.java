@@ -24,6 +24,7 @@ import java.util.Objects;
 
 import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
+import edu.neu.venuify.ReservationDetailsPage;
 
 
 public class ReservationPageActivity extends BaseActivity {

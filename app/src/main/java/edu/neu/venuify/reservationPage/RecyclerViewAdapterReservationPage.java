@@ -25,6 +25,9 @@ public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<Rec
         this.reservationsList = reservations;
     }
 
+
+
+
     //creates the venue object layout for the recycler view
     @NonNull
     @Override
@@ -70,16 +73,14 @@ public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<Rec
                      //       .setAction("Action", null).show();
                     //reservationName.setText("!!!!!");
 
+                    //static class so can't create a new intent here?
+
+                    return;
+
+
                 }
             });
         }
     }
-
-
-
-
-
-
-
 
 }
