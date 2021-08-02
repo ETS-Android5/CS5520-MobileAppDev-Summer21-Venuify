@@ -29,10 +29,15 @@ public class VenueDetailPage extends AppCompatActivity {
 
     private Spinner dateSelector;
     private DatabaseReference mDatabase;
-    private final List<ReservationObject> reservationList = new ArrayList<>();
-    private final ArrayList<String> keys = new ArrayList<>();
+
+    private List<ReservationObject> reservationList = new ArrayList<>();
+
+    private ArrayList<String> keys = new ArrayList<>();
 
     private RecyclerView recyclerView;
+
+    //Keeps list of times that should be displayed based on the date selected in dropdown
+    // Todo: may need to store ReservationObject instead of string
     ArrayList<String> availableSlotsByDayList;
 
     RecyclerView.LayoutManager RecyclerViewLayoutManager;
@@ -60,6 +65,7 @@ public class VenueDetailPage extends AppCompatActivity {
 
                         ReservationObject reservation = dataSnapshot.getValue(ReservationObject.class);
 
+                        //Todo:  need to filter out past and duplicate dates
                         if (reservation.isAvailable) {
                             reservationList.add(reservation);
                             keys.add(dataSnapshot.getKey());
@@ -94,7 +100,7 @@ public class VenueDetailPage extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         RecyclerViewLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(RecyclerViewLayoutManager);
-        AddItemsToRecyclerViewArrayList();
+        availableSlotsByDayList = new ArrayList<>();
         byDayAdapter = new AvailableTimeslotAdapter(availableSlotsByDayList);
 
         HorizontalLayout = new LinearLayoutManager(VenueDetailPage.this, LinearLayoutManager.HORIZONTAL,
@@ -106,7 +112,7 @@ public class VenueDetailPage extends AppCompatActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                updateList();
+                showAvailableTimeSlots();
             }
 
             @Override
@@ -117,23 +123,15 @@ public class VenueDetailPage extends AppCompatActivity {
 
     }
 
-    // Function to add items in RecyclerView.
-    public void AddItemsToRecyclerViewArrayList()
-    {
-        // Adding items to ArrayList
-        availableSlotsByDayList = new ArrayList<>();
-        availableSlotsByDayList.add("gfg");
-        availableSlotsByDayList.add("is");
-        availableSlotsByDayList.add("best");
-        availableSlotsByDayList.add("site");
-        availableSlotsByDayList.add("for");
-        availableSlotsByDayList.add("interview");
-        availableSlotsByDayList.add("preparation");
-    }
+    //Shows available timeslots based on the date selected in the dropdown
+    public void showAvailableTimeSlots() {
 
-    public void updateList() {
         availableSlotsByDayList.clear();
-        availableSlotsByDayList.add("helloo");
-        availableSlotsByDayList.add("helloo2");
+        for (ReservationObject r : reservationList) {
+            if (r.date.equals(dateSelector.getSelectedItem().toString())) {
+                availableSlotsByDayList.add(r.time);
+            }
+        }
+        byDayAdapter.notifyDataSetChanged();
     }
 }
