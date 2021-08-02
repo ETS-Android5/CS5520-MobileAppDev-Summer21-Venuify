@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ReservationDetailsPage extends AppCompatActivity {
@@ -38,10 +39,24 @@ public class ReservationDetailsPage extends AppCompatActivity {
     public String price;
     public Button cancelButton;
 
+    //k added
+    //public ArrayList<String> arrayFromReservationCard;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reservation_details_page);
+
+
+
+        //reference the bundle information from RecyclerViewHolderReservationPage to verify with db to display correct data
+        //code referenced from: https://stackoverflow.com/questions/3913592/start-an-activity-with-a-parameter
+        //ArrayList<String> bundle = getIntent().getStringArrayListExtra("ReservationDetailsOfCardInRecyclerView");
+        //arrayFromReservationCard = bundle;
+
+
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         createDatabaseListener();
 
@@ -98,26 +113,44 @@ public class ReservationDetailsPage extends AppCompatActivity {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
-                        venue = reservation.venue;
-                        date = reservation.date;
-                        time = reservation.time;
-                        numGuests = reservation.numGuests;
-                        price = reservation.price;
-
-                        TextView venueInfo = (TextView) findViewById(R.id.venueInfo);
-                        TextView dateInfo = (TextView) findViewById(R.id.dateInfo);
-                        TextView timeInfo = (TextView) findViewById(R.id.timeInfo);
-                        TextView numGuestsInfo = (TextView) findViewById(R.id.numGuestInfo);
-                        TextView priceInfo = (TextView) findViewById(R.id.priceInfo);
-
-                        venueInfo.setText(venue);
-                        dateInfo.setText(date);
-                        timeInfo.setText(time);
-                        numGuestsInfo.setText(String.valueOf(numGuests));
-                        priceInfo.setText(price);
 
 
-                    }
+                        /*
+                        //k added
+                        //get details from the reservation card we click on
+                        String nameFromReservationCard = arrayFromReservationCard.get(0);
+                        String timeFromReservationCard = arrayFromReservationCard.get(1);
+                        String dateFromReservationCard = arrayFromReservationCard.get(2);
+                        //make a conditional here to make sure we display the correct reservation we click on
+                        if (reservation.venue.equalsIgnoreCase(nameFromReservationCard)
+                                && reservation.time.equalsIgnoreCase(timeFromReservationCard)
+                                && reservation.date.equalsIgnoreCase(dateFromReservationCard)) {
+
+                         */
+
+
+                            venue = reservation.venue;
+                            date = reservation.date;
+                            time = reservation.time;
+                            numGuests = reservation.numGuests;
+                            price = reservation.price;
+
+                            TextView venueInfo = (TextView) findViewById(R.id.venueInfo);
+                            TextView dateInfo = (TextView) findViewById(R.id.dateInfo);
+                            TextView timeInfo = (TextView) findViewById(R.id.timeInfo);
+                            TextView numGuestsInfo = (TextView) findViewById(R.id.numGuestInfo);
+                            TextView priceInfo = (TextView) findViewById(R.id.priceInfo);
+
+                            venueInfo.setText(venue);
+                            dateInfo.setText(date);
+                            timeInfo.setText(time);
+                            numGuestsInfo.setText(String.valueOf(numGuests));
+                            priceInfo.setText(price);
+                        }
+
+
+
+
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {

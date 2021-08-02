@@ -18,7 +18,7 @@ import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
 import edu.neu.venuify.ReservationDetailsPage;
 
-public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<RecyclerViewAdapterReservationPage.RecyclerViewHolderReservationPage>{
+public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<RecyclerViewHolderReservationPage>{
     private List<Reservation> reservationsList;
 
     public RecyclerViewAdapterReservationPage(List<Reservation> reservations) {
@@ -52,35 +52,5 @@ public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<Rec
     }
 
 
-
-    //added in k
-    static class RecyclerViewHolderReservationPage extends RecyclerView.ViewHolder {
-        public TextView reservationName;
-        public TextView reservationDate;
-        public TextView reservationTime;
-
-        public RecyclerViewHolderReservationPage(@NonNull View itemView) {
-            super(itemView);
-
-            reservationName = itemView.findViewById(R.id.reservationVenueNameText);
-            reservationDate = itemView.findViewById(R.id.reservationDateText);
-            reservationTime = itemView.findViewById(R.id.resTimeText);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAbsoluteAdapterPosition();
-                    //Snackbar.make(v, "Click detected on " + reservationName.getText().toString(), Snackbar.LENGTH_LONG)
-                     //       .setAction("Action", null).show();
-                    //reservationName.setText("!!!!!");
-
-                    //static class so can't create a new intent here?
-
-                    return;
-
-
-                }
-            });
-        }
-    }
 
 }
