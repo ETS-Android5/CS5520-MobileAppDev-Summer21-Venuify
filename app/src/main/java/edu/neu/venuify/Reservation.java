@@ -1,6 +1,9 @@
 package edu.neu.venuify;
 
-public class Reservation {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Reservation implements Parcelable {
         public String venue;
         public String date;
         public String time;
@@ -62,7 +65,44 @@ public class Reservation {
 
         }
 
+    //added for Parcelable
+    protected Reservation(Parcel in) {
+        venue = in.readString();
+        date = in.readString();
+        time = in.readString();
+        numGuests = in.readInt();
+        price = in.readString();
+    }
 
+    //added for Parcelable
+    public static final Creator<Reservation> CREATOR = new Creator<Reservation>() {
+        @Override
+        public Reservation createFromParcel(Parcel in) {
+            return new Reservation(in);
+        }
+
+        @Override
+        public Reservation[] newArray(int size) {
+            return new Reservation[size];
+        }
+    };
+
+    //added for Parcelable
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    //added for Parcelable
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(venue);
+        dest.writeString(date);
+        dest.writeString(time);
+        dest.writeInt(numGuests);
+        dest.writeString(price);
+
+    }
 
 
 

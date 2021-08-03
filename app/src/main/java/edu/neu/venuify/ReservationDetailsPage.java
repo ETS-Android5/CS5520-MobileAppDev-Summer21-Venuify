@@ -7,6 +7,7 @@ import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,6 +31,8 @@ import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import edu.neu.venuify.Models.VenueObject;
+
 public class ReservationDetailsPage extends AppCompatActivity {
     public DatabaseReference mDatabase;
     public String venue;
@@ -39,35 +42,44 @@ public class ReservationDetailsPage extends AppCompatActivity {
     public String price;
     public Button cancelButton;
 
-    //k added
-    //public ArrayList<String> arrayFromReservationCard;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reservation_details_page);
 
+        //when an item in the reservations is clicked, we create a new ReservationDetailsPage
+        //from that activity, send the info from the object clicked through a ParcelableExtra.
+        //Here, we make a new Reservation object, to be able to set each field when the reservation appears.
+        Reservation reservationObject = getIntent().getParcelableExtra("itemClickedInResList");
+
+        //set the text of the reservation to match the item clicked
+        TextView venueTitleOnReservation = findViewById(R.id.venueInfo);
+        venueTitleOnReservation.setText(reservationObject.getVenue());
+
+        TextView venueDateOnReservation = findViewById(R.id.dateInfo);
+        venueDateOnReservation.setText(reservationObject.getDate());
+
+        TextView venueGuestsOnReservation = findViewById(R.id.numGuestInfo);
+        venueGuestsOnReservation.setText(String.valueOf(reservationObject.getNumGuests()));
+
+        TextView venuePriceOnReservation = findViewById(R.id.priceInfo);
+        venuePriceOnReservation.setText(reservationObject.getPrice());
 
 
-        //reference the bundle information from RecyclerViewHolderReservationPage to verify with db to display correct data
-        //code referenced from: https://stackoverflow.com/questions/3913592/start-an-activity-with-a-parameter
-
-        /*
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-
-            ArrayList<String> bundle = getIntent().getStringArrayListExtra("ReservationDetailsOfCardInRecyclerView");
-            arrayFromReservationCard = bundle;
-        }
-
-         */
+        TextView venueTimeOnReservation = findViewById(R.id.timeInfo);
+        venueTimeOnReservation.setText(reservationObject.getTime());
 
 
 
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        createDatabaseListener();
+
+
+
+
+        //mDatabase = FirebaseDatabase.getInstance().getReference();
+        //createDatabaseListener();
+
 
 
         cancelButton = findViewById(R.id.cancelButton);
@@ -121,21 +133,6 @@ public class ReservationDetailsPage extends AppCompatActivity {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
-
-
-                        /*
-                        //k added
-                        //get details from the reservation card we click on
-                        String nameFromReservationCard = arrayFromReservationCard.get(0);
-                        String timeFromReservationCard = arrayFromReservationCard.get(1);
-                        String dateFromReservationCard = arrayFromReservationCard.get(2);
-                        //make a conditional here to make sure we display the correct reservation we click on
-                        if (reservation.venue.equalsIgnoreCase(nameFromReservationCard)
-                                && reservation.time.equalsIgnoreCase(timeFromReservationCard)
-                                && reservation.date.equalsIgnoreCase(dateFromReservationCard)) {
-
-                         */
-
 
                             venue = reservation.venue;
                             date = reservation.date;
@@ -197,5 +194,9 @@ public class ReservationDetailsPage extends AppCompatActivity {
                 }
         );
     }
+
+
 }
+
+
 

@@ -80,12 +80,6 @@ public class ReservationPageActivity extends BaseActivity {
                 startActivity(j);
                 break;
 
-            //case R.id.linearLayout2:
-
-                //Intent k = new Intent(this, ReservationDetailsPage.class);
-                //startActivity(k);
-                //break;
-
         }
     }
 
@@ -218,6 +212,7 @@ public class ReservationPageActivity extends BaseActivity {
 
 
     }
+
 
 
     //need this for when tilt screen?

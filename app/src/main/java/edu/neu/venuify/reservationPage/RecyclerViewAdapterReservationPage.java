@@ -19,6 +19,8 @@ import edu.neu.venuify.Reservation;
 import edu.neu.venuify.ReservationDetailsPage;
 
 public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<RecyclerViewHolderReservationPage>{
+
+
     private List<Reservation> reservationsList;
 
     public RecyclerViewAdapterReservationPage(List<Reservation> reservations) {
@@ -26,6 +28,10 @@ public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<Rec
     }
 
 
+    //method for the ReservationDetailsPage to grab the list of current reservations
+    public List<Reservation> getReservationList() {
+        return reservationsList;
+    }
 
 
     //creates the venue object layout for the recycler view
