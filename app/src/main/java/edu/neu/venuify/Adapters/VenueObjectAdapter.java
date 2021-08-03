@@ -1,10 +1,17 @@
 package edu.neu.venuify.Adapters;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 import androidx.annotation.NonNull;
@@ -13,11 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+import java.util.Objects;
 
+import edu.neu.venuify.Authentication.LoginActivity;
 import edu.neu.venuify.R;
 import edu.neu.venuify.Models.VenueObject;
+import edu.neu.venuify.VenueDetailsPage;
 
-public class VenueObjectAdapter extends RecyclerView.Adapter<VenueObjectAdapter.VenueObjectViewHolder> {
+public class VenueObjectAdapter extends RecyclerView.Adapter<VenueObjectAdapter.VenueObjectViewHolder>  {
 
     private List<VenueObject> venueObjectList;
 
@@ -63,11 +73,13 @@ public class VenueObjectAdapter extends RecyclerView.Adapter<VenueObjectAdapter.
             imageView = itemView.findViewById(R.id.img_child_item);
             venueName = itemView.findViewById(R.id.child_item_title);
             itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
                 public void onClick(View v) {
                     int position = getAbsoluteAdapterPosition();
-                    Snackbar.make(v, "Click detected on " + venueName.getText().toString(), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    VenueObjectAdapter venueAdapter = Objects.requireNonNull((VenueObjectAdapter) getBindingAdapter());
+                    VenueObject venueClicked = venueAdapter.venueObjectList.get(position);
+                    Intent intent = new Intent(v.getContext(), VenueDetailsPage.class);
+                    intent.putExtra("venue", venueClicked);
+                    v.getContext().startActivity(intent);
                 }
             });
         }

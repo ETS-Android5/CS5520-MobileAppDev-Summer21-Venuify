@@ -45,9 +45,14 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity
-            android:name=".ReservationDetailsPage"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
+
+        <activity android:name=".ReservationDetailsPage"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
+        </activity>
+
+        <activity android:name=".VenueDetailsPage"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
+        </activity>
     </application>
 
 </manifest>

@@ -29,6 +29,7 @@ import edu.neu.venuify.Models.VenueObject;
 public class EnterSearchQuery extends AppCompatActivity {
     private final ArrayList<VenueObject> results = new ArrayList<>();
     private final String STOPSTRING = "\\uf8ff";
+    public static final int NO_RESULTS = -255;
 
 
     @Override
@@ -81,9 +82,9 @@ public class EnterSearchQuery extends AppCompatActivity {
     }
 
     private void doSearch(String venueQuery) {
-        String firstChar = venueQuery.substring(0, 1);
+        
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Venues");
-        databaseReference.orderByChild("VenueName").startAt(firstChar).endAt(STOPSTRING).addValueEventListener(new ValueEventListener() {
+        databaseReference.orderByChild("VenueName").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 results.clear();
@@ -104,7 +105,7 @@ public class EnterSearchQuery extends AppCompatActivity {
                 }
                 else {
                     Intent intent = new Intent(getApplicationContext(), EnterSearchQuery.class);
-                    setResult(RESULT_CANCELED, intent);
+                    setResult(NO_RESULTS, intent);
                 }
 
                 onBackPressed();
