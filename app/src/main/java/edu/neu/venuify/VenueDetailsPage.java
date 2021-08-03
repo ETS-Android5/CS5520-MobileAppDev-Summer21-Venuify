@@ -30,9 +30,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import edu.neu.venuify.Adapters.AvailableTimeslotAdapter;
 import edu.neu.venuify.Models.ReservationObject;
+import edu.neu.venuify.Models.VenueObject;
 
 public class VenueDetailsPage extends AppCompatActivity {
     public Button bookButton;
@@ -53,21 +55,16 @@ public class VenueDetailsPage extends AppCompatActivity {
     RecyclerView.LayoutManager RecyclerViewLayoutManager;
     AvailableTimeslotAdapter byDayAdapter;
     LinearLayoutManager HorizontalLayout;
-    View ChildView;
-    int RecylerViewItemPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.venue_details_page);
-        Bundle bundle = getIntent().getExtras();
-        String title = bundle.getString("title");
-   //   Drawable image = bundle.getParcelable("image");
-
+        VenueObject venueObject = getIntent().getParcelableExtra("venue");
         TextView venueTitleOnDetailsPage = findViewById(R.id.venueTitleOnDetailsPg);
-        venueTitleOnDetailsPage.setText(title);
+        venueTitleOnDetailsPage.setText(venueObject.getVenueName());
         ImageView venueImgOnDetailsPage = findViewById(R.id.venueImgOnDetailsPage);
-      //  venueImgOnDetailsPage.setImageDrawable(image);
+        venueImgOnDetailsPage.setImageResource(venueObject.getImageId());
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         dateSelector = findViewById(R.id.dateSelector);
@@ -85,7 +82,7 @@ public class VenueDetailsPage extends AppCompatActivity {
 
                         //Todo:  need to select just reservations for the venue,
                         // need to filter out past and duplicate dates
-                        if (reservation.isAvailable) {
+                        if (Objects.requireNonNull(reservation).isAvailable) {
                             reservationList.add(reservation);
                             keys.add(dataSnapshot.getKey());
                             adapter.notifyDataSetChanged();
@@ -116,7 +113,7 @@ public class VenueDetailsPage extends AppCompatActivity {
                 }
         );
 
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+        recyclerView = findViewById(R.id.recyclerview);
         RecyclerViewLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(RecyclerViewLayoutManager);
         availableSlotsByDayList = new ArrayList<>();
