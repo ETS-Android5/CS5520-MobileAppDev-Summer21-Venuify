@@ -52,8 +52,17 @@ public class ReservationDetailsPage extends AppCompatActivity {
 
         //reference the bundle information from RecyclerViewHolderReservationPage to verify with db to display correct data
         //code referenced from: https://stackoverflow.com/questions/3913592/start-an-activity-with-a-parameter
-        //ArrayList<String> bundle = getIntent().getStringArrayListExtra("ReservationDetailsOfCardInRecyclerView");
-        //arrayFromReservationCard = bundle;
+
+        /*
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+
+            ArrayList<String> bundle = getIntent().getStringArrayListExtra("ReservationDetailsOfCardInRecyclerView");
+            arrayFromReservationCard = bundle;
+        }
+
+         */
+
 
 
 
@@ -147,6 +156,7 @@ public class ReservationDetailsPage extends AppCompatActivity {
                             numGuestsInfo.setText(String.valueOf(numGuests));
                             priceInfo.setText(price);
                         }
+
 
 
 
