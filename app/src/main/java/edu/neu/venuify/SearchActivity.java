@@ -39,7 +39,7 @@ public class SearchActivity extends BaseActivity {
                         venueObjectAdapter.setVenueObjectList(results);
                         venueObjectAdapter.notifyDataSetChanged();
                     }
-                    else {
+                    else if (activityResult.getResultCode() == EnterSearchQuery.NO_RESULTS){
                         venueObjectAdapter.clearVenueObjectList(); //clear any previous results
                         Toast toast = Toast.makeText(SearchActivity.this, "No Results Found", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER,0,0);
