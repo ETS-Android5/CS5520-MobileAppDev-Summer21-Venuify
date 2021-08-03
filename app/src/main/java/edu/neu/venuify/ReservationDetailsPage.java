@@ -67,7 +67,6 @@ public class ReservationDetailsPage extends AppCompatActivity {
                         //TODO: handle cancel reservation - remove the reservation from database
 
 
-
                                 Snackbar.make(v, "Reservation Canceled", Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
 
