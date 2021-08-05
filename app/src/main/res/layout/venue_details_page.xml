@@ -7,8 +7,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
+        android:layout_width="350dp"
+        android:layout_height="480dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/bookNowButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,8 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:paddingBottom="25dp"
             android:importantForAutofill="no"
+            android:paddingBottom="25dp"
             android:spinnerMode="dropdown"
             app:layout_constraintBottom_toTopOf="@+id/recyclerview"
             app:layout_constraintEnd_toEndOf="parent"
