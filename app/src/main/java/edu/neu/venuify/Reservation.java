@@ -16,13 +16,20 @@ public class Reservation implements Parcelable {
         public Integer numGuests;
         public String price;
         public String user;
+        public boolean isAvailable;
 
         public Reservation() {
             // Default constructor required for calls to DataSnapshot.getValue(Transaction.class)
         }
 
 
+    public boolean isAvailable() {
+        return isAvailable;
+    }
 
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
 
     public void setResUid(String resUid) {
         this.user = resUid;
