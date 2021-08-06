@@ -99,12 +99,12 @@ public class EnterSearchQuery extends AppCompatActivity {
 
 
                 if (results.size() > 0) {
-                    Intent intent = new Intent(getApplicationContext(), EnterSearchQuery.class);
+                    Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                     intent.putParcelableArrayListExtra("data", results);
                     setResult(Activity.RESULT_OK, intent);
                 }
                 else {
-                    Intent intent = new Intent(getApplicationContext(), EnterSearchQuery.class);
+                    Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                     setResult(NO_RESULTS, intent);
                 }
 
