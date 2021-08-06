@@ -1,18 +1,12 @@
 package edu.neu.venuify;
 
-import android.Manifest;
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-
-import androidx.annotation.NonNull;
-
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -24,68 +18,19 @@ import edu.neu.venuify.Models.VenueObject;
 
 
 public class QR_Activity extends BaseActivity {
-    private final int PERMISSION_REQUEST_CAMERA = 42;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestCamera();
 
     }
 
-    private boolean hasCameraPermissions() {
-        int permissionState = ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA);
-        return permissionState == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void startCameraPermissionRequest() {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
-                PERMISSION_REQUEST_CAMERA);
-    }
-
-    private void requestCamera() {
-        if (hasCameraHardware(this)) {
-            if (hasCameraPermissions()) {
-                startCamera();
-            }
-            else {
-                startCameraPermissionRequest();
-            }
-        }
-        else {
-            Toast.makeText(this, "No Camera hardware detected. A camera is required to scan QR codes.", Toast.LENGTH_LONG).show();
-        }
-    }
-
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CAMERA) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startCamera();
-            } else {
-                Toast.makeText(this, "Camera Permission Denied", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void startCamera() {
-        IntentIntegrator intentIntegrator = new IntentIntegrator(this);
-        intentIntegrator.initiateScan();
-    }
-
-
-    private boolean hasCameraHardware(Context context) {
-        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
+    public void launchScan(View view) {
+        new IntentIntegrator(this).setCaptureActivity(ScanQR.class).initiateScan();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         // if the intentResult is null then
         // toast a message as "cancelled"
@@ -95,8 +40,15 @@ public class QR_Activity extends BaseActivity {
             } else {
                 Intent openVenueDetails = new Intent(getApplicationContext(), VenueDetailsPage.class);
                 VenueObject venueObject = parseQRCode(intentResult);
-                openVenueDetails.putExtra("venue", venueObject);
-                startActivity(openVenueDetails);
+                if (venueObject.getVenueName().equals("") || venueObject.getImageId() == 0) {
+                    Toast toast = Toast.makeText(getBaseContext(), "Error reading QR code.", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
+                }
+                else {
+                    openVenueDetails.putExtra("venue", venueObject);
+                    startActivity(openVenueDetails);
+                }
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
