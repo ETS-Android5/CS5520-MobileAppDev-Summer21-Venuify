@@ -60,4 +60,5 @@
     <string name="time">Time:</string>
     <string name="date">Date:</string>
     <string name="reservation_venue">Reservation Venue:</string>
+    <string name="begin_scan">Begin Scan</string>
 </resources>

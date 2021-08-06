@@ -34,6 +34,10 @@
             android:name=".QR_Activity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
         <activity
+            android:name=".ScanQR"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:theme="@style/Theme.Venuify.NoActionBar"/>
+        <activity
             android:name=".SearchActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
         <activity
