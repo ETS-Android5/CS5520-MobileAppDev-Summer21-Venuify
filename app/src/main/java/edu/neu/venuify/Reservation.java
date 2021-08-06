@@ -3,6 +3,12 @@ package edu.neu.venuify;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Reservation Object implements Parcelable so when we click on a Reservation Object in the
+ * recyclerview of ReservationPageActivity, we are able to send that reservation to the a
+ * ReservationDetailsPage with the correct reservation information to display. The reservation
+ * is sent as a Parcelable.
+ */
 public class Reservation implements Parcelable {
         public String venue;
         public String date;

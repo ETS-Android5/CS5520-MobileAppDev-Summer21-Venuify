@@ -25,6 +25,9 @@ import edu.neu.venuify.Reservation;
 import edu.neu.venuify.ReservationDetailsPage;
 import edu.neu.venuify.VenueDetailsPage;
 
+/**
+ * Holder class for the recycler view used in the ReservationPageActivity.
+ */
 public class RecyclerViewHolderReservationPage extends RecyclerView.ViewHolder {
 
         public TextView reservationName;
@@ -32,14 +35,14 @@ public class RecyclerViewHolderReservationPage extends RecyclerView.ViewHolder {
         public TextView reservationTime;
 
 
+    //method sets onclick listener for each reservation object in your reserved reservations (upcoming/past)
+    //so when click on each reservation, it takes you to the reservation details page.
+    public RecyclerViewHolderReservationPage(@NonNull View itemView) {
 
-
-        public RecyclerViewHolderReservationPage(@NonNull View itemView) {
+        //code referenced here: https://stackoverflow.com/questions/28767413/how-to-open-a-different-activity-on-recyclerview-item-onclick
+        //code referenced here: https://stackoverflow.com/questions/3913592/start-an-activity-with-a-parameter
 
             super(itemView);
-
-            //code referenced here: https://stackoverflow.com/questions/28767413/how-to-open-a-different-activity-on-recyclerview-item-onclick
-            //Context context = itemView.getContext();
 
             reservationName = itemView.findViewById(R.id.reservationVenueNameText);
             reservationDate = itemView.findViewById(R.id.reservationDateText);
@@ -49,29 +52,11 @@ public class RecyclerViewHolderReservationPage extends RecyclerView.ViewHolder {
                 public void onClick(View v) {
                     int position = getAbsoluteAdapterPosition();
 
-                    //Intent i = new Intent (context, ReservationDetailsPage.class);
-                    //i.putExtra("itemClickedInResList", position);
-                    //context.startActivity(i);
-
                     RecyclerViewAdapterReservationPage venueAdapter = Objects.requireNonNull((RecyclerViewAdapterReservationPage) getBindingAdapter());
                     Reservation venueClicked = venueAdapter.getReservationList().get(position);
                     Intent intent = new Intent(v.getContext(), ReservationDetailsPage.class);
                     intent.putExtra("itemClickedInResList", venueClicked);
                     v.getContext().startActivity(intent);
-
-
-
-
-                    //code referenced here: https://stackoverflow.com/questions/3913592/start-an-activity-with-a-parameter
-                    //make a bundle to then access in the ReservationDetailsPage
-                    //Bundle bundleForItem = new Bundle();
-                    //ArrayList<String> arrayForBundle = new ArrayList<String>();
-                    //arrayForBundle.add(reservationName.getText().toString());
-                    //arrayForBundle.add(reservationTime.getText().toString());
-                    //arrayForBundle.add(reservationDate.getText().toString());
-                    //bundleForItem.putStringArrayList("ReservationDetailsOfCardInRecyclerView",arrayForBundle);
-
-
 
                 }
             });

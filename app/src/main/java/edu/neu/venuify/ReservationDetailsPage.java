@@ -66,7 +66,6 @@ public class ReservationDetailsPage extends AppCompatActivity {
         TextView venuePriceOnReservation = findViewById(R.id.priceInfo);
         venuePriceOnReservation.setText(reservationObject.getPrice());
 
-
         TextView venueTimeOnReservation = findViewById(R.id.timeInfo);
         venueTimeOnReservation.setText(reservationObject.getTime());
 

@@ -18,6 +18,9 @@ import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
 import edu.neu.venuify.ReservationDetailsPage;
 
+/**
+ * This adapter works for the recycler view of the ReservationPageActivities.
+ */
 public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<RecyclerViewHolderReservationPage>{
 
 
@@ -28,7 +31,7 @@ public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<Rec
     }
 
 
-    //method for the ReservationDetailsPage to grab the list of current reservations
+    //method for the ReservationDetailsPage to return the list of current reservations
     public List<Reservation> getReservationList() {
         return reservationsList;
     }
@@ -46,7 +49,6 @@ public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<Rec
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolderReservationPage holder, int position) {
         Reservation currentReservationObject = reservationsList.get(position);
-        //holder.stickerView.setImageResource(Utils.getResourceId(String.valueOf(currentStickerObject.getImageId())));
         holder.reservationName.setText(currentReservationObject.getVenue());
         holder.reservationTime.setText(currentReservationObject.getTime());
         holder.reservationDate.setText(currentReservationObject.getDate());

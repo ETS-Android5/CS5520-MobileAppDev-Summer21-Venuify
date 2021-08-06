@@ -23,8 +23,15 @@ import edu.neu.venuify.BaseActivity;
 import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
 
+/**
+ * Class ReservationPagePastActivity is the page that shows all reservations as objects in a recycler
+ * view. This recycler view works with the RecyclerViewAdapterReservationPage and
+ * RecyclerViewHolderReservationPage.
+ * Referenced A7, class textbook.
+ */
 public class ReservationPagePastActivity extends BaseActivity {
 
+    //database reference
     private DatabaseReference mDatabase;
 
     //list of reservations
@@ -41,11 +48,12 @@ public class ReservationPagePastActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reservation_page_past);
+        //setContentView(R.layout.activity_reservation_page_past);
 
+        //TODO: need to fix here
         //sets bottom tool bar
-        //Toolbar toolbar = findViewById(R.id.toolbarPast);
-        //setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarPast);
+        setSupportActionBar(toolbar);
 
         //creating the database and recycler views
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -53,7 +61,7 @@ public class ReservationPagePastActivity extends BaseActivity {
         createDatabaseListener();
     }
 
-    //method for bottom nav bar
+    //method for bottom navigation bar
     @Override
     public int getContentViewId() {
         return R.layout.activity_reservation_page_past;
@@ -66,6 +74,7 @@ public class ReservationPagePastActivity extends BaseActivity {
     }
 
 
+    //sets onclick for tab layout
     public void onClick(View v) {
         switch (v.getId()) {
 
@@ -75,6 +84,7 @@ public class ReservationPagePastActivity extends BaseActivity {
                 break;
         }
     }
+
     //creates the recycler view with the adapter and holder classes
     private void createRecyclerView() {
         RecyclerView.LayoutManager recycleLayoutManager = new LinearLayoutManager(this);
@@ -85,7 +95,7 @@ public class ReservationPagePastActivity extends BaseActivity {
         recyclerView.setLayoutManager(recycleLayoutManager);
     }
 
-    //gets info from database to populate list
+    //gets info from database to populate recycler view list of past reservations
     private void createDatabaseListener() {
         mDatabase.child("reservations").addChildEventListener(
                 new ChildEventListener() {
@@ -104,7 +114,7 @@ public class ReservationPagePastActivity extends BaseActivity {
                         String[] datePartsOfReservationDate = reservationDate.split("/");
                         Integer reservationMonth = Integer.valueOf(datePartsOfReservationDate[0]);
 
-                        //accounts for the weird format of 08 and 09 being too large to be an "int"?
+                        //accounts for the weird format of 08 and 09 being too large to be an "int"
                         if (reservationMonth.toString() == "08") {
                             reservationMonth = 8;
                         }
@@ -112,10 +122,9 @@ public class ReservationPagePastActivity extends BaseActivity {
                             reservationMonth = 9;
                         }
 
-
                         Integer reservationDay = Integer.valueOf(datePartsOfReservationDate[1]);
 
-                        //accounts for the weird format of 08 and 09 being too large to be an "int"?
+                        //accounts for the weird format of 08 and 09 being too large to be an "int"
                         //to see the prob try this: int i = 08;
                         if (reservationDay.toString() == "08") {
                             reservationDay = 8;
@@ -127,9 +136,7 @@ public class ReservationPagePastActivity extends BaseActivity {
 
                         Integer reservationYear = Integer.valueOf(datePartsOfReservationDate[2]);
 
-                        //conditional that if the date is today or in the future, then add it here
-                        //we want to add reservations that are in the future (haven't happened)
-                        //if its next year, then add it
+                        //conditional that if the date is in the past
                         if (currentYear> reservationYear) {
                             addReservationObjectToRecycler(reservation);
                             return;
@@ -153,28 +160,11 @@ public class ReservationPagePastActivity extends BaseActivity {
                             }
                         }
 
-
-                        //may decide later to put a total count?
-                        /*
-                        Transaction transaction = Objects.requireNonNull(snapshot.getValue(Transaction.class));
-                        if (transaction.senderUsername.equalsIgnoreCase(AuthenticatedUserSingleton.getInstance().username)) {
-                            addStickerObject(transaction);
-
-                            //add to the total number of stickers Received and set header text view
-                            numberOfSent +=1;
-                            TextView totalAmtOfStickersSent = findViewById(R.id.totalAmtOfStickersSentText);
-                            totalAmtOfStickersSent.setText(String.valueOf(numberOfSent));
-
-                        }
-
-                         */
                     }
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
-
-
                     }
 
                     @Override
@@ -191,6 +181,7 @@ public class ReservationPagePastActivity extends BaseActivity {
                 }
         );
     }
+    //add reservation object to the recycler view of past reservations
     private void addReservationObjectToRecycler(Reservation reservation) {
 
         Reservation reservationObject = new Reservation(reservation.venue, reservation.date, reservation.time, reservation.numGuests, reservation.price);
@@ -201,8 +192,7 @@ public class ReservationPagePastActivity extends BaseActivity {
 
     }
 
-
-    //need this for when tilt screen?
+    //need this for when tilt screen
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
 
