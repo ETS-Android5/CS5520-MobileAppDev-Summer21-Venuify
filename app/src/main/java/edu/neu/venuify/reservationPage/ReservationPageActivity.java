@@ -50,9 +50,8 @@ public class ReservationPageActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_reservation_page);
 
-        //sets bottom tool bar
+        //sets top tool bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -79,13 +78,9 @@ public class ReservationPageActivity extends BaseActivity {
 
     //sets the button on the "tab layout" so we can go to the past reservation recycler view
     public void onClick(View v) {
-        switch (v.getId()) {
-
-            case R.id.past1button:
-                Intent j = new Intent(this, ReservationPagePastActivity.class);
-                startActivity(j);
-                break;
-
+        if (v.getId() == R.id.past1button) {
+            Intent j = new Intent(this, ReservationPagePastActivity.class);
+            startActivity(j);
         }
     }
 
@@ -115,25 +110,25 @@ public class ReservationPageActivity extends BaseActivity {
                         //get the reservation date
                         String reservationDate = reservation.getDate();
                         String[] datePartsOfReservationDate = reservationDate.split("/");
-                        Integer reservationMonth = Integer.valueOf(datePartsOfReservationDate[0]);
+                        int reservationMonth = Integer.parseInt(datePartsOfReservationDate[0]);
 
                         //accounts for the weird format of 08 and 09 being too large to be an "int"
-                        if (reservationMonth.toString() == "08") {
+                        if (Integer.toString(reservationMonth) == "08") {
                             reservationMonth = 8;
                         }
-                        if (reservationMonth.toString() == "09") {
+                        if (Integer.toString(reservationMonth).equals("09")) {
                             reservationMonth = 9;
                         }
 
 
-                        Integer reservationDay = Integer.valueOf(datePartsOfReservationDate[1]);
+                        int reservationDay = Integer.parseInt(datePartsOfReservationDate[1]);
 
                         //accounts for the weird format of 08 and 09 being too large to be an "int"
                         //to see the prob try this: int i = 08;
-                        if (reservationDay.toString() == "08") {
+                        if (Integer.toString(reservationDay).equals("08")) {
                             reservationDay = 8;
                         }
-                        if (reservationDay.toString() == "09") {
+                        if (Integer.toString(reservationDay).equals("09")) {
                             reservationDay = 9;
                         }
 
@@ -160,14 +155,10 @@ public class ReservationPageActivity extends BaseActivity {
                                 //check day
                                 if (currentDay <= reservationDay) {
                                     addReservationObjectToRecycler(reservation);
-                                    return;
                                 }
 
                             }
                         }
-
-                        //adds the object to the recycler
-                        //addReservationObjectToRecycler(reservation);
 
                     }
 
