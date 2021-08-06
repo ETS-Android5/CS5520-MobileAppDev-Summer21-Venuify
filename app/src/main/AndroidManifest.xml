@@ -11,9 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Venuify">
-
-        <activity android:name=".reservationPage.ReservationPagePastActivity" />
-        <activity android:name=".reservationPage.ReservationPagePendingActivity" />
+        <activity android:name=".reservationPage.ReservationPagePastActivity"
+            android:label="@string/title_activity_reservation_page1"
+            android:theme="@style/Theme.Venuify.NoActionBar" />
         <activity android:name=".Authentication.RegisterUserActivity" />
         <activity android:name=".Authentication.LoginActivity" />
         <activity

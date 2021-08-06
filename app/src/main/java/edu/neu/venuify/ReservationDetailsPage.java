@@ -7,6 +7,7 @@ import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,7 +28,10 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Objects;
+
+import edu.neu.venuify.Models.VenueObject;
 
 public class ReservationDetailsPage extends AppCompatActivity {
     public DatabaseReference mDatabase;
@@ -38,12 +42,43 @@ public class ReservationDetailsPage extends AppCompatActivity {
     public String price;
     public Button cancelButton;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reservation_details_page);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        createDatabaseListener();
+
+        //when an item in the reservations is clicked, we create a new ReservationDetailsPage
+        //from that activity, send the info from the object clicked through a ParcelableExtra.
+        //Here, we make a new Reservation object, to be able to set each field when the reservation appears.
+        Reservation reservationObject = getIntent().getParcelableExtra("itemClickedInResList");
+
+        //set the text of the reservation to match the item clicked
+        TextView venueTitleOnReservation = findViewById(R.id.venueInfo);
+        venueTitleOnReservation.setText(reservationObject.getVenue());
+
+        TextView venueDateOnReservation = findViewById(R.id.dateInfo);
+        venueDateOnReservation.setText(reservationObject.getDate());
+
+        TextView venueGuestsOnReservation = findViewById(R.id.numGuestInfo);
+        venueGuestsOnReservation.setText(String.valueOf(reservationObject.getNumGuests()));
+
+        TextView venuePriceOnReservation = findViewById(R.id.priceInfo);
+        venuePriceOnReservation.setText(reservationObject.getPrice());
+
+        TextView venueTimeOnReservation = findViewById(R.id.timeInfo);
+        venueTimeOnReservation.setText(reservationObject.getTime());
+
+
+
+
+
+
+
+
+        //mDatabase = FirebaseDatabase.getInstance().getReference();
+        //createDatabaseListener();
+
 
 
         cancelButton = findViewById(R.id.cancelButton);
@@ -97,26 +132,30 @@ public class ReservationDetailsPage extends AppCompatActivity {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
-                        venue = reservation.venue;
-                        date = reservation.date;
-                        time = reservation.time;
-                        numGuests = reservation.numGuests;
-                        price = reservation.price;
 
-                        TextView venueInfo = (TextView) findViewById(R.id.venueInfo);
-                        TextView dateInfo = (TextView) findViewById(R.id.dateInfo);
-                        TextView timeInfo = (TextView) findViewById(R.id.timeInfo);
-                        TextView numGuestsInfo = (TextView) findViewById(R.id.numGuestInfo);
-                        TextView priceInfo = (TextView) findViewById(R.id.priceInfo);
+                            venue = reservation.venue;
+                            date = reservation.date;
+                            time = reservation.time;
+                            numGuests = reservation.numGuests;
+                            price = reservation.price;
 
-                        venueInfo.setText(venue);
-                        dateInfo.setText(date);
-                        timeInfo.setText(time);
-                        numGuestsInfo.setText(String.valueOf(numGuests));
-                        priceInfo.setText(price);
+                            TextView venueInfo = (TextView) findViewById(R.id.venueInfo);
+                            TextView dateInfo = (TextView) findViewById(R.id.dateInfo);
+                            TextView timeInfo = (TextView) findViewById(R.id.timeInfo);
+                            TextView numGuestsInfo = (TextView) findViewById(R.id.numGuestInfo);
+                            TextView priceInfo = (TextView) findViewById(R.id.priceInfo);
+
+                            venueInfo.setText(venue);
+                            dateInfo.setText(date);
+                            timeInfo.setText(time);
+                            numGuestsInfo.setText(String.valueOf(numGuests));
+                            priceInfo.setText(price);
+                        }
 
 
-                    }
+
+
+
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {
@@ -154,5 +193,9 @@ public class ReservationDetailsPage extends AppCompatActivity {
                 }
         );
     }
+
+
 }
+
+
 

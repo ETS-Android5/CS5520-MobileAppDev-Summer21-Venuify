@@ -12,35 +12,23 @@
 
         <Button
             android:id="@+id/upcoming3button"
-            android:layout_width="138dp"
+            android:layout_width="0dp"
             android:layout_height="59dp"
             android:onClick="onClick"
             android:text="@string/upcoming3"
             android:translationY="-5dp"
-            app:layout_constraintEnd_toStartOf="@+id/pending3button"
+            app:layout_constraintEnd_toStartOf="@+id/past3button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout3" />
 
         <Button
             android:id="@+id/past3button"
-            android:layout_width="138dp"
+            android:layout_width="0dp"
             android:layout_height="59dp"
             android:text="@string/past3"
             android:translationY="-5dp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/pending3button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/pending3button" />
-
-        <Button
-            android:id="@+id/pending3button"
-            android:layout_width="138dp"
-            android:layout_height="59dp"
-            android:onClick="onClick"
-            android:text="@string/pending3"
-            android:translationY="-5dp"
-            app:layout_constraintEnd_toStartOf="@+id/past3button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/upcoming3button"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout3" />
@@ -55,7 +43,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/toolbarPast"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
@@ -68,11 +56,10 @@
             android:layout_width="409dp"
             android:layout_height="562dp"
             android:layout_marginStart="1dp"
-            android:layout_marginTop="1dp"
             android:layout_marginEnd="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pending3button" />
+            app:layout_constraintTop_toBottomOf="@+id/past3button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include

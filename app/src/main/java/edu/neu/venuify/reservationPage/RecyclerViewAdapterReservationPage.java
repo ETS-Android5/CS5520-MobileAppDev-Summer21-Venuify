@@ -1,27 +1,41 @@
-package edu.neu.venuify.reservationPage.TabLayoutWithoutFragments;
+package edu.neu.venuify.reservationPage;
 
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.jetbrains.annotations.NotNull;
+import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
+import edu.neu.venuify.ReservationDetailsPage;
 
+/**
+ * This adapter works for the recycler view of the ReservationPageActivities.
+ */
 public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<RecyclerViewHolderReservationPage>{
-    private ArrayList<Reservation> reservationsList;
 
 
-    public RecyclerViewAdapterReservationPage(ArrayList<Reservation> reservations) {
+    private List<Reservation> reservationsList;
+
+    public RecyclerViewAdapterReservationPage(List<Reservation> reservations) {
         this.reservationsList = reservations;
     }
+
+
+    //method for the ReservationDetailsPage to return the list of current reservations
+    public List<Reservation> getReservationList() {
+        return reservationsList;
+    }
+
 
     //creates the venue object layout for the recycler view
     @NonNull
@@ -35,7 +49,6 @@ public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<Rec
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolderReservationPage holder, int position) {
         Reservation currentReservationObject = reservationsList.get(position);
-        //holder.stickerView.setImageResource(Utils.getResourceId(String.valueOf(currentStickerObject.getImageId())));
         holder.reservationName.setText(currentReservationObject.getVenue());
         holder.reservationTime.setText(currentReservationObject.getTime());
         holder.reservationDate.setText(currentReservationObject.getDate());
@@ -45,7 +58,6 @@ public class RecyclerViewAdapterReservationPage extends RecyclerView.Adapter<Rec
     public int getItemCount() {
         return reservationsList.size();
     }
-
 
 
 

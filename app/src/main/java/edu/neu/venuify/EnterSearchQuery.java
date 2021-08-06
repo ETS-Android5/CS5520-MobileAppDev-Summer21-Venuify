@@ -96,6 +96,8 @@ public class EnterSearchQuery extends AppCompatActivity {
                         results.add(venueObject);
                     }
                 }
+
+
                 if (results.size() > 0) {
                     Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                     intent.putParcelableArrayListExtra("data", results);

@@ -12,35 +12,23 @@
 
         <Button
             android:id="@+id/upcoming1button"
-            android:layout_width="138dp"
+            android:layout_width="0dp"
             android:layout_height="59dp"
             android:text="@string/upcoming1"
             android:translationY="-5dp"
-            app:layout_constraintEnd_toStartOf="@+id/pending1button"
+            app:layout_constraintEnd_toStartOf="@+id/past1button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
 
         <Button
             android:id="@+id/past1button"
-            android:layout_width="138dp"
+            android:layout_width="0dp"
             android:layout_height="59dp"
             android:onClick="onClick"
             android:text="@string/past1"
             android:translationY="-5dp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/pending1button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/pending1button" />
-
-        <Button
-            android:id="@+id/pending1button"
-            android:layout_width="138dp"
-            android:layout_height="59dp"
-            android:onClick="onClick"
-            android:text="@string/pending1"
-            android:translationY="-5dp"
-            app:layout_constraintEnd_toStartOf="@+id/past1button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/upcoming1button"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
@@ -68,11 +56,10 @@
             android:layout_width="409dp"
             android:layout_height="562dp"
             android:layout_marginStart="1dp"
-            android:layout_marginTop="1dp"
             android:layout_marginEnd="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pending1button" />
+            app:layout_constraintTop_toBottomOf="@+id/past1button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include

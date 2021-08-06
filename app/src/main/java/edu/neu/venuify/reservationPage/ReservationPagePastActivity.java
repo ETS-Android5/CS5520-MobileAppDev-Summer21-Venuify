@@ -1,7 +1,7 @@
 package edu.neu.venuify.reservationPage;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,15 +16,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 import edu.neu.venuify.BaseActivity;
 import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
-import edu.neu.venuify.reservationPage.TabLayoutWithoutFragments.RecyclerViewAdapterReservationPage;
 
-public class ReservationPagePastActivity extends BaseActivity implements View.OnClickListener {
+/**
+ * Class ReservationPagePastActivity is the page that shows all reservations as objects in a recycler
+ * view. This recycler view works with the RecyclerViewAdapterReservationPage and
+ * RecyclerViewHolderReservationPage.
+ * Referenced A7, class textbook.
+ */
+public class ReservationPagePastActivity extends BaseActivity {
 
+    //database reference
     private DatabaseReference mDatabase;
 
     //list of reservations
@@ -41,11 +48,12 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reservation_page_past);
+        //setContentView(R.layout.activity_reservation_page_past);
 
+        //TODO: need to fix here
         //sets bottom tool bar
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarPast);
+        setSupportActionBar(toolbar);
 
         //creating the database and recycler views
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -53,25 +61,22 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
         createDatabaseListener();
     }
 
-    //method for bottom nav bar
+    //method for bottom navigation bar
     @Override
     public int getContentViewId() {
-        return R.layout.activity_reservation_page;
+        return R.layout.activity_reservation_page_past;
     }
 
-    //method for bottom nav bar
+    //method for menu
     @Override
     public int getNavigationMenuItemId() {
         return R.id.nav_bar_reservation;
     }
 
-    @Override
+
+    //sets onclick for tab layout
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.pending3button:
-                Intent i = new Intent(this, ReservationPagePendingActivity.class);
-                startActivity(i);
-                break;
 
             case R.id.upcoming3button:
                 Intent j = new Intent(this, ReservationPageActivity.class);
@@ -79,6 +84,7 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
                 break;
         }
     }
+
     //creates the recycler view with the adapter and holder classes
     private void createRecyclerView() {
         RecyclerView.LayoutManager recycleLayoutManager = new LinearLayoutManager(this);
@@ -89,7 +95,7 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
         recyclerView.setLayoutManager(recycleLayoutManager);
     }
 
-    //gets info from database to populate list
+    //gets info from database to populate recycler view list of past reservations
     private void createDatabaseListener() {
         mDatabase.child("reservations").addChildEventListener(
                 new ChildEventListener() {
@@ -97,57 +103,68 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
                     public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
 
-                        //might need?
-                        addReservationObjectToRecycler(reservation);
 
-                        /*
-                        TextView venueName = findViewById(R.id.reservationVenueNameText);
-                        TextView venueDate = findViewById(R.id.reservationDateText);
-                        TextView venueTime = findViewById(R.id.resTimeText);
+                        //get the date according to the current info
+                        Integer currentYear = Integer.valueOf(new Date().getYear() + 1900);
+                        Integer currentMonth = Integer.valueOf(new Date().getMonth());
+                        Integer currentDay = Integer.valueOf(new Date().getDay());
 
-                        venueName.setText(reservation.venue);
-                        venueDate.setText(reservation.date);
-                        venueTime.setText(reservation.time);
+                        //get the reservation date
+                        String reservationDate = reservation.getDate();
+                        String[] datePartsOfReservationDate = reservationDate.split("/");
+                        Integer reservationMonth = Integer.valueOf(datePartsOfReservationDate[0]);
 
-                         */
-
-
-
-
-
-
-
-                        //may decide later to put a total count?
-                        /*
-                        Transaction transaction = Objects.requireNonNull(snapshot.getValue(Transaction.class));
-                        if (transaction.senderUsername.equalsIgnoreCase(AuthenticatedUserSingleton.getInstance().username)) {
-                            addStickerObject(transaction);
-
-                            //add to the total number of stickers Received and set header text view
-                            numberOfSent +=1;
-                            TextView totalAmtOfStickersSent = findViewById(R.id.totalAmtOfStickersSentText);
-                            totalAmtOfStickersSent.setText(String.valueOf(numberOfSent));
-
+                        //accounts for the weird format of 08 and 09 being too large to be an "int"
+                        if (reservationMonth.toString() == "08") {
+                            reservationMonth = 8;
+                        }
+                        if (reservationMonth.toString() == "09") {
+                            reservationMonth = 9;
                         }
 
-                         */
+                        Integer reservationDay = Integer.valueOf(datePartsOfReservationDate[1]);
+
+                        //accounts for the weird format of 08 and 09 being too large to be an "int"
+                        //to see the prob try this: int i = 08;
+                        if (reservationDay.toString() == "08") {
+                            reservationDay = 8;
+                        }
+                        if (reservationDay.toString() == "09") {
+                            reservationDay = 9;
+                        }
+
+
+                        Integer reservationYear = Integer.valueOf(datePartsOfReservationDate[2]);
+
+                        //conditional that if the date is in the past
+                        if (currentYear> reservationYear) {
+                            addReservationObjectToRecycler(reservation);
+                            return;
+                        }
+                        //if its this year
+                        if (currentYear.equals(reservationYear)) {
+                            //then need to check if our month is less than reservation month
+                            if (currentMonth > reservationMonth) {
+                                addReservationObjectToRecycler(reservation);
+                                return;
+                            }
+
+                            //if its this year, and this month, then compare day
+                            if (currentMonth.equals(reservationMonth)) {
+                                //check day
+                                if (currentDay > reservationDay) {
+                                    addReservationObjectToRecycler(reservation);
+                                    return;
+                                }
+
+                            }
+                        }
+
                     }
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
-
-                        /*
-                        TextView venueName = findViewById(R.id.reservationVenueNameText);
-                        TextView venueDate = findViewById(R.id.reservationDateText);
-                        TextView venueTime = findViewById(R.id.resTimeText);
-
-                        venueName.setText(reservation.venue);
-                        venueDate.setText(reservation.date);
-                        venueTime.setText(reservation.time);
-
-                         */
-
                     }
 
                     @Override
@@ -164,6 +181,7 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
                 }
         );
     }
+    //add reservation object to the recycler view of past reservations
     private void addReservationObjectToRecycler(Reservation reservation) {
 
         Reservation reservationObject = new Reservation(reservation.venue, reservation.date, reservation.time, reservation.numGuests, reservation.price);
@@ -174,9 +192,7 @@ public class ReservationPagePastActivity extends BaseActivity implements View.On
 
     }
 
-
-    //need this for when tilt screen?
-
+    //need this for when tilt screen
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
 
