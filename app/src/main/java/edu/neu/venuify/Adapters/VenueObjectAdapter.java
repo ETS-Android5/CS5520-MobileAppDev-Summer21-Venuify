@@ -1,4 +1,3 @@
-
 package edu.neu.venuify.Adapters;
 
 import android.content.Intent;
