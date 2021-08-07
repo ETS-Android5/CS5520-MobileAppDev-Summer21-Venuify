@@ -37,7 +37,6 @@ import edu.neu.venuify.Adapters.AvailableTimeslotAdapter;
 import edu.neu.venuify.Models.VenueObject;
 
 public class VenueDetailsPage extends AppCompatActivity {
-    public Button bookButton;
 
     private Spinner dateSelector;
     private DatabaseReference mDatabase;
@@ -56,11 +55,15 @@ public class VenueDetailsPage extends AppCompatActivity {
     AvailableTimeslotAdapter byDayAdapter;
     LinearLayoutManager HorizontalLayout;
 
+    ArrayAdapter<Reservation> adapter;
+    VenueObject venueObject;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.venue_details_page);
-        VenueObject venueObject = getIntent().getParcelableExtra("venue");
+//        VenueObject venueObject = getIntent().getParcelableExtra("venue");
+        venueObject = getIntent().getParcelableExtra("venue");
         TextView venueTitleOnDetailsPage = findViewById(R.id.venueTitleOnDetailsPg);
         venueTitleOnDetailsPage.setText(venueObject.getVenueName());
         ImageView venueImgOnDetailsPage = findViewById(R.id.venueImgOnDetailsPage);
@@ -68,7 +71,8 @@ public class VenueDetailsPage extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         dateSelector = findViewById(R.id.dateSelector);
-        ArrayAdapter<Reservation> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, reservationListToDisplay);
+//        ArrayAdapter<Reservation> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, reservationListToDisplay);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, reservationListToDisplay);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dateSelector.setAdapter(adapter);
 
@@ -137,49 +141,8 @@ public class VenueDetailsPage extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
+                //
             }
-        });
-
-        bookButton = findViewById(R.id.bookNowButton);
-        bookButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int pos = 0;
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setTitle("Book Reservation");
-
-                LinearLayout layout = new LinearLayout(v.getContext());
-                layout.setOrientation(LinearLayout.VERTICAL);
-                builder.setView(layout);
-
-                // Set up the buttons
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        //TODO: Clicking "yes" should create the reservation instance
-                        // in the database, and take user to reservationDetailsPage
-                        // with correct information displayed
-
-                        Intent i = new Intent(v.getContext(), ReservationDetailsPage.class);
-                        startActivity(i);
-                    }
-
-
-                });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                builder.show();
-
-            }
-
         });
     }
 
@@ -194,6 +157,55 @@ public class VenueDetailsPage extends AppCompatActivity {
         }
         byDayAdapter.notifyDataSetChanged();
     }
+
+//    private void loadData() {
+//
+//        mDatabase.child("reservations").addChildEventListener(
+//                new ChildEventListener() {
+//
+//                    @Override
+//                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
+//
+//                        Reservation reservation = dataSnapshot.getValue(Reservation.class);
+//                        reservation.setReservationId(dataSnapshot.getKey());
+//
+//                        if (isFutureAvailableReservation(reservation, venueObject)) {
+//
+//                            fullReservationList.add(reservation);
+//
+//                            if (!dateAlreadySeen(reservation)) {
+//                                reservationListToDisplay.add(reservation);
+//                                keys.add(dataSnapshot.getKey());
+//                                adapter.notifyDataSetChanged();
+//                            }
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
+//                        //will use the keys array if we want to handle changes
+//                        //the key will identify the user object that changed
+//                    }
+//
+//                    @Override
+//                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String s) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//                        Toast.makeText(getApplicationContext()
+//                                , "DBError: " + databaseError, Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//        );
+//
+//    }
 
     //Todo also filter out past reservations
     private boolean isFutureAvailableReservation(Reservation reservation, VenueObject venueObject) {
