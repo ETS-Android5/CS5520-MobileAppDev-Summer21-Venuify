@@ -1,12 +1,21 @@
 package edu.neu.venuify;
+import android.content.ServiceConnection;
+import android.text.format.DateFormat;
+import android.text.format.DateUtils;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import edu.neu.venuify.Models.VenueCategory;
 import edu.neu.venuify.Models.VenueObject;
@@ -112,6 +121,67 @@ public class Utils {
         public String toString() {
             return text;
         }
+    }
+
+    public static boolean dateIsInFuture(String date) {
+
+        //get the current date info
+        Calendar rightNow = Calendar.getInstance();
+        Integer currentYear = rightNow.get(Calendar.YEAR);
+        Integer currentMonth = rightNow.get(Calendar.MONTH) + 1;
+        Integer currentDay = rightNow.get(Calendar.DAY_OF_MONTH);
+
+
+        //split the string date that comes in (string[0]=month; string[1]=day; string[2]=year)
+        String[] datePartsOfReservationDate = date.split("/");
+        Integer reservationMonth = Integer.valueOf(datePartsOfReservationDate[0]);
+        Integer reservationDay = Integer.valueOf(datePartsOfReservationDate[1]);
+        Integer reservationYear = Integer.valueOf(datePartsOfReservationDate[2]);
+
+        //if input year is like "21", then make the assumption that dates are in 2000's and add 2000
+        if (datePartsOfReservationDate[2].length() == 2) {
+            reservationYear = reservationYear + 2000;
+        }
+
+        //accounts for the weird format of 08 and 09 being too large to be an "int"
+        //to see the prob try this: int i = 08;
+        if (reservationMonth.toString() == "08") {
+            reservationMonth = 8;
+        }
+        if (reservationMonth.toString() == "09") {
+            reservationMonth = 9;
+        }
+        if (reservationDay.toString() == "08") {
+            reservationDay = 8;
+        }
+        if (reservationDay.toString() == "09") {
+            reservationDay = 9;
+        }
+
+
+        //if its a larger year, then its in future
+        if (currentYear < reservationYear) {
+            return true;
+        }
+        //if its this year
+        if (currentYear.equals(reservationYear)) {
+
+            //then need to check if our month is less than reservation month
+            if (currentMonth < reservationMonth) {
+                return true;
+            }
+
+            //if its this year, and this month, then compare day
+            if (currentMonth.equals(reservationMonth)) {
+                //check day
+                if (currentDay <= reservationDay) {
+                    return true;
+                }
+
+            }
+        }
+
+        return false;
     }
 
 }
