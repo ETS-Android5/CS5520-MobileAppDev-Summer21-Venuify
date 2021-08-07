@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +39,10 @@ public class ReservationPageActivity extends BaseActivity {
     //reference to the database
     private DatabaseReference mDatabase;
 
+    //used to get the instance of the active user
+    private FirebaseAuth mAuth;
+
+
     //list of reservations
     private ArrayList<Reservation> reservationsList = new ArrayList<>();
 
@@ -50,8 +56,9 @@ public class ReservationPageActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_reservation_page);
 
-        //sets top tool bar
+        //sets bottom tool bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -78,9 +85,13 @@ public class ReservationPageActivity extends BaseActivity {
 
     //sets the button on the "tab layout" so we can go to the past reservation recycler view
     public void onClick(View v) {
-        if (v.getId() == R.id.past1button) {
-            Intent j = new Intent(this, ReservationPagePastActivity.class);
-            startActivity(j);
+        switch (v.getId()) {
+
+            case R.id.past1button:
+                Intent j = new Intent(this, ReservationPagePastActivity.class);
+                startActivity(j);
+                break;
+
         }
     }
 
@@ -102,64 +113,76 @@ public class ReservationPageActivity extends BaseActivity {
                     public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
 
-                        //get the date according to the current info
-                        Integer currentYear = Integer.valueOf(new Date().getYear() + 1900);
-                        Integer currentMonth = Integer.valueOf(new Date().getMonth());
-                        Integer currentDay = Integer.valueOf(new Date().getDay());
+                        //before add reservations to recycler view for person, need to check the user
+                        mAuth = FirebaseAuth.getInstance();
+                        String currentUserUid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
-                        //get the reservation date
-                        String reservationDate = reservation.getDate();
-                        String[] datePartsOfReservationDate = reservationDate.split("/");
-                        int reservationMonth = Integer.parseInt(datePartsOfReservationDate[0]);
+                        //if the user id is equal the user id listed under the reservation, display it
+                        if (currentUserUid.equals( reservation.getResUid() )) {
 
-                        //accounts for the weird format of 08 and 09 being too large to be an "int"
-                        if (Integer.toString(reservationMonth) == "08") {
-                            reservationMonth = 8;
-                        }
-                        if (Integer.toString(reservationMonth).equals("09")) {
-                            reservationMonth = 9;
-                        }
+                            //get the date according to the current info
+                            Integer currentYear = Integer.valueOf(new Date().getYear() + 1900);
+                            Integer currentMonth = Integer.valueOf(new Date().getMonth());
+                            Integer currentDay = Integer.valueOf(new Date().getDay());
+
+                            //get the reservation date
+                            String reservationDate = reservation.getDate();
+                            String[] datePartsOfReservationDate = reservationDate.split("/");
+                            Integer reservationMonth = Integer.valueOf(datePartsOfReservationDate[0]);
+
+                            //accounts for the weird format of 08 and 09 being too large to be an "int"
+                            if (reservationMonth.toString() == "08") {
+                                reservationMonth = 8;
+                            }
+                            if (reservationMonth.toString() == "09") {
+                                reservationMonth = 9;
+                            }
 
 
-                        int reservationDay = Integer.parseInt(datePartsOfReservationDate[1]);
+                            Integer reservationDay = Integer.valueOf(datePartsOfReservationDate[1]);
 
-                        //accounts for the weird format of 08 and 09 being too large to be an "int"
-                        //to see the prob try this: int i = 08;
-                        if (Integer.toString(reservationDay).equals("08")) {
-                            reservationDay = 8;
-                        }
-                        if (Integer.toString(reservationDay).equals("09")) {
-                            reservationDay = 9;
-                        }
+                            //accounts for the weird format of 08 and 09 being too large to be an "int"
+                            //to see the prob try this: int i = 08;
+                            if (reservationDay.toString() == "08") {
+                                reservationDay = 8;
+                            }
+                            if (reservationDay.toString() == "09") {
+                                reservationDay = 9;
+                            }
 
-                        Integer reservationYear = Integer.valueOf(datePartsOfReservationDate[2]);
+                            Integer reservationYear = Integer.valueOf(datePartsOfReservationDate[2]);
 
-                        //conditional that if the date is today or in the future, then add it to
-                        // this recycler view. We want to add reservations that are in the future.
+                            //conditional that if the date is today or in the future, then add it to
+                            // this recycler view. We want to add reservations that are in the future.
 
-                        //if its next year, then add it
-                        if (currentYear< reservationYear) {
-                            addReservationObjectToRecycler(reservation);
-                            return;
-                        }
-                        //if its this year
-                        if (currentYear.equals(reservationYear)) {
-                            //then need to check if our month is less than reservation month
-                            if (currentMonth < reservationMonth) {
+                            //if its next year, then add it
+                            if (currentYear < reservationYear) {
                                 addReservationObjectToRecycler(reservation);
                                 return;
                             }
-
-                            //if its this year, and this month, then compare day
-                            if (currentMonth.equals(reservationMonth)) {
-                                //check day
-                                if (currentDay <= reservationDay) {
+                            //if its this year
+                            if (currentYear.equals(reservationYear)) {
+                                //then need to check if our month is less than reservation month
+                                if (currentMonth < reservationMonth) {
                                     addReservationObjectToRecycler(reservation);
+                                    return;
                                 }
 
-                            }
-                        }
+                                //if its this year, and this month, then compare day
+                                if (currentMonth.equals(reservationMonth)) {
+                                    //check day
+                                    if (currentDay <= reservationDay) {
+                                        addReservationObjectToRecycler(reservation);
+                                        return;
+                                    }
 
+                                }
+                            }
+
+                            //adds the object to the recycler
+                            //addReservationObjectToRecycler(reservation);
+
+                        }
                     }
 
                     @Override
@@ -185,7 +208,8 @@ public class ReservationPageActivity extends BaseActivity {
     //adds a reservation object to the recycler view of all upcoming reservations
     private void addReservationObjectToRecycler(Reservation reservation) {
 
-        Reservation reservationObject = new Reservation(reservation.venue, reservation.date, reservation.time, reservation.numGuests, reservation.price);
+
+        Reservation reservationObject = new Reservation(reservation.venue, reservation.date, reservation.time, reservation.numGuests, reservation.price, reservation.user);
 
         reservationsList.add(0, reservationObject);
         recyclerViewAdapter.notifyDataSetChanged();
