@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.neu.venuify.Adapters.AvailableTimeslotAdapter;
-import edu.neu.venuify.Models.ReservationObject;
+
 import edu.neu.venuify.Models.VenueObject;
 
 public class VenueDetailsPage extends AppCompatActivity {
@@ -42,15 +42,15 @@ public class VenueDetailsPage extends AppCompatActivity {
     private Spinner dateSelector;
     private DatabaseReference mDatabase;
 
-    private List<ReservationObject> reservationList = new ArrayList<>();
+    private List<Reservation> fullReservationList = new ArrayList<>();
+    private List<Reservation> reservationListToDisplay = new ArrayList<>();
 
     private ArrayList<String> keys = new ArrayList<>();
 
     private RecyclerView recyclerView;
 
     //Keeps list of times that should be displayed based on the date selected in dropdown
-    // Todo: may need to store ReservationObject instead of string
-    ArrayList<String> availableSlotsByDayList;
+    ArrayList<Reservation> availableSlotsByDayList;
 
     RecyclerView.LayoutManager RecyclerViewLayoutManager;
     AvailableTimeslotAdapter byDayAdapter;
@@ -68,7 +68,7 @@ public class VenueDetailsPage extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         dateSelector = findViewById(R.id.dateSelector);
-        ArrayAdapter<ReservationObject> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, reservationList);
+        ArrayAdapter<Reservation> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, reservationListToDisplay);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dateSelector.setAdapter(adapter);
 
@@ -78,14 +78,18 @@ public class VenueDetailsPage extends AppCompatActivity {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
 
-                        ReservationObject reservation = dataSnapshot.getValue(ReservationObject.class);
+                        Reservation reservation = dataSnapshot.getValue(Reservation.class);
+                        reservation.setReservationId(dataSnapshot.getKey());
 
-                        //Todo:  need to select just reservations for the venue,
-                        // need to filter out past and duplicate dates
-                        if (Objects.requireNonNull(reservation).isAvailable) {
-                            reservationList.add(reservation);
-                            keys.add(dataSnapshot.getKey());
-                            adapter.notifyDataSetChanged();
+                        if (isFutureAvailableReservation(reservation, venueObject)) {
+
+                            fullReservationList.add(reservation);
+
+                            if (!dateAlreadySeen(reservation)) {
+                                reservationListToDisplay.add(reservation);
+                                keys.add(dataSnapshot.getKey());
+                                adapter.notifyDataSetChanged();
+                            }
                         }
                     }
 
@@ -161,7 +165,6 @@ public class VenueDetailsPage extends AppCompatActivity {
 
                         Intent i = new Intent(v.getContext(), ReservationDetailsPage.class);
                         startActivity(i);
-
                     }
 
 
@@ -184,11 +187,21 @@ public class VenueDetailsPage extends AppCompatActivity {
     public void showAvailableTimeSlots() {
 
         availableSlotsByDayList.clear();
-        for (ReservationObject r : reservationList) {
-            if (r.date.equals(dateSelector.getSelectedItem().toString())) {
-                availableSlotsByDayList.add(r.time);
+        for (Reservation r : fullReservationList) {
+            if (r.getDate().equals(dateSelector.getSelectedItem().toString())) {
+                availableSlotsByDayList.add(r);
             }
         }
         byDayAdapter.notifyDataSetChanged();
+    }
+
+    //Todo also filter out past reservations
+    private boolean isFutureAvailableReservation(Reservation reservation, VenueObject venueObject) {
+        return reservation.venue.equals(venueObject.getVenueName()) &&
+             reservation.isAvailable;
+    }
+
+    private boolean dateAlreadySeen(Reservation r) {
+        return reservationListToDisplay.contains(r);
     }
 }

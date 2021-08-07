@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="9dp"
             android:paddingVertical="5dp"
-            android:text="Num. Guests" />
+            android:text="Enter Num. Guests" />
 
         <EditText
             android:id="@+id/editTextNumber"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="9dp"
             android:paddingVertical="5dp"
-            android:text="Date" />
+            android:text="Select a Date" />
 
         <Spinner
             android:id="@+id/dateSelector"
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="9dp"
             android:paddingVertical="5dp"
-            android:text="Time" />
+            android:text="Select a Time" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
