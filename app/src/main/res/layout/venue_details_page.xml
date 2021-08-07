@@ -7,8 +7,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="350dp"
-        android:layout_height="480dp"
+        android:layout_width="349dp"
+        android:layout_height="531dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/bookNowButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,6 +31,24 @@
             tools:srcCompat="@tools:sample/avatars[0]" />
 
         <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="9dp"
+            android:paddingVertical="5dp"
+            android:text="Num. Guests" />
+
+        <EditText
+            android:id="@+id/editTextNumber"
+            android:layout_width="69dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:paddingBottom="20dp"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
             android:id="@+id/textView7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:importantForAutofill="no"
-            android:paddingBottom="25dp"
+            android:paddingBottom="20dp"
             android:spinnerMode="dropdown"
             app:layout_constraintBottom_toTopOf="@+id/recyclerview"
             app:layout_constraintEnd_toEndOf="parent"
