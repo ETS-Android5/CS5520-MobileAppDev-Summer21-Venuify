@@ -8,8 +8,13 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,14 +45,17 @@ public class QR_Activity extends BaseActivity {
             } else {
                 Intent openVenueDetails = new Intent(getApplicationContext(), VenueDetailsPage.class);
                 VenueObject venueObject = parseQRCode(intentResult);
-                if (venueObject.getVenueName().equals("") || venueObject.getImageId() == 0) {
-                    Toast toast = Toast.makeText(getBaseContext(), "Error reading QR code.", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER,0,0);
-                    toast.show();
+                if (venueObject.getVenueName().equals("") && venueObject.getImageId() == 0) {
+                   makeCenteredToast("Error reading QR code.");
                 }
                 else {
-                    openVenueDetails.putExtra("venue", venueObject);
-                    startActivity(openVenueDetails);
+                    if (venueExistsInDatabase(venueObject)) {
+                        openVenueDetails.putExtra("venue", venueObject);
+                        startActivity(openVenueDetails);
+                    }
+                    else {
+                        makeCenteredToast("No Venue found matching this QR code.");
+                    }
                 }
             }
         } else {
@@ -67,6 +75,15 @@ public class QR_Activity extends BaseActivity {
         return new VenueObject("", 0);
     }
 
+    private boolean venueExistsInDatabase(VenueObject venueObject) {
+        DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+        Task<DataSnapshot> snapshot = firebaseDatabase.child("Venues").equalTo("-M78945623").get();
+        while (!snapshot.isComplete()) {
+            continue;
+        }
+        return snapshot.isSuccessful();
+
+    }
 
 
     @Override
@@ -77,6 +94,12 @@ public class QR_Activity extends BaseActivity {
     @Override
     public int getNavigationMenuItemId() {
         return R.id.nav_bar_qr;
+    }
+
+    private void makeCenteredToast(String message) {
+        Toast toast = Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER,0,0);
+        toast.show();
     }
 
 }
