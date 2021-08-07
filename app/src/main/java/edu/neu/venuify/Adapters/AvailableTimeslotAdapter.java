@@ -7,8 +7,10 @@ import android.widget.TextView;
 import android.view.LayoutInflater;
 import java.util.List;
 
+import edu.neu.venuify.HelperObjects.AvailableTime;
 import edu.neu.venuify.Models.ReservationObject;
 import edu.neu.venuify.R;
+import edu.neu.venuify.Reservation;
 
 /*
 Adapted from https://www.geeksforgeeks.org/android-horizontal-recyclerview-with-examples/
@@ -16,7 +18,7 @@ Adapted from https://www.geeksforgeeks.org/android-horizontal-recyclerview-with-
 
 public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTimeslotAdapter.MyView> {
 
-    private List<String> list;
+    private List<Reservation> list;
 
     // View Holder class which
     // extends RecyclerView.ViewHolder
@@ -38,7 +40,7 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
 
     // Constructor for adapter class
     // which takes a list of String type
-    public AvailableTimeslotAdapter(List<String> horizontalList) {
+    public AvailableTimeslotAdapter(List<Reservation> horizontalList) {
         this.list = horizontalList;
     }
 
@@ -62,7 +64,7 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
     public void onBindViewHolder(final MyView holder,
                                  final int position) {
 
-        holder.textView.setText(list.get(position));
+        holder.textView.setText(list.get(position).getTime());
     }
 
     // Override getItemCount which Returns

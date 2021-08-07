@@ -1,3 +1,4 @@
+
 package edu.neu.venuify;
 
 import android.os.Parcel;
@@ -10,17 +11,19 @@ import android.os.Parcelable;
  * is sent as a Parcelable.
  */
 public class Reservation implements Parcelable {
-        public String venue;
-        public String date;
-        public String time;
-        public Integer numGuests;
-        public String price;
-        public String user;
-        public boolean isAvailable;
 
-        public Reservation() {
-            // Default constructor required for calls to DataSnapshot.getValue(Transaction.class)
-        }
+    public String reservationId;
+    public String venue;
+    public String date;
+    public String time;
+    public Integer numGuests;
+    public String price;
+    public String user;
+    public boolean isAvailable;
+
+    public Reservation() {
+        // Default constructor required for calls to DataSnapshot.getValue(Transaction.class)
+    }
 
 
     public boolean isAvailable() {
@@ -79,16 +82,24 @@ public class Reservation implements Parcelable {
         return price;
     }
 
+    public String getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(String reservationId) {
+        this.reservationId = reservationId;
+    }
+
     public Reservation(String venue, String date, String time, Integer numGuests, String price, String resUid) {
-            this.venue = venue;
-            this.date = date;
-            this.time = time;
-            this.numGuests = numGuests;
-            this.price = price;
-            this.user = resUid;
+        this.venue = venue;
+        this.date = date;
+        this.time = time;
+        this.numGuests = numGuests;
+        this.price = price;
+        this.user = resUid;
 
 
-        }
+    }
 
     //added for Parcelable
     protected Reservation(Parcel in) {
@@ -129,6 +140,26 @@ public class Reservation implements Parcelable {
 
     }
 
+    @Override
+    public String toString() {
+        return date;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+
+        if (o == this) {
+            return true;
+        }
+
+        if (!(o instanceof Reservation)) {
+            return false;
+        }
+
+        Reservation r = (Reservation) o;
+
+        return date.equals(r.date) && venue.equals((r.venue));
+
+    }
 
 }
