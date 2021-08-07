@@ -84,16 +84,16 @@ public class EnterSearchQuery extends AppCompatActivity {
     private void doSearch(String venueQuery) {
         
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Venues");
-        databaseReference.orderByChild("VenueName").addValueEventListener(new ValueEventListener() {
+        databaseReference.orderByChild("venueName").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 results.clear();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    String venueName = Objects.requireNonNull(postSnapshot.child("VenueName").getValue(String.class));
+                    String venueName = Objects.requireNonNull(postSnapshot.child("venueName").getValue(String.class));
                     if (venueQuery.equalsIgnoreCase(venueName) || venueName.toLowerCase().contains(venueQuery.toLowerCase())) {
-                        Integer imageID = Objects.requireNonNull(postSnapshot.child("ImageID").getValue(Integer.class));
-                        String cateogory = Objects.requireNonNull(postSnapshot.child("Category").getValue(String.class));
-                        VenueObject venueObject = new VenueObject(venueName, cateogory, imageID);
+                        Integer imageID = Objects.requireNonNull(postSnapshot.child("imageId").getValue(Integer.class));
+                        String category = Objects.requireNonNull(postSnapshot.child("category").getValue(String.class));
+                        VenueObject venueObject = new VenueObject(venueName, category, imageID);
                         results.add(venueObject);
                     }
                 }
