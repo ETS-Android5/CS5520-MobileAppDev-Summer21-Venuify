@@ -38,6 +38,10 @@ import edu.neu.venuify.Models.VenueObject;
 
 public class VenueDetailsPage extends AppCompatActivity {
 
+    // Flag to see if the activity has been loaded
+    // Used in onResume to not load twice initially
+    static boolean loaded = false;
+
     private Spinner dateSelector;
     private DatabaseReference mDatabase;
 
@@ -76,90 +80,8 @@ public class VenueDetailsPage extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dateSelector.setAdapter(adapter);
 
-        mDatabase.child("reservations").addChildEventListener(
-                new ChildEventListener() {
+        loadData();
 
-                    @Override
-                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-
-                        Reservation reservation = dataSnapshot.getValue(Reservation.class);
-                        reservation.setReservationId(dataSnapshot.getKey());
-
-                        if (isFutureAvailableReservation(reservation, venueObject)) {
-
-                            fullReservationList.add(reservation);
-
-                            if (!dateAlreadySeen(reservation)) {
-                                reservationListToDisplay.add(reservation);
-                                keys.add(dataSnapshot.getKey());
-                                adapter.notifyDataSetChanged();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
-                        //will use the keys array if we want to handle changes
-                        //the key will identify the user object that changed
-                    }
-
-                    @Override
-                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                    }
-
-                    @Override
-                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String s) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(getApplicationContext()
-                                , "DBError: " + databaseError, Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-
-        recyclerView = findViewById(R.id.recyclerview);
-        RecyclerViewLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(RecyclerViewLayoutManager);
-        availableSlotsByDayList = new ArrayList<>();
-        byDayAdapter = new AvailableTimeslotAdapter(availableSlotsByDayList);
-
-        HorizontalLayout = new LinearLayoutManager(VenueDetailsPage.this, LinearLayoutManager.HORIZONTAL,
-                false);
-        recyclerView.setLayoutManager(HorizontalLayout);
-        recyclerView.setAdapter(byDayAdapter);
-
-        dateSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                showAvailableTimeSlots();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                //
-            }
-        });
-    }
-
-    //Shows available timeslots based on the date selected in the dropdown
-    public void showAvailableTimeSlots() {
-
-        availableSlotsByDayList.clear();
-        for (Reservation r : fullReservationList) {
-            if (r.getDate().equals(dateSelector.getSelectedItem().toString())) {
-                availableSlotsByDayList.add(r);
-            }
-        }
-        byDayAdapter.notifyDataSetChanged();
-    }
-
-//    private void loadData() {
-//
 //        mDatabase.child("reservations").addChildEventListener(
 //                new ChildEventListener() {
 //
@@ -204,8 +126,115 @@ public class VenueDetailsPage extends AppCompatActivity {
 //                    }
 //                }
 //        );
-//
+
+        recyclerView = findViewById(R.id.recyclerview);
+        RecyclerViewLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(RecyclerViewLayoutManager);
+        availableSlotsByDayList = new ArrayList<>();
+        byDayAdapter = new AvailableTimeslotAdapter(availableSlotsByDayList);
+
+        HorizontalLayout = new LinearLayoutManager(VenueDetailsPage.this, LinearLayoutManager.HORIZONTAL,
+                false);
+        recyclerView.setLayoutManager(HorizontalLayout);
+        recyclerView.setAdapter(byDayAdapter);
+
+        dateSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                showAvailableTimeSlots();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                //
+            }
+        });
+    }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if(!loaded) {
+//            loaded = true;
+//        }
+//        else {
+//            fullReservationList.clear();
+//            reservationListToDisplay.clear();
+//            availableSlotsByDayList.clear();
+//            loadData();
+//            showAvailableTimeSlots();
+//        }
 //    }
+
+    //Shows available timeslots based on the date selected in the dropdown
+    public void showAvailableTimeSlots() {
+
+        availableSlotsByDayList.clear();
+        for (Reservation r : fullReservationList) {
+            if (r.getDate().equals(dateSelector.getSelectedItem().toString())) {
+                availableSlotsByDayList.add(r);
+            }
+        }
+        byDayAdapter.notifyDataSetChanged();
+    }
+
+    private void loadData() {
+
+        mDatabase.child("reservations").addChildEventListener(
+                new ChildEventListener() {
+
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
+
+                        Reservation reservation = dataSnapshot.getValue(Reservation.class);
+                        reservation.setReservationId(dataSnapshot.getKey());
+
+                        if (isFutureAvailableReservation(reservation, venueObject)) {
+
+                            fullReservationList.add(reservation);
+
+                            if (!dateAlreadySeen(reservation)) {
+                                reservationListToDisplay.add(reservation);
+                                keys.add(dataSnapshot.getKey());
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
+//                        Reservation changedReservation = dataSnapshot.getValue(Reservation.class);
+//
+//                        if (changedReservation.isAvailable == false) {
+//                            for (Reservation r : availableSlotsByDayList) {
+//                                if (changedReservation.getReservationId().equals(r.getReservationId())) {
+//                                    availableSlotsByDayList.remove(r);
+//                                    byDayAdapter.notifyDataSetChanged();
+//                                }
+//                            }
+//                        }
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(getApplicationContext()
+                                , "DBError: " + databaseError, Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
+    }
 
     //Todo also filter out past reservations
     private boolean isFutureAvailableReservation(Reservation reservation, VenueObject venueObject) {
