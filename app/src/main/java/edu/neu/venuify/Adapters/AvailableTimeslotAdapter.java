@@ -7,8 +7,6 @@ import android.widget.TextView;
 import android.view.LayoutInflater;
 import java.util.List;
 
-import edu.neu.venuify.HelperObjects.AvailableTime;
-import edu.neu.venuify.Models.ReservationObject;
 import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
 
