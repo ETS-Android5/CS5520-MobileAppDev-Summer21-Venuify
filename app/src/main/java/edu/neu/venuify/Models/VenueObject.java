@@ -6,20 +6,24 @@ import android.os.Parcelable;
 public class VenueObject implements Parcelable {
     private String venueName;
     private int imageId;
+    private String category;
 
     public VenueObject() {
 
     }
 
-    public VenueObject(String venueName, int ImageId) {
+    public VenueObject(String venueName, String category, int ImageId) {
 
         this.venueName = venueName;
         this.imageId = ImageId;
+        this.category = category;
     }
 
     public VenueObject(Parcel in) {
         venueName = in.readString();
+        category = in.readString();
         imageId = in.readInt();
+
     }
 
     public static final Creator<VenueObject> CREATOR = new Creator<VenueObject>() {
@@ -34,18 +38,18 @@ public class VenueObject implements Parcelable {
         }
     };
 
-    public String getVenueName() {
-        return venueName;
-    }
+    public String getVenueName() { return venueName; }
 
     public void setVenueName(String venueName) {
 
         this.venueName = venueName;
     }
 
-    public int getImageId() {
-        return imageId;
-    }
+    public int getImageId() { return imageId; }
+
+    public String getCategory() { return category; }
+
+    public void setCategory(String category) { this.category = category; }
 
     @Override
     public int describeContents() {
@@ -55,6 +59,7 @@ public class VenueObject implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(venueName);
+        dest.writeString(category);
         dest.writeInt(imageId);
     }
 }

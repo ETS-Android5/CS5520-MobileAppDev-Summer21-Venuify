@@ -67,12 +67,13 @@ public class QR_Activity extends BaseActivity {
         try {
             JSONObject jsonObject = new JSONObject(intentResult.getContents());
             String name = jsonObject.getString("VenueName");
+            String category = jsonObject.getString("Category");
             int imageId = jsonObject.getInt("ImageId");
-            return new VenueObject(name, imageId);
+            return new VenueObject(name, category, imageId);
         } catch (JSONException jsonException) {
             jsonException.printStackTrace();
         }
-        return new VenueObject("", 0);
+        return new VenueObject("", "", 0);
     }
 
     private boolean venueExistsInDatabase(VenueObject venueObject) {
