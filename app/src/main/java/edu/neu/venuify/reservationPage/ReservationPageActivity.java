@@ -27,6 +27,7 @@ import java.util.Objects;
 import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
 import edu.neu.venuify.ReservationDetailsPage;
+import edu.neu.venuify.Utils;
 
 /**
  * Class ReservationPageActivity is the page that shows all reservations as objects in a recycler
@@ -120,67 +121,15 @@ public class ReservationPageActivity extends BaseActivity {
                         //if the user id is equal the user id listed under the reservation, display it
                         if (currentUserUid.equals( reservation.getResUid() )) {
 
-                            //get the date according to the current info
-                            Integer currentYear = Integer.valueOf(new Date().getYear() + 1900);
-                            Integer currentMonth = Integer.valueOf(new Date().getMonth());
-                            Integer currentDay = Integer.valueOf(new Date().getDay());
 
-                            //get the reservation date
+                            //get reservation date and send to function to evaluate if in past
                             String reservationDate = reservation.getDate();
-                            String[] datePartsOfReservationDate = reservationDate.split("/");
-                            Integer reservationMonth = Integer.valueOf(datePartsOfReservationDate[0]);
-
-                            //accounts for the weird format of 08 and 09 being too large to be an "int"
-                            if (reservationMonth.toString() == "08") {
-                                reservationMonth = 8;
-                            }
-                            if (reservationMonth.toString() == "09") {
-                                reservationMonth = 9;
-                            }
 
 
-                            Integer reservationDay = Integer.valueOf(datePartsOfReservationDate[1]);
-
-                            //accounts for the weird format of 08 and 09 being too large to be an "int"
-                            //to see the prob try this: int i = 08;
-                            if (reservationDay.toString() == "08") {
-                                reservationDay = 8;
-                            }
-                            if (reservationDay.toString() == "09") {
-                                reservationDay = 9;
-                            }
-
-                            Integer reservationYear = Integer.valueOf(datePartsOfReservationDate[2]);
-
-                            //conditional that if the date is today or in the future, then add it to
-                            // this recycler view. We want to add reservations that are in the future.
-
-                            //if its next year, then add it
-                            if (currentYear < reservationYear) {
+                            //if dateIsInTheFuture is true, then add it here
+                            if (Utils.dateIsInFuture(reservationDate)) {
                                 addReservationObjectToRecycler(reservation);
-                                return;
                             }
-                            //if its this year
-                            if (currentYear.equals(reservationYear)) {
-                                //then need to check if our month is less than reservation month
-                                if (currentMonth < reservationMonth) {
-                                    addReservationObjectToRecycler(reservation);
-                                    return;
-                                }
-
-                                //if its this year, and this month, then compare day
-                                if (currentMonth.equals(reservationMonth)) {
-                                    //check day
-                                    if (currentDay <= reservationDay) {
-                                        addReservationObjectToRecycler(reservation);
-                                        return;
-                                    }
-
-                                }
-                            }
-
-                            //adds the object to the recycler
-                            //addReservationObjectToRecycler(reservation);
 
                         }
                     }
