@@ -38,7 +38,7 @@
             android:text="Enter Num. Guests" />
 
         <EditText
-            android:id="@+id/editTextNumber"
+            android:id="@+id/numGuests"
             android:layout_width="69dp"
             android:layout_height="wrap_content"
             android:ems="10"

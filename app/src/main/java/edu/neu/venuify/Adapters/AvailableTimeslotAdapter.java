@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.LayoutInflater;
@@ -47,6 +48,7 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
         TextView textView;
         private FirebaseAuth mAuth;
         private DatabaseReference mDatabase;
+        EditText numGuests;
 
         // parameterised constructor for View Holder class
         // which takes the view as a parameter
@@ -57,6 +59,7 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
             textView = (TextView) view
                     .findViewById(R.id.availableTimeslot);
             mAuth = FirebaseAuth.getInstance();
+            numGuests = (EditText) view.findViewById(R.id.numGuests);
             mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
@@ -67,8 +70,9 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
                     int position = getAbsoluteAdapterPosition();
                     AvailableTimeslotAdapter adapter = Objects.requireNonNull((AvailableTimeslotAdapter) getBindingAdapter());
                     Reservation reservation = adapter.list.get(position);
+
                     String confirmTitle = "Book " + reservation.getVenue() + " on " + reservation.getDate()
-                            + " at " + reservation.getTime() +"?";
+                            + " at " + reservation.getTime() + " for guests " + numGuests.getText().toString() +  " ?";
 
                     int pos = 0;
                     AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
