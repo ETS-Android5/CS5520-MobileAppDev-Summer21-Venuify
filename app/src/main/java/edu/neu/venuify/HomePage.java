@@ -63,6 +63,7 @@ public class HomePage extends BaseActivity {
                     });
                 }
                 venueCategoryAdapter = new VenueCategoryAdapter(venueCategories);
+                venueCategoryAdapter.setHasStableIds(true);
                 linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                 venueCategoryRecyclerView.setLayoutManager(linearLayoutManager);
                 venueCategoryRecyclerView.setAdapter(venueCategoryAdapter);
