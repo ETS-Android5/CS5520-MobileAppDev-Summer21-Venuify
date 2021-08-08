@@ -47,6 +47,23 @@
             android:textAlignment="center"
             android:textSize="16sp" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="69dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:paddingBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/noAvailableMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="9dp"
+            android:paddingVertical="5dp"
+            android:visibility="visible"
+            android:text="No available reservations found for this venue" />
+
         <TextView
             android:id="@+id/textView7"
             android:layout_width="match_parent"

@@ -2,6 +2,7 @@ package edu.neu.venuify;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +29,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +43,9 @@ import edu.neu.venuify.Models.VenueObject;
 
 public class VenueDetailsPage extends AppCompatActivity {
 
-    // Flag to see if the activity has been loaded
-    // Used in onResume to not load twice initially
-    static boolean loaded = false;
-
+    private TextView noAvailableMessage;
     private Spinner dateSelector;
+    private ProgressBar progressBar;
     private DatabaseReference mDatabase;
 
     private List<Reservation> fullReservationList = new ArrayList<>();
@@ -66,77 +69,19 @@ public class VenueDetailsPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.venue_details_page);
-//        VenueObject venueObject = getIntent().getParcelableExtra("venue");
         venueObject = getIntent().getParcelableExtra("venue");
         TextView venueTitleOnDetailsPage = findViewById(R.id.venueTitleOnDetailsPg);
         venueTitleOnDetailsPage.setText(venueObject.getVenueName());
         ImageView venueImgOnDetailsPage = findViewById(R.id.venueImgOnDetailsPage);
         venueImgOnDetailsPage.setImageResource(venueObject.getImageId());
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        dateSelector = findViewById(R.id.dateSelector);
-//        ArrayAdapter<Reservation> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, reservationListToDisplay);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, reservationListToDisplay);
+        initializeAttributes();
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dateSelector.setAdapter(adapter);
 
+        handleProgressBarAndNoReservationsFound();
         loadData();
-
-//        mDatabase.child("reservations").addChildEventListener(
-//                new ChildEventListener() {
-//
-//                    @Override
-//                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-//
-//                        Reservation reservation = dataSnapshot.getValue(Reservation.class);
-//                        reservation.setReservationId(dataSnapshot.getKey());
-//
-//                        if (isFutureAvailableReservation(reservation, venueObject)) {
-//
-//                            fullReservationList.add(reservation);
-//
-//                            if (!dateAlreadySeen(reservation)) {
-//                                reservationListToDisplay.add(reservation);
-//                                keys.add(dataSnapshot.getKey());
-//                                adapter.notifyDataSetChanged();
-//                            }
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
-//                        //will use the keys array if we want to handle changes
-//                        //the key will identify the user object that changed
-//                    }
-//
-//                    @Override
-//                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String s) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//                        Toast.makeText(getApplicationContext()
-//                                , "DBError: " + databaseError, Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//        );
-
-        recyclerView = findViewById(R.id.recyclerview);
-        RecyclerViewLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(RecyclerViewLayoutManager);
-        availableSlotsByDayList = new ArrayList<>();
-        byDayAdapter = new AvailableTimeslotAdapter(availableSlotsByDayList);
-
-        HorizontalLayout = new LinearLayoutManager(VenueDetailsPage.this, LinearLayoutManager.HORIZONTAL,
-                false);
-        recyclerView.setLayoutManager(HorizontalLayout);
-        recyclerView.setAdapter(byDayAdapter);
+        setUpAvailableTimesHorizontalRecyclerView();
 
         dateSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -152,20 +97,40 @@ public class VenueDetailsPage extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if(!loaded) {
-//            loaded = true;
-//        }
-//        else {
-//            fullReservationList.clear();
-//            reservationListToDisplay.clear();
-//            availableSlotsByDayList.clear();
-//            loadData();
-//            showAvailableTimeSlots();
-//        }
-//    }
+    private void initializeAttributes() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        dateSelector = findViewById(R.id.dateSelector);
+        noAvailableMessage = findViewById(R.id.noAvailableMessage);
+        progressBar = findViewById(R.id.progressBar);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, reservationListToDisplay);
+    }
+
+    private void setUpAvailableTimesHorizontalRecyclerView() {
+        recyclerView = findViewById(R.id.recyclerview);
+        RecyclerViewLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(RecyclerViewLayoutManager);
+        availableSlotsByDayList = new ArrayList<>();
+        byDayAdapter = new AvailableTimeslotAdapter(availableSlotsByDayList);
+
+        HorizontalLayout = new LinearLayoutManager(VenueDetailsPage.this, LinearLayoutManager.HORIZONTAL,
+                false);
+        recyclerView.setLayoutManager(HorizontalLayout);
+        recyclerView.setAdapter(byDayAdapter);
+    }
+
+    private void handleProgressBarAndNoReservationsFound() {
+
+        adapter.registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                if(adapter.getCount() > 0){
+                    noAvailableMessage.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
 
     //Shows available timeslots based on the date selected in the dropdown
     public void showAvailableTimeSlots() {
@@ -233,7 +198,6 @@ public class VenueDetailsPage extends AppCompatActivity {
                     }
                 }
         );
-
     }
 
     //Todo also filter out past reservations
