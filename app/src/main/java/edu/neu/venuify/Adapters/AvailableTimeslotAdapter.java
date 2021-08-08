@@ -42,7 +42,7 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
 
     // View Holder class which
     // extends RecyclerView.ViewHolder
-    public class MyView
+    static class MyView
             extends RecyclerView.ViewHolder {
 
         TextView textView;
@@ -60,6 +60,7 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
                     .findViewById(R.id.availableTimeslot);
             mAuth = FirebaseAuth.getInstance();
             numGuests = (EditText) view.findViewById(R.id.numGuests);
+
             mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
@@ -70,6 +71,7 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
                     int position = getAbsoluteAdapterPosition();
                     AvailableTimeslotAdapter adapter = Objects.requireNonNull((AvailableTimeslotAdapter) getBindingAdapter());
                     Reservation reservation = adapter.list.get(position);
+
 
                     String confirmTitle = "Book " + reservation.getVenue() + " on " + reservation.getDate()
                             + " at " + reservation.getTime() + " for guests " + numGuests.getText().toString() +  " ?";
