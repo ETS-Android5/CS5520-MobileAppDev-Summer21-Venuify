@@ -59,4 +59,5 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:1.1.0-alpha07"
     implementation "androidx.camera:camera-view:1.0.0-alpha27"
     implementation 'com.journeyapps:zxing-android-embedded:4.2.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

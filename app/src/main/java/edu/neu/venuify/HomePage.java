@@ -1,6 +1,9 @@
 package edu.neu.venuify;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,14 +29,15 @@ public class HomePage extends BaseActivity {
     VenueCategoryAdapter venueCategoryAdapter;
     LinearLayoutManager linearLayoutManager;
     RecyclerView venueCategoryRecyclerView;
+    ProgressBar loadingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        venueCategoryRecyclerView = findViewById(R.id.parent_recyclerview);
+        loadingBar = findViewById(R.id.loadingBar);
         buildCategories();
         getVenuesFromDatabase();
-        venueCategoryRecyclerView = findViewById(R.id.parent_recyclerview);
-
     }
 
     @Override
@@ -43,7 +47,6 @@ public class HomePage extends BaseActivity {
     public int getNavigationMenuItemId() {
         return R.id.nav_bar_home;
     }
-
 
     private void getVenuesFromDatabase() {
         databaseReference.child("Venues").addValueEventListener(new ValueEventListener() {
@@ -59,16 +62,17 @@ public class HomePage extends BaseActivity {
                         }
                     });
                 }
-                //TODO: Need to improve loading
                 venueCategoryAdapter = new VenueCategoryAdapter(venueCategories);
                 linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                 venueCategoryRecyclerView.setLayoutManager(linearLayoutManager);
                 venueCategoryRecyclerView.setAdapter(venueCategoryAdapter);
+                loadingBar.setVisibility(View.GONE);
+                venueCategoryRecyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(getApplicationContext(), "Could not load venues from database", Toast.LENGTH_LONG).show();
             }
         });
     }
