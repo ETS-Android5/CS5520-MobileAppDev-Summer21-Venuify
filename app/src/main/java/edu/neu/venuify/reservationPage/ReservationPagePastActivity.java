@@ -53,10 +53,6 @@ public class ReservationPagePastActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_reservation_page_past);
-
-        //TODO: need to fix here
-        //sets bottom tool bar
         Toolbar toolbar = findViewById(R.id.toolbarPast);
         setSupportActionBar(toolbar);
 
@@ -81,12 +77,9 @@ public class ReservationPagePastActivity extends BaseActivity {
 
     //sets onclick for tab layout
     public void onClick(View v) {
-        switch (v.getId()) {
-
-            case R.id.upcoming3button:
-                Intent j = new Intent(this, ReservationPageActivity.class);
-                startActivity(j);
-                break;
+        if (v.getId() == R.id.upcoming3button) {
+            Intent j = new Intent(this, ReservationPageActivity.class);
+            startActivity(j);
         }
     }
 
@@ -132,10 +125,20 @@ public class ReservationPagePastActivity extends BaseActivity {
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
+
+                        int pos = reservationsList.indexOf(reservation);
+                        reservationsList.set(pos, reservation);
+                        recyclerViewAdapter.notifyItemChanged(pos);
                     }
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                        Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
+
+                        int pos = reservationsList.indexOf(reservation);
+                        reservationsList.remove(pos);
+                        recyclerViewAdapter.notifyItemChanged(pos);
+
                     }
 
                     @Override
@@ -151,9 +154,7 @@ public class ReservationPagePastActivity extends BaseActivity {
     //add reservation object to the recycler view of past reservations
     private void addReservationObjectToRecycler(Reservation reservation) {
 
-        Reservation reservationObject = new Reservation(reservation.venue, reservation.date, reservation.time, reservation.numGuests, reservation.price, reservation.user);
-
-        reservationsList.add(0, reservationObject);
+        reservationsList.add(0, reservation);
         recyclerViewAdapter.notifyDataSetChanged();
 
 

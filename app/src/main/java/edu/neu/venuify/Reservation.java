@@ -22,7 +22,7 @@ public class Reservation implements Parcelable {
     public boolean isAvailable;
 
     public Reservation() {
-        // Default constructor required for calls to DataSnapshot.getValue(Transaction.class)
+        // Default constructor required for calls to DataSnapshot.getValue(Reservation.class)
     }
 
 
@@ -90,24 +90,17 @@ public class Reservation implements Parcelable {
         this.reservationId = reservationId;
     }
 
-    public Reservation(String venue, String date, String time, Integer numGuests, String price, String resUid) {
-        this.venue = venue;
-        this.date = date;
-        this.time = time;
-        this.numGuests = numGuests;
-        this.price = price;
-        this.user = resUid;
-
-
-    }
-
     //added for Parcelable
     protected Reservation(Parcel in) {
+        reservationId = in.readString();
         venue = in.readString();
         date = in.readString();
         time = in.readString();
         numGuests = in.readInt();
         price = in.readString();
+        user = in.readString();
+        isAvailable = in.readBoolean();
+
     }
 
     //added for Parcelable
@@ -132,11 +125,14 @@ public class Reservation implements Parcelable {
     //added for Parcelable
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(reservationId);
         dest.writeString(venue);
         dest.writeString(date);
         dest.writeString(time);
         dest.writeInt(numGuests);
         dest.writeString(price);
+        dest.writeString(user);
+        dest.writeBoolean(isAvailable);
 
     }
 

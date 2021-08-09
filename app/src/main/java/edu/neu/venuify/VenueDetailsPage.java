@@ -2,6 +2,7 @@ package edu.neu.venuify;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,8 +10,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +30,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +43,10 @@ import edu.neu.venuify.Adapters.AvailableTimeslotAdapter;
 import edu.neu.venuify.Models.VenueObject;
 
 public class VenueDetailsPage extends AppCompatActivity {
-    public Button bookButton;
 
+    private TextView noAvailableMessage;
     private Spinner dateSelector;
+    private ProgressBar progressBar;
     private DatabaseReference mDatabase;
 
     private List<Reservation> fullReservationList = new ArrayList<>();
@@ -51,26 +58,90 @@ public class VenueDetailsPage extends AppCompatActivity {
 
     //Keeps list of times that should be displayed based on the date selected in dropdown
     ArrayList<Reservation> availableSlotsByDayList;
-
-    RecyclerView.LayoutManager RecyclerViewLayoutManager;
     AvailableTimeslotAdapter byDayAdapter;
     LinearLayoutManager HorizontalLayout;
+
+    ArrayAdapter<Reservation> adapter;
+    VenueObject venueObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.venue_details_page);
-        VenueObject venueObject = getIntent().getParcelableExtra("venue");
+        venueObject = getIntent().getParcelableExtra("venue");
         TextView venueTitleOnDetailsPage = findViewById(R.id.venueTitleOnDetailsPg);
         venueTitleOnDetailsPage.setText(venueObject.getVenueName());
         ImageView venueImgOnDetailsPage = findViewById(R.id.venueImgOnDetailsPage);
         venueImgOnDetailsPage.setImageResource(venueObject.getImageId());
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        dateSelector = findViewById(R.id.dateSelector);
-        ArrayAdapter<Reservation> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, reservationListToDisplay);
+        initializeAttributes();
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dateSelector.setAdapter(adapter);
+
+        handleProgressBarAndNoReservationsFound();
+        loadData();
+        setUpAvailableTimesHorizontalRecyclerView();
+
+        dateSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                showAvailableTimeSlots();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                //
+            }
+        });
+    }
+
+    private void initializeAttributes() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        dateSelector = findViewById(R.id.dateSelector);
+        noAvailableMessage = findViewById(R.id.noAvailableMessage);
+        progressBar = findViewById(R.id.progressBar);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, reservationListToDisplay);
+    }
+
+    private void setUpAvailableTimesHorizontalRecyclerView() {
+        recyclerView = findViewById(R.id.recyclerview);
+        availableSlotsByDayList = new ArrayList<>();
+        byDayAdapter = new AvailableTimeslotAdapter(availableSlotsByDayList);
+
+        HorizontalLayout = new LinearLayoutManager(VenueDetailsPage.this, LinearLayoutManager.HORIZONTAL,
+                false);
+        recyclerView.setLayoutManager(HorizontalLayout);
+        recyclerView.setAdapter(byDayAdapter);
+    }
+
+    private void handleProgressBarAndNoReservationsFound() {
+
+        adapter.registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                if(adapter.getCount() > 0){
+                    noAvailableMessage.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    //Shows available timeslots based on the date selected in the dropdown
+    public void showAvailableTimeSlots() {
+
+        availableSlotsByDayList.clear();
+        for (Reservation r : fullReservationList) {
+            if (r.getDate().equals(dateSelector.getSelectedItem().toString())) {
+                availableSlotsByDayList.add(r);
+            }
+        }
+        byDayAdapter.notifyDataSetChanged();
+    }
+
+    private void loadData() {
 
         mDatabase.child("reservations").addChildEventListener(
                 new ChildEventListener() {
@@ -78,8 +149,8 @@ public class VenueDetailsPage extends AppCompatActivity {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
 
-                        Reservation reservation = dataSnapshot.getValue(Reservation.class);
-                        reservation.setReservationId(dataSnapshot.getKey());
+                        Reservation reservation = Objects.requireNonNull(dataSnapshot.getValue(Reservation.class));
+                        reservation.setReservationId(Objects.requireNonNull(dataSnapshot.getKey()));
 
                         if (isFutureAvailableReservation(reservation, venueObject)) {
 
@@ -95,8 +166,15 @@ public class VenueDetailsPage extends AppCompatActivity {
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
-                        //will use the keys array if we want to handle changes
-                        //the key will identify the user object that changed
+//                        Reservation changedReservation = Objects.requireNonNull(dataSnapshot.getValue(Reservation.class));
+//                        if (!changedReservation.isAvailable) {
+//                            for (Reservation r : availableSlotsByDayList) {
+//                                if (changedReservation.getReservationId().equals(r.getReservationId())) {
+//                                    availableSlotsByDayList.remove(r);
+//                                    byDayAdapter.notifyDataSetChanged();
+//                                }
+//                            }
+//                        }
                     }
 
                     @Override
@@ -116,83 +194,6 @@ public class VenueDetailsPage extends AppCompatActivity {
                     }
                 }
         );
-
-        recyclerView = findViewById(R.id.recyclerview);
-        RecyclerViewLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(RecyclerViewLayoutManager);
-        availableSlotsByDayList = new ArrayList<>();
-        byDayAdapter = new AvailableTimeslotAdapter(availableSlotsByDayList);
-
-        HorizontalLayout = new LinearLayoutManager(VenueDetailsPage.this, LinearLayoutManager.HORIZONTAL,
-                false);
-        recyclerView.setLayoutManager(HorizontalLayout);
-        recyclerView.setAdapter(byDayAdapter);
-
-        dateSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                showAvailableTimeSlots();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
-            }
-        });
-
-        bookButton = findViewById(R.id.bookNowButton);
-        bookButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int pos = 0;
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setTitle("Book Reservation");
-
-                LinearLayout layout = new LinearLayout(v.getContext());
-                layout.setOrientation(LinearLayout.VERTICAL);
-                builder.setView(layout);
-
-                // Set up the buttons
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        //TODO: Clicking "yes" should create the reservation instance
-                        // in the database, and take user to reservationDetailsPage
-                        // with correct information displayed
-
-                        Intent i = new Intent(v.getContext(), ReservationDetailsPage.class);
-                        startActivity(i);
-                    }
-
-
-                });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                builder.show();
-
-            }
-
-        });
-    }
-
-    //Shows available timeslots based on the date selected in the dropdown
-    public void showAvailableTimeSlots() {
-
-        availableSlotsByDayList.clear();
-        for (Reservation r : fullReservationList) {
-            if (r.getDate().equals(dateSelector.getSelectedItem().toString())) {
-                availableSlotsByDayList.add(r);
-            }
-        }
-        byDayAdapter.notifyDataSetChanged();
     }
 
     //Todo also filter out past reservations

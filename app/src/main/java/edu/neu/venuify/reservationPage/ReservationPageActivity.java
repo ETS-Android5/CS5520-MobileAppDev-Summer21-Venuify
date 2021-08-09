@@ -57,14 +57,13 @@ public class ReservationPageActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_reservation_page);
-
-        //sets bottom tool bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //creating the database and recycler views
+        mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
         createRecyclerView();
         createDatabaseListener();
 
@@ -86,13 +85,9 @@ public class ReservationPageActivity extends BaseActivity {
 
     //sets the button on the "tab layout" so we can go to the past reservation recycler view
     public void onClick(View v) {
-        switch (v.getId()) {
-
-            case R.id.past1button:
-                Intent j = new Intent(this, ReservationPagePastActivity.class);
-                startActivity(j);
-                break;
-
+        if (v.getId() == R.id.past1button) {
+            Intent j = new Intent(this, ReservationPagePastActivity.class);
+            startActivity(j);
         }
     }
 
@@ -115,7 +110,6 @@ public class ReservationPageActivity extends BaseActivity {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
 
                         //before add reservations to recycler view for person, need to check the user
-                        mAuth = FirebaseAuth.getInstance();
                         String currentUserUid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
                         //if the user id is equal the user id listed under the reservation, display it
@@ -138,10 +132,20 @@ public class ReservationPageActivity extends BaseActivity {
                     public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
 
+                        int pos = reservationsList.indexOf(reservation);
+                        reservationsList.set(pos, reservation);
+                        recyclerViewAdapter.notifyItemChanged(pos);
+
                     }
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                        Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
+
+                        int pos = reservationsList.indexOf(reservation);
+                        reservationsList.remove(pos);
+                        recyclerViewAdapter.notifyItemChanged(pos);
+
                     }
 
                     @Override
@@ -157,10 +161,7 @@ public class ReservationPageActivity extends BaseActivity {
     //adds a reservation object to the recycler view of all upcoming reservations
     private void addReservationObjectToRecycler(Reservation reservation) {
 
-
-        Reservation reservationObject = new Reservation(reservation.venue, reservation.date, reservation.time, reservation.numGuests, reservation.price, reservation.user);
-
-        reservationsList.add(0, reservationObject);
+        reservationsList.add(0, reservation);
         recyclerViewAdapter.notifyDataSetChanged();
 
 
