@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -96,6 +97,10 @@ public class VenueDetailsPage extends AppCompatActivity {
             }
         });
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     private void initializeAttributes() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -107,8 +112,8 @@ public class VenueDetailsPage extends AppCompatActivity {
 
     private void setUpAvailableTimesHorizontalRecyclerView() {
         recyclerView = findViewById(R.id.recyclerview);
-        RecyclerViewLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(RecyclerViewLayoutManager);
+//        RecyclerViewLayoutManager = new LinearLayoutManager(getApplicationContext());
+//        recyclerView.setLayoutManager(RecyclerViewLayoutManager);
         availableSlotsByDayList = new ArrayList<>();
         byDayAdapter = new AvailableTimeslotAdapter(availableSlotsByDayList);
 
@@ -169,9 +174,8 @@ public class VenueDetailsPage extends AppCompatActivity {
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
-//                        Reservation changedReservation = dataSnapshot.getValue(Reservation.class);
-//
-//                        if (changedReservation.isAvailable == false) {
+//                        Reservation changedReservation = Objects.requireNonNull(dataSnapshot.getValue(Reservation.class));
+//                        if (!changedReservation.isAvailable) {
 //                            for (Reservation r : availableSlotsByDayList) {
 //                                if (changedReservation.getReservationId().equals(r.getReservationId())) {
 //                                    availableSlotsByDayList.remove(r);

@@ -48,18 +48,16 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
         TextView textView;
         private FirebaseAuth mAuth;
         private DatabaseReference mDatabase;
-        EditText numGuests;
 
         // parameterised constructor for View Holder class
         // which takes the view as a parameter
-        public MyView(View view) {
+        public MyView(View view, EditText numGuests) {
             super(view);
 
             // initialise TextView with id
             textView = (TextView) view
                     .findViewById(R.id.availableTimeslot);
             mAuth = FirebaseAuth.getInstance();
-            numGuests = (EditText) view.findViewById(R.id.numGuests);
 
             mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -90,10 +88,14 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            reservation.setNumGuests(Integer.valueOf(numGuests.getText().toString()));
+                            reservation.setAvailable(false);
+                            reservation.setResUid(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
                             Map<String, Object> map = new HashMap<>();
                             map.put("/reservations/" + reservation.getReservationId() + "/isAvailable/", false);
                             map.put("/reservations/" + reservation.getReservationId() + "/user/", mAuth.getCurrentUser().getUid());
+                            map.put("/reservations/" + reservation.getReservationId() + "/numGuests", reservation.getNumGuests());
+
                             mDatabase.updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -106,7 +108,7 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
                                             // Handle fail - can handle better if we want
-                                            Toast.makeText(getApplicationContext(),"Error confirming the reservation",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(view.getContext(),"Error confirming the reservation",Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         }
@@ -132,20 +134,20 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
     }
 
 
+    @NonNull
     @Override
     public MyView onCreateViewHolder(ViewGroup parent,
                                      int viewType) {
 
-        // Inflate item.xml using LayoutInflator
-        View itemView
+      EditText numGuests = parent.getRootView().findViewById(R.id.numGuests);
+      View itemView
                 = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.available_timeslot,
                         parent,
                         false);
 
-        // return itemView
-        return new MyView(itemView);
+        return new MyView(itemView, numGuests);
     }
 
     public void onBindViewHolder(final MyView holder,
