@@ -18,7 +18,7 @@ import edu.neu.venuify.reservationPage.ReservationPageActivity;
 
 public abstract class BaseActivity extends AppCompatActivity implements BottomNavigationView.OnItemSelectedListener {
     protected BottomNavigationView navigationView;
-   // protected MenuItem account1;
+    protected MenuItem account1;
 
 
     @Override
@@ -27,20 +27,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
         setContentView(getContentViewId());
         navigationView = findViewById(R.id.bottom_nav_bar);
         navigationView.setOnItemSelectedListener(this);
-       // account1 = findViewById(R.id.account);
-        //account1.setOnMenuItemClickListener(this::onNavigationItemSelected);
-       // account1.setOnMenuItemClickListener((MenuItem.OnMenuItemClickListener) this);
-       // account1.setOnItemSelectedListener(this);
-
-
-        /*account1.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-               // new Intent(getApplicationContext(), AccountPageActivity.class);
-               // return true;
-                return false;
-            }
-        });*/
     }
 
     @Override
@@ -65,6 +51,18 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.account:
+                startActivity(new Intent(this, AccountPageActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
@@ -100,15 +98,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
             return true;
 
         }
-
-       /* else if (itemId == R.id.account) {
-            startActivity(new Intent(this, AccountPageActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-
-        }*/
-
-
 
         return false;
     }
