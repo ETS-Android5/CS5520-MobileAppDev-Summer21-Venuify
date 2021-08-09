@@ -59,4 +59,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intentForRes = new Intent(this, ReservationPageActivity.class);
         startActivity(intentForRes);
     }
+
+
 }

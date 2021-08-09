@@ -1,10 +1,12 @@
 package edu.neu.venuify;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,8 @@ import edu.neu.venuify.reservationPage.ReservationPageActivity;
 
 public abstract class BaseActivity extends AppCompatActivity implements BottomNavigationView.OnItemSelectedListener {
     protected BottomNavigationView navigationView;
+   // protected MenuItem account1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,20 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
         setContentView(getContentViewId());
         navigationView = findViewById(R.id.bottom_nav_bar);
         navigationView.setOnItemSelectedListener(this);
+       // account1 = findViewById(R.id.account);
+        //account1.setOnMenuItemClickListener(this::onNavigationItemSelected);
+       // account1.setOnMenuItemClickListener((MenuItem.OnMenuItemClickListener) this);
+       // account1.setOnItemSelectedListener(this);
+
+
+        /*account1.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+               // new Intent(getApplicationContext(), AccountPageActivity.class);
+               // return true;
+                return false;
+            }
+        });*/
     }
 
     @Override
@@ -82,8 +100,20 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
             return true;
 
         }
+
+       /* else if (itemId == R.id.account) {
+            startActivity(new Intent(this, AccountPageActivity.class));
+            overridePendingTransition(0, 0);
+            return true;
+
+        }*/
+
+
+
         return false;
     }
+
+
 
 
     private void updateNavigationBarState(){
@@ -102,6 +132,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
             }
         }
     }
+
+
+
 
     public abstract int getContentViewId();
 

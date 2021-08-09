@@ -1,5 +1,6 @@
 package edu.neu.venuify;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -88,5 +89,6 @@ public class HomePage extends BaseActivity {
         venueCategories = new ArrayList<>();
         venueCategories.addAll(List.of(restaurants, sports, music, workspace));
     }
+
 
 }
