@@ -19,8 +19,6 @@ import edu.neu.venuify.reservationPage.ReservationPageActivity;
 
 public abstract class BaseActivity extends AppCompatActivity implements BottomNavigationView.OnItemSelectedListener {
     protected BottomNavigationView navigationView;
-    protected MenuItem account1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

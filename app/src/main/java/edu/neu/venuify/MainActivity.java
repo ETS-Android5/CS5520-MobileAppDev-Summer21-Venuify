@@ -27,11 +27,11 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        logOutBtn = findViewById(R.id.logout_btn);
+       /* logOutBtn = findViewById(R.id.logout_btn);
         logOutBtn.setOnClickListener(view -> {
             mAuth.signOut();
             openLoginPage();
-        });
+        });*/
     }
 
     @Override
