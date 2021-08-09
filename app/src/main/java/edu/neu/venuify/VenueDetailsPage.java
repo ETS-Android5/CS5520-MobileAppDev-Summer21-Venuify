@@ -97,10 +97,6 @@ public class VenueDetailsPage extends AppCompatActivity {
             }
         });
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     private void initializeAttributes() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
