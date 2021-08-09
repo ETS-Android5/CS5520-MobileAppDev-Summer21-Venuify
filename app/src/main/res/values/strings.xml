@@ -57,8 +57,14 @@
     <string name="resvenuename">ResVenueName</string>
     <string name="resdate">resDate</string>
     <string name="restime">ResTime</string>
-    <string name="time">Time:</string>
-    <string name="date">Date:</string>
+    <string name="time">Time</string>
+    <string name="date">Date</string>
     <string name="reservation_venue">Reservation Venue:</string>
     <string name="begin_scan">Begin Scan</string>
+    <string name="venue">Venue</string>
+    <string name="booking_confirmed">Booking Confirmed</string>
+    <string name="price">Price</string>
+    <string name="cancel_reservation">Cancel Reservation</string>
+    <string name="exit">Exit</string>
+    <string name="number_of_guests">Number of Guests</string>
 </resources>

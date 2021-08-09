@@ -58,8 +58,6 @@ public class VenueDetailsPage extends AppCompatActivity {
 
     //Keeps list of times that should be displayed based on the date selected in dropdown
     ArrayList<Reservation> availableSlotsByDayList;
-
-    RecyclerView.LayoutManager RecyclerViewLayoutManager;
     AvailableTimeslotAdapter byDayAdapter;
     LinearLayoutManager HorizontalLayout;
 
@@ -108,8 +106,6 @@ public class VenueDetailsPage extends AppCompatActivity {
 
     private void setUpAvailableTimesHorizontalRecyclerView() {
         recyclerView = findViewById(R.id.recyclerview);
-//        RecyclerViewLayoutManager = new LinearLayoutManager(getApplicationContext());
-//        recyclerView.setLayoutManager(RecyclerViewLayoutManager);
         availableSlotsByDayList = new ArrayList<>();
         byDayAdapter = new AvailableTimeslotAdapter(availableSlotsByDayList);
 
@@ -153,8 +149,8 @@ public class VenueDetailsPage extends AppCompatActivity {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
 
-                        Reservation reservation = dataSnapshot.getValue(Reservation.class);
-                        reservation.setReservationId(dataSnapshot.getKey());
+                        Reservation reservation = Objects.requireNonNull(dataSnapshot.getValue(Reservation.class));
+                        reservation.setReservationId(Objects.requireNonNull(dataSnapshot.getKey()));
 
                         if (isFutureAvailableReservation(reservation, venueObject)) {
 

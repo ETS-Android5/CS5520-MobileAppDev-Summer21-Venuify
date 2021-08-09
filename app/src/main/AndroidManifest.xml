@@ -55,7 +55,7 @@
         </activity>
 
         <activity android:name=".ReservationDetailsPage"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
+            android:configChanges="orientation|screenLayout|keyboardHidden">
         </activity>
 
         <activity android:name=".VenueDetailsPage"
