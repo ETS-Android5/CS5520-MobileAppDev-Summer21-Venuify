@@ -1,5 +1,6 @@
 package edu.neu.venuify;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
@@ -56,13 +57,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.account:
-                startActivity(new Intent(this, AccountPageActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.account) {
+            startActivity(new Intent(this, AccountPageActivity.class));
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
 
