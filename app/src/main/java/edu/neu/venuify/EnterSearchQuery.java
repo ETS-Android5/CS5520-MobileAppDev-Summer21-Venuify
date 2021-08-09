@@ -28,12 +28,11 @@ import edu.neu.venuify.Models.VenueObject;
 
 public class EnterSearchQuery extends AppCompatActivity {
     private final ArrayList<VenueObject> results = new ArrayList<>();
-    private final String STOPSTRING = "\\uf8ff";
     public static final int NO_RESULTS = -255;
 
 
     @Override
-    protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_search_query);
         ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
@@ -50,7 +49,6 @@ public class EnterSearchQuery extends AppCompatActivity {
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search_menu_item).getActionView();
-        // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
         searchView.requestFocus();
