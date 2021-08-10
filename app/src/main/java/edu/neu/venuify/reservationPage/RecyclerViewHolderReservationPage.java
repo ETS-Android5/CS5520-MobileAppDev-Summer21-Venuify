@@ -23,6 +23,7 @@ import edu.neu.venuify.Models.VenueObject;
 import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
 import edu.neu.venuify.ReservationDetailsPage;
+import edu.neu.venuify.Utils;
 import edu.neu.venuify.VenueDetailsPage;
 
 /**
@@ -55,6 +56,9 @@ public class RecyclerViewHolderReservationPage extends RecyclerView.ViewHolder {
                     RecyclerViewAdapterReservationPage venueAdapter = Objects.requireNonNull((RecyclerViewAdapterReservationPage) getBindingAdapter());
                     Reservation venueClicked = venueAdapter.getReservationList().get(position);
                     Intent intent = new Intent(v.getContext(), ReservationDetailsPage.class);
+                    if (!Utils.dateIsInFuture(venueClicked.getDate())) {
+                        intent.putExtra("hideCancel", true);
+                    }
                     intent.putExtra("itemClickedInResList", venueClicked);
                     v.getContext().startActivity(intent);
 
