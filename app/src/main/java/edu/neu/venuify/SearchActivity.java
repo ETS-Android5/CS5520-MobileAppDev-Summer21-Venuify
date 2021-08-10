@@ -1,6 +1,5 @@
 package edu.neu.venuify;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +11,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -53,10 +52,10 @@ public class SearchActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RecyclerView searchRecyclerView = findViewById(R.id.searchRecyclerView);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         venueObjectAdapter = new VenueObjectAdapter(results);
         searchRecyclerView.setAdapter(venueObjectAdapter);
-        searchRecyclerView.setLayoutManager(linearLayoutManager);
+        searchRecyclerView.setLayoutManager(gridLayoutManager);
     }
 
 

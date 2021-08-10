@@ -166,15 +166,15 @@ public class VenueDetailsPage extends AppCompatActivity {
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
-//                        Reservation changedReservation = Objects.requireNonNull(dataSnapshot.getValue(Reservation.class));
-//                        if (!changedReservation.isAvailable) {
-//                            for (Reservation r : availableSlotsByDayList) {
-//                                if (changedReservation.getReservationId().equals(r.getReservationId())) {
-//                                    availableSlotsByDayList.remove(r);
-//                                    byDayAdapter.notifyDataSetChanged();
-//                                }
-//                            }
-//                        }
+                        Reservation changedReservation = Objects.requireNonNull(dataSnapshot.getValue(Reservation.class));
+                        if (!changedReservation.isAvailable) {
+                            for (Reservation r : availableSlotsByDayList) {
+                                if (changedReservation.getReservationId().equals(r.getReservationId())) {
+                                    availableSlotsByDayList.remove(r);
+                                    byDayAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
                     }
 
                     @Override
