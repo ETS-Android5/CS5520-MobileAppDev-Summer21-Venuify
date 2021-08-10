@@ -3,6 +3,7 @@ package edu.neu.venuify;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import edu.neu.venuify.Entities.User;
 public class AccountPageActivity extends AppCompatActivity {
 
     private Button logOutBtn;
+    private ImageView goBack;
     FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
@@ -82,11 +84,17 @@ public class AccountPageActivity extends AppCompatActivity {
 
 
 
-        // LOG OUT
+        // LOG OUT button
         logOutBtn = findViewById(R.id.logout_btn2);
         logOutBtn.setOnClickListener(view -> {
             mAuth.signOut();
             openLoginPage();
+        });
+
+        // GoBack Button
+        goBack = findViewById(R.id.goBack);
+        goBack.setOnClickListener(view -> {
+            finish();
         });
     }
 
