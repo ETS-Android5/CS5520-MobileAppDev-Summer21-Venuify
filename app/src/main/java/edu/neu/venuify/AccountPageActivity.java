@@ -33,9 +33,7 @@ public class AccountPageActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        String currentUser = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
 
 
         mDatabase.child("users").addChildEventListener(
@@ -45,14 +43,13 @@ public class AccountPageActivity extends AppCompatActivity {
                         User user = Objects.requireNonNull(snapshot.getValue(User.class));
 
 
-                        //before add reservations to recycler view for person, need to check the user
+                        //get current user Id from Firebase
                         String currentUserUid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
-                        //if the user id is equal the user id listed under the reservation, display it
+                        //if the user id from Firbase equals the user id of the User from User class
                         if (currentUserUid.equals(user.getUid())) {
 
-
-                            //get reservation date and send to function to evaluate if in past
+                            //display first and last name of user on account page
                             String userFirstName = user.getFirstName();
                             String userLastName = user.getLastName();
 
@@ -61,8 +58,6 @@ public class AccountPageActivity extends AppCompatActivity {
 
                             firstN.setText(userFirstName);
                             lastN.setText(userLastName);
-
-
                         }
                     }
 
@@ -87,9 +82,7 @@ public class AccountPageActivity extends AppCompatActivity {
 
 
 
-
-
-
+        // LOG OUT
         logOutBtn = findViewById(R.id.logout_btn2);
         logOutBtn.setOnClickListener(view -> {
             mAuth.signOut();
