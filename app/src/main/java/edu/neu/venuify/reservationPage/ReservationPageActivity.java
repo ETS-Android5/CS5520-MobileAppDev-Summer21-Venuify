@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.neu.venuify.BaseActivity;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import edu.neu.venuify.R;
@@ -160,11 +161,8 @@ public class ReservationPageActivity extends BaseActivity {
     }
     //adds a reservation object to the recycler view of all upcoming reservations
     private void addReservationObjectToRecycler(Reservation reservation) {
-
         reservationsList.add(0, reservation);
         recyclerViewAdapter.notifyDataSetChanged();
-
-
     }
 
 

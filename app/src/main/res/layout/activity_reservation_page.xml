@@ -16,6 +16,7 @@
             android:layout_height="59dp"
             android:text="@string/upcoming1"
             android:translationY="-5dp"
+            android:backgroundTint="#A6AAF4"
             app:layout_constraintEnd_toStartOf="@+id/past1button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

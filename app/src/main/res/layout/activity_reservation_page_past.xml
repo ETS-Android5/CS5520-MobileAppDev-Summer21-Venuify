@@ -27,6 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="59dp"
             android:text="@string/past3"
+            android:backgroundTint="#A6AAF4"
             android:translationY="-5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
