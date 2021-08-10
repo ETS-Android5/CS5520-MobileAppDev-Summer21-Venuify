@@ -16,7 +16,7 @@ import edu.neu.venuify.reservationPage.ReservationPageActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button logOutBtn;
+    //private Button logOutBtn;
     FirebaseAuth mAuth;
 
 
