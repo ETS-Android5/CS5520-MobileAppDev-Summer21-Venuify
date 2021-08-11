@@ -29,7 +29,7 @@ public class AccountPageActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     final AtomicInteger count = new AtomicInteger();
-    TextView numReservations;
+    private TextView numReservations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,8 @@ public class AccountPageActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        numReservations = (TextView) findViewById(R.id.numReservations);
+        numReservations = findViewById(R.id.numReservations);
+    //    numReservations.setText(String.valueOf(count));
 
         mDatabase.child("users").addChildEventListener(
                 new ChildEventListener() {
@@ -52,7 +53,7 @@ public class AccountPageActivity extends AppCompatActivity {
                         //get current user Id from Firebase
                         String currentUserUid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
-                        //if the user id from Firbase equals the user id of the User from User class
+                        //if the user id from Firebase equals the user id of the User from User class
                         if (currentUserUid.equals(user.getUid())) {
 
                             //display first and last name of user on account page
@@ -102,7 +103,7 @@ public class AccountPageActivity extends AppCompatActivity {
         });
 
 
-        getNumReservations();
+        //getNumReservations();
     }
 
     public void openLoginPage() {
@@ -119,8 +120,9 @@ public class AccountPageActivity extends AppCompatActivity {
                 Reservation reservation = dataSnapshot.getValue(Reservation.class);
                 if (reservation.user.equals(mAuth.getCurrentUser().getUid())) {
                     int newCount = count.incrementAndGet();
-                    numReservations.setText(Integer.toString(newCount));
+                    //numReservations.setText(Integer.toString(newCount));
                 }
+                numReservations.setText(String.valueOf(count));
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {}
