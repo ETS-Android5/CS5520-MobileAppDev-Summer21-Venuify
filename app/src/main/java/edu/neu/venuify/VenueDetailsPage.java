@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -146,6 +147,7 @@ public class VenueDetailsPage extends AppCompatActivity {
 
                             if (!dateAlreadySeen(reservation)) {
                                 reservationListToDisplay.add(reservation);
+                                Collections.sort(reservationListToDisplay, new DateComparator());
                                 keys.add(dataSnapshot.getKey());
                                 adapter.notifyDataSetChanged();
                             }
