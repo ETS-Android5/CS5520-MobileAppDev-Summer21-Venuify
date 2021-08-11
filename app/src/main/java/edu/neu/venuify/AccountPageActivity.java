@@ -29,6 +29,7 @@ public class AccountPageActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     final AtomicInteger count = new AtomicInteger();
+    TextView numReservations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class AccountPageActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        numReservations = (TextView) findViewById(R.id.numReservations);
 
         mDatabase.child("users").addChildEventListener(
                 new ChildEventListener() {
