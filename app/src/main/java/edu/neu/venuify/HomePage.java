@@ -60,6 +60,7 @@ public class HomePage extends BaseActivity {
                             category.getVenueObjectList().add(venueObject);
 
 
+                            Utils.venueMap.put(venueObject.getVenueName(), dataSnapshot.getKey());
                         }
                     });
                 }
