@@ -106,7 +106,6 @@ public class AccountPageActivity extends AppCompatActivity {
 
         getNumReservations();
 
-       // displayProgBar();
     }
 
     public void openLoginPage() {
@@ -150,12 +149,6 @@ public class AccountPageActivity extends AppCompatActivity {
         });
     }
 
-    public void displayProgBar() {
-        pBar = findViewById(R.id.progress_bar);
-        pBar.setProgress(Integer.parseInt(String.valueOf(count)));
 
-        TextView tv = findViewById(R.id.tv);
-        tv.setText(count + "/" + pBar.getMax());
-    }
 
 }
