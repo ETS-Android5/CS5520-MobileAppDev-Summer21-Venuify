@@ -41,7 +41,6 @@ public class HomePage extends BaseActivity {
         venueCategoryRecyclerView = findViewById(R.id.parent_recyclerview);
         loadingBar = findViewById(R.id.loadingBar);
         buildCategories();
-        Utils.createVenueDatabase();
         getVenuesFromDatabase();
         databaseTimeout();
         handleIntent(getIntent());
@@ -64,6 +63,7 @@ public class HomePage extends BaseActivity {
                     venueCategories.forEach(category -> {
                         if (category.getVenueCategory().equals(venueObject.getCategory())) {
                             category.getVenueObjectList().add(venueObject);
+                            Utils.venueMap.put(venueObject.getVenueName(), dataSnapshot.getKey());
                         }
                     });
                 }

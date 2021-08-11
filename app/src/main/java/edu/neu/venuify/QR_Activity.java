@@ -8,10 +8,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -77,13 +73,7 @@ public class QR_Activity extends BaseActivity {
     }
 
     private boolean venueExistsInDatabase(VenueObject venueObject) {
-        DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference();
-        Task<DataSnapshot> snapshot = firebaseDatabase.child("Venues").equalTo("-M78945623").get();
-        while (!snapshot.isComplete()) {
-            continue;
-        }
-        return snapshot.isSuccessful();
-
+      return Utils.venueMap.containsValue(venueObject.getVenueName());
     }
 
 

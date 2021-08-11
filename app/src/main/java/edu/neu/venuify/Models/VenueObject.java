@@ -62,4 +62,17 @@ public class VenueObject implements Parcelable {
         dest.writeString(category);
         dest.writeString(imageId);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof VenueObject)) {
+            return false;
+        }
+        VenueObject other = (VenueObject) obj;
+        return (this.getVenueName().equalsIgnoreCase(other.getVenueName())) && (this.getImageId().equalsIgnoreCase(other.getImageId()));
+    }
 }

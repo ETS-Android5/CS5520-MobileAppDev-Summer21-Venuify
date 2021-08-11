@@ -1,28 +1,26 @@
 package edu.neu.venuify;
+
 import android.content.Context;
-import android.content.ServiceConnection;
-import android.text.format.DateFormat;
-import android.text.format.DateUtils;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
-import java.util.TimeZone;
+
 
 import edu.neu.venuify.Models.VenueCategory;
 import edu.neu.venuify.Models.VenueObject;
 
 public class Utils {
     static List<VenueCategory> venueCategories;
+    static Map<String, String> venueMap = new HashMap<>();
 
     public static void createVenueDatabase() {
         new Thread(new Runnable() {
@@ -175,9 +173,7 @@ public class Utils {
             //if its this year, and this month, then compare day
             if (currentMonth.equals(reservationMonth)) {
                 //check day
-                if (currentDay <= reservationDay) {
-                    return true;
-                }
+                return currentDay <= reservationDay;
 
             }
         }
