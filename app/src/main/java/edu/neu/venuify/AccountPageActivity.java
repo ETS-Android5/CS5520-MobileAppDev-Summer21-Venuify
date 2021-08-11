@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ public class AccountPageActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     final AtomicInteger count = new AtomicInteger();
     private TextView numReservations;
+    private ProgressBar pBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,8 @@ public class AccountPageActivity extends AppCompatActivity {
 
 
         getNumReservations();
+
+       // displayProgBar();
     }
 
     public void openLoginPage() {
@@ -122,6 +126,13 @@ public class AccountPageActivity extends AppCompatActivity {
                     //numReservations.setText(Integer.toString(newCount));
                 }
                 numReservations.setText(String.valueOf(count));
+
+                pBar = findViewById(R.id.progress_bar);
+                pBar.setProgress(Integer.parseInt(String.valueOf(count)));
+
+                TextView tv = findViewById(R.id.tv);
+                tv.setText(count + "/" + pBar.getMax());
+
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {}
@@ -137,6 +148,14 @@ public class AccountPageActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {}
             // ...
         });
+    }
+
+    public void displayProgBar() {
+        pBar = findViewById(R.id.progress_bar);
+        pBar.setProgress(Integer.parseInt(String.valueOf(count)));
+
+        TextView tv = findViewById(R.id.tv);
+        tv.setText(count + "/" + pBar.getMax());
     }
 
 }
