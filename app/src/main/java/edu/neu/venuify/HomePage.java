@@ -88,5 +88,4 @@ public class HomePage extends BaseActivity {
         venueCategories = new ArrayList<>();
         venueCategories.addAll(List.of(restaurants, sports, music, workspace));
     }
-
 }

@@ -37,7 +37,7 @@ public class VenueCategoryAdapter extends RecyclerView.Adapter<VenueCategoryAdap
                         LinearLayoutManager.HORIZONTAL,false);
         venueCategoryViewHolder.childRecyclerView.setLayoutManager(layoutManager);
         venueCategoryViewHolder.childRecyclerView.setRecycledViewPool(viewPool);
-        venueCategoryViewHolder.childRecyclerView.setHasFixedSize(true);
+//        venueCategoryViewHolder.childRecyclerView.setHasFixedSize(true);
         venueCategoryViewHolder.childRecyclerView.setItemViewCacheSize(10);
 
         return venueCategoryViewHolder;

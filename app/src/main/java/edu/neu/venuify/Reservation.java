@@ -157,5 +157,4 @@ public class Reservation implements Parcelable {
         return date.equals(r.date) && venue.equals((r.venue));
 
     }
-
 }

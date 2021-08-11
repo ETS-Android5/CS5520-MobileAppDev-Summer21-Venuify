@@ -35,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -158,23 +159,26 @@ public class VenueDetailsPage extends AppCompatActivity {
 
                             if (!dateAlreadySeen(reservation)) {
 
+                                reservationListToDisplay.add(reservation);
+                                Collections.sort(reservationListToDisplay, new DateComparator());
+
                                 //Puts dates in ReservationListToDisplay array in sorted order
 
-                                if (reservationListToDisplay.isEmpty()) {
-                                    reservationListToDisplay.add(reservation);
-                                }
-                                else {
-                                    for (int i = 0; i < reservationListToDisplay.size(); i++) {
-                                        if (Utils.compareDates(reservationListToDisplay.get(i).date,reservation.date)) {
-                                            reservationListToDisplay.add(i, reservation);
-                                            break;
-                                        }
-                                        else if (i == reservationListToDisplay.size() - 1) {
-                                            reservationListToDisplay.add(reservation);
-                                            break;
-                                        }
-                                    }
-                                }
+//                                if (reservationListToDisplay.isEmpty()) {
+//                                    reservationListToDisplay.add(reservation);
+//                                }
+//                                else {
+//                                    for (int i = 0; i < reservationListToDisplay.size(); i++) {
+//                                        if (Utils.compareDates(reservationListToDisplay.get(i).date,reservation.date)) {
+//                                            reservationListToDisplay.add(i, reservation);
+//                                            break;
+//                                        }
+//                                        else if (i == reservationListToDisplay.size() - 1) {
+//                                            reservationListToDisplay.add(reservation);
+//                                            break;
+//                                        }
+//                                    }
+//                                }
                                 keys.add(dataSnapshot.getKey());
                                 adapter.notifyDataSetChanged();
                             }
