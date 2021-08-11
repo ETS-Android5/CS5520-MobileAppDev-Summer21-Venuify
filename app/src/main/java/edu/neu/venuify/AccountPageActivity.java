@@ -41,7 +41,6 @@ public class AccountPageActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         numReservations = findViewById(R.id.numReservations);
-    //    numReservations.setText(String.valueOf(count));
 
         mDatabase.child("users").addChildEventListener(
                 new ChildEventListener() {
@@ -103,7 +102,7 @@ public class AccountPageActivity extends AppCompatActivity {
         });
 
 
-        //getNumReservations();
+        getNumReservations();
     }
 
     public void openLoginPage() {
