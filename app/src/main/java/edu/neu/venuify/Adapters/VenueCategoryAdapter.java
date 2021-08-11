@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.neu.venuify.Models.VenueCategory;
@@ -37,7 +36,6 @@ public class VenueCategoryAdapter extends RecyclerView.Adapter<VenueCategoryAdap
                         LinearLayoutManager.HORIZONTAL,false);
         venueCategoryViewHolder.childRecyclerView.setLayoutManager(layoutManager);
         venueCategoryViewHolder.childRecyclerView.setRecycledViewPool(viewPool);
-        venueCategoryViewHolder.childRecyclerView.setHasFixedSize(true);
         venueCategoryViewHolder.childRecyclerView.setItemViewCacheSize(10);
 
         return venueCategoryViewHolder;

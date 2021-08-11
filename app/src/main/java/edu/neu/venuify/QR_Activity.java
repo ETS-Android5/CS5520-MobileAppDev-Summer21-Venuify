@@ -45,7 +45,7 @@ public class QR_Activity extends BaseActivity {
             } else {
                 Intent openVenueDetails = new Intent(getApplicationContext(), VenueDetailsPage.class);
                 VenueObject venueObject = parseQRCode(intentResult);
-                if (venueObject.getVenueName().equals("") && venueObject.getImageId() == 0) {
+                if (venueObject.getVenueName().equals("") && venueObject.getImageId().equals("")) {
                    makeCenteredToast("Error reading QR code.");
                 }
                 else {
@@ -68,12 +68,12 @@ public class QR_Activity extends BaseActivity {
             JSONObject jsonObject = new JSONObject(intentResult.getContents());
             String name = jsonObject.getString("VenueName");
             String category = jsonObject.getString("Category");
-            int imageId = jsonObject.getInt("ImageId");
+            String imageId = jsonObject.getString("ImageId");
             return new VenueObject(name, category, imageId);
         } catch (JSONException jsonException) {
             jsonException.printStackTrace();
         }
-        return new VenueObject("", "", 0);
+        return new VenueObject("", "", "");
     }
 
     private boolean venueExistsInDatabase(VenueObject venueObject) {
