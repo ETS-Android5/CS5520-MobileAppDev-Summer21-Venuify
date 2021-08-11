@@ -70,9 +70,16 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
                     AvailableTimeslotAdapter adapter = Objects.requireNonNull((AvailableTimeslotAdapter) getBindingAdapter());
                     Reservation reservation = adapter.list.get(position);
 
+                    String guestCount;
+                    if (numGuests.getText().toString().equals("")) {
+                        guestCount = "0";
+                    }
+                    else {
+                        guestCount = numGuests.getText().toString();
+                    }
 
                     String confirmTitle = "Book " + reservation.getVenue() + " on " + reservation.getDate()
-                            + " at " + reservation.getTime() + " for guests " + numGuests.getText().toString() +  " ?";
+                            + " at " + reservation.getTime() + " for " + guestCount + " guest(s)?";
 
                     int pos = 0;
                     AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());

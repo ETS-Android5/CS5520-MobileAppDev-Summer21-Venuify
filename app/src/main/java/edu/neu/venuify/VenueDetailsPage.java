@@ -157,7 +157,24 @@ public class VenueDetailsPage extends AppCompatActivity {
                             fullReservationList.add(reservation);
 
                             if (!dateAlreadySeen(reservation)) {
-                                reservationListToDisplay.add(reservation);
+
+                                //Puts dates in ReservationListToDisplay array in sorted order
+
+                                if (reservationListToDisplay.isEmpty()) {
+                                    reservationListToDisplay.add(reservation);
+                                }
+                                else {
+                                    for (int i = 0; i < reservationListToDisplay.size(); i++) {
+                                        if (Utils.compareDates(reservationListToDisplay.get(i).date,reservation.date)) {
+                                            reservationListToDisplay.add(i, reservation);
+                                            break;
+                                        }
+                                        else if (i == reservationListToDisplay.size() - 1) {
+                                            reservationListToDisplay.add(reservation);
+                                            break;
+                                        }
+                                    }
+                                }
                                 keys.add(dataSnapshot.getKey());
                                 adapter.notifyDataSetChanged();
                             }

@@ -184,4 +184,43 @@ public class Utils {
         return false;
     }
 
+    /*
+    Input: Two dates in this strict format "DD/MM/YYYY"
+    Returns true if date 1 is more in the future than (or equal to) date 2, false otherwise
+    Example: compareDates("11/22/2022", "10/22/2022") would return true
+     */
+    public static boolean compareDates(String date1, String date2) {
+
+        int year1 = Integer.parseInt(date1.substring(date1.length() - 4));
+        int year2 = Integer.parseInt(date2.substring(date2.length() - 4));
+
+        if (year1 > year2) {
+            return true;
+        }
+        else if (year2 > year1) {
+            return false;
+        }
+
+        //Case where same year, compare the months
+        else {
+            int month1 = Integer.parseInt(date1.substring(0,2));
+            int month2 = Integer.parseInt(date2.substring(0,2));
+
+            if (month1 > month2) {
+                return true;
+            }
+            else if (month2 > month1) {
+                return false;
+            }
+
+            //Case where same year and same month, compare days
+            else {
+                int day1 = Integer.parseInt(date1.substring(3,5));
+                int day2 = Integer.parseInt(date2.substring(3,5));
+
+                return (day1 >= day2);
+            }
+        }
+    }
+
 }
