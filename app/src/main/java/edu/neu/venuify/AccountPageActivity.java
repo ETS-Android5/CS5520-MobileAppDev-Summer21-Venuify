@@ -127,10 +127,21 @@ public class AccountPageActivity extends AppCompatActivity {
                 numReservations.setText(String.valueOf(count));
 
                 pBar = findViewById(R.id.progress_bar);
-                pBar.setProgress(Integer.parseInt(String.valueOf(count)));
-
                 TextView tv = findViewById(R.id.tv);
-                tv.setText(count + "/" + pBar.getMax());
+
+                Integer mod = Integer.parseInt(String.valueOf(count)) % 5;
+
+                if (mod == 0 && Integer.parseInt(String.valueOf(count)) != 0) {
+                    pBar.setProgress(5);
+                    tv.setText("5" + "/" + pBar.getMax());
+                } else {
+                    pBar.setProgress(mod);
+                    tv.setText(mod + "/" + pBar.getMax());
+                }
+
+               // pBar.setProgress(Integer.parseInt(String.valueOf(count)));
+
+              //  tv.setText(mod + "/" + pBar.getMax());
 
             }
             @Override
