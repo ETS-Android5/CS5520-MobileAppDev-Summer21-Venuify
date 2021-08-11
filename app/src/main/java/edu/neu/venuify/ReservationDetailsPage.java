@@ -1,16 +1,19 @@
 package edu.neu.venuify;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -18,7 +21,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+
+import edu.neu.venuify.reservationPage.ReservationPageActivity;
 
 
 public class ReservationDetailsPage extends AppCompatActivity {
@@ -35,7 +42,7 @@ public class ReservationDetailsPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reservation_details_page);
-
+        Button cancelButton = findViewById(R.id.cancelButton);
         Button closeButton = findViewById(R.id.closeButton);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,11 +50,15 @@ public class ReservationDetailsPage extends AppCompatActivity {
                 finish();
             }
         });
+        Intent intent = getIntent();
+        if (intent.hasExtra("hideCancel")) {
+            cancelButton.setVisibility(View.GONE);
+        }
 
         //when an item in the reservations is clicked, we create a new ReservationDetailsPage
         //from that activity, send the info from the object clicked through a ParcelableExtra.
         //Here, we make a new Reservation object, to be able to set each field when the reservation appears.
-        Reservation reservationObject = getIntent().getParcelableExtra("itemClickedInResList");
+        Reservation reservationObject = intent.getParcelableExtra("itemClickedInResList");
 
         //set the text of the reservation to match the item clicked
         TextView venueTitleOnReservation = findViewById(R.id.venueInfo);
@@ -86,15 +97,20 @@ public class ReservationDetailsPage extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        //TODO: handle cancel reservation - remove the reservation from database
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("/reservations/" + reservationObject.getReservationId() + "/isAvailable/", true);
+                        map.put("/reservations/" + reservationObject.getReservationId() + "/user/", "");
+                        map.put("/reservations/" + reservationObject.getReservationId() + "/numGuests", 0);
 
-                                Snackbar.make(v, "Reservation Canceled", Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
-
-                                finish();
-                        }
-
-
+                        mDatabase.updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(v.getContext(), "Reservation Canceled", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(v.getContext(), ReservationPageActivity.class);
+                                v.getContext().startActivity(intent);
+                            }
+                        });
+                    }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
@@ -146,11 +162,11 @@ public class ReservationDetailsPage extends AppCompatActivity {
                         Integer numGuests = reservation.getNumGuests();
                         String price = reservation.getPrice();
 
-                        TextView venueInfo = (TextView) findViewById(R.id.venueInfo);
-                        TextView dateInfo = (TextView) findViewById(R.id.dateInfo);
-                        TextView timeInfo = (TextView) findViewById(R.id.timeInfo);
-                        TextView numGuestsInfo = (TextView) findViewById(R.id.numGuestInfo);
-                        TextView priceInfo = (TextView) findViewById(R.id.priceInfo);
+                        TextView venueInfo = findViewById(R.id.venueInfo);
+                        TextView dateInfo = findViewById(R.id.dateInfo);
+                        TextView timeInfo =  findViewById(R.id.timeInfo);
+                        TextView numGuestsInfo = findViewById(R.id.numGuestInfo);
+                        TextView priceInfo = findViewById(R.id.priceInfo);
 
                         venueInfo.setText(venue);
                         dateInfo.setText(date);

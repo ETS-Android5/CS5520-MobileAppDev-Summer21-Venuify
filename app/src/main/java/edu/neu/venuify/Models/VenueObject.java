@@ -5,14 +5,14 @@ import android.os.Parcelable;
 
 public class VenueObject implements Parcelable {
     private String venueName;
-    private int imageId;
+    private String imageId;
     private String category;
 
     public VenueObject() {
 
     }
 
-    public VenueObject(String venueName, String category, int ImageId) {
+    public VenueObject(String venueName, String category, String ImageId) {
 
         this.venueName = venueName;
         this.imageId = ImageId;
@@ -22,7 +22,7 @@ public class VenueObject implements Parcelable {
     public VenueObject(Parcel in) {
         venueName = in.readString();
         category = in.readString();
-        imageId = in.readInt();
+        imageId = in.readString();
 
     }
 
@@ -45,7 +45,7 @@ public class VenueObject implements Parcelable {
         this.venueName = venueName;
     }
 
-    public int getImageId() { return imageId; }
+    public String getImageId() { return imageId; }
 
     public String getCategory() { return category; }
 
@@ -60,6 +60,6 @@ public class VenueObject implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(venueName);
         dest.writeString(category);
-        dest.writeInt(imageId);
+        dest.writeString(imageId);
     }
 }

@@ -89,7 +89,7 @@ public class EnterSearchQuery extends AppCompatActivity {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     String venueName = Objects.requireNonNull(postSnapshot.child("venueName").getValue(String.class));
                     if (venueQuery.equalsIgnoreCase(venueName) || venueName.toLowerCase().contains(venueQuery.toLowerCase())) {
-                        Integer imageID = Objects.requireNonNull(postSnapshot.child("imageId").getValue(Integer.class));
+                        String imageID = Objects.requireNonNull(postSnapshot.child("imageId").getValue(String.class));
                         String category = Objects.requireNonNull(postSnapshot.child("category").getValue(String.class));
                         VenueObject venueObject = new VenueObject(venueName, category, imageID);
                         results.add(venueObject);
