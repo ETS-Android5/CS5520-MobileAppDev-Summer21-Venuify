@@ -26,6 +26,7 @@ import java.util.Objects;
 import edu.neu.venuify.Authentication.LoginActivity;
 import edu.neu.venuify.R;
 import edu.neu.venuify.Models.VenueObject;
+import edu.neu.venuify.Utils;
 import edu.neu.venuify.VenueDetailsPage;
 
 public class VenueObjectAdapter extends RecyclerView.Adapter<VenueObjectAdapter.VenueObjectViewHolder>  {
@@ -46,7 +47,7 @@ public class VenueObjectAdapter extends RecyclerView.Adapter<VenueObjectAdapter.
     @Override
     public void onBindViewHolder(@NonNull VenueObjectViewHolder venueHolder, int position) {
         VenueObject venueObject = venueObjectList.get(position);
-        Picasso.get().load(venueObject.getImageId()).noFade().resize(100,100).into(venueHolder.imageView);
+        Picasso.get().load(Utils.getImageResourceId(venueHolder.itemView.getContext(), venueObject)).noFade().resize(100,100).into(venueHolder.imageView);
         venueHolder.venueName.setText(venueObject.getVenueName());
 
     }
