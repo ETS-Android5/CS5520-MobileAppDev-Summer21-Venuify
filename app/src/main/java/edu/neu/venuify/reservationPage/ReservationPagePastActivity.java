@@ -24,6 +24,7 @@ import edu.neu.venuify.BaseActivity;
 import edu.neu.venuify.DateComparator;
 import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
+import edu.neu.venuify.ReservationComparator;
 import edu.neu.venuify.Utils;
 
 /**
@@ -155,7 +156,7 @@ public class ReservationPagePastActivity extends BaseActivity {
     private void addReservationObjectToRecycler(Reservation reservation) {
 
         reservationsList.add(0, reservation);
-        Collections.sort(reservationsList, new DateComparator());
+        Collections.sort(reservationsList, new ReservationComparator());
         Collections.reverse(reservationsList);
         recyclerViewAdapter.notifyDataSetChanged();
 
