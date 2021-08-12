@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -156,6 +157,13 @@ public class ReservationPagePastActivity extends BaseActivity {
     private void addReservationObjectToRecycler(Reservation reservation) {
 
         reservationsList.add(0, reservation);
+
+        //does not display "no reservations available" message if have a reservation
+        if (reservationsList.size() > 0) {
+            TextView noAvailableMessage = findViewById(R.id.noPastResAvailableMsg);
+            noAvailableMessage.setVisibility(View.GONE);
+        }
+
         Collections.sort(reservationsList, new ReservationComparator());
         Collections.reverse(reservationsList);
         recyclerViewAdapter.notifyDataSetChanged();

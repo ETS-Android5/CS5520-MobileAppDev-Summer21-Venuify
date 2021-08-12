@@ -1,83 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayoutRes"
     android:layout_width="match_parent"
     android:layout_height="130dp"
-    android:layout_marginRight="10dp"
     android:layout_marginLeft="9dp"
-    android:fadingEdge="vertical"
-    android:elevation="50dp"
+    android:layout_marginRight="10dp"
     android:clickable="true"
+    android:elevation="50dp"
+    android:fadingEdge="vertical"
     android:foreground="?selectableItemBackground">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="0dp"
-        android:layout_height="119dp"
-        android:background="@color/cardview_shadow_start_color"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cardview_shadow_start_color">
 
         <TextView
             android:id="@+id/reservationAtText"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginEnd="187dp"
+            android:layout_marginBottom="54dp"
             android:text="@string/reservation_venue"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textStyle="bold"
-            android:translationX="20dp"
-            android:translationY="32dp" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/reservationVenueNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/resvenuename"
-            android:translationX="-105dp"
-            android:translationY="60dp" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="49dp"
+            android:text="@string/resvenuename" />
 
         <TextView
             android:id="@+id/reservationDateText"
-            android:layout_width="88dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="4dp"
-            android:text="@string/resdate"
-            android:translationX="80dp"
-            android:translationY="30dp" />
+            android:layout_width="92dp"
+            android:layout_height="39dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="27dp"
+            android:layout_marginBottom="60dp"
+            android:text="@string/resdate" />
 
         <TextView
             android:id="@+id/resTimeText"
             android:layout_width="100dp"
             android:layout_height="31dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/restime"
-            android:translationX="-10dp"
-            android:translationY="39dp" />
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="19dp"
+            android:layout_marginBottom="35dp"
+            android:text="@string/restime" />
 
         <TextView
             android:id="@+id/textView13"
             android:layout_width="89dp"
             android:layout_height="37dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="73dp"
             android:text="@string/time"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textStyle="bold"
-            android:translationX="-161dp"
-            android:translationY="54dp" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textView10"
             android:layout_width="55dp"
             android:layout_height="33dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="107dp"
             android:text="@string/date"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textStyle="bold"
-            android:translationX="-250dp"
-            android:translationY="33dp" />
+            android:textStyle="bold" />
 
 
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
