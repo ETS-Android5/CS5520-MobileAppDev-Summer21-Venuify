@@ -201,6 +201,7 @@ public class ReservationPageActivity extends BaseActivity {
                 if (reservation.isAvailable) {
                     reservationsList.remove(i);
                     recyclerViewAdapter.notifyItemRemoved(i);
+                    displayNoReservations();
                     return;
                 }
 
@@ -208,11 +209,13 @@ public class ReservationPageActivity extends BaseActivity {
                 if (!(Objects.requireNonNull(mAuth.getCurrentUser()).getUid().equals(reservation.getResUid()))) {
                     reservationsList.remove(i);
                     recyclerViewAdapter.notifyItemRemoved(i);
+                    displayNoReservations();
                     return;
                 }
                 if (!Utils.dateIsInFuture(reservation.getDate())) {
                     reservationsList.remove(i);
                     recyclerViewAdapter.notifyItemRemoved(i);
+                    displayNoReservations();
                     return;
                 }
                 else {
@@ -222,15 +225,18 @@ public class ReservationPageActivity extends BaseActivity {
                 }
             }
         }
-        //if the size after remove the item is zero, then display the "no current reservation" msg
-        if (reservationsList.size() == 0) {
-            TextView noAvailableMessage = findViewById(R.id.noCurrentMsg);
-            noAvailableMessage.setVisibility(View.VISIBLE);
-        }
+
         // add a reservation
         if (Objects.requireNonNull(mAuth.getCurrentUser()).getUid().equals(reservation.getResUid())
                 && !reservation.isAvailable() && Utils.dateIsInFuture(reservation.getDate())) {
             addReservationObjectToRecycler(reservation);
+        }
+    }
+
+    private void displayNoReservations() {
+        if (reservationsList.size() == 0) {
+            TextView noAvailableMessage = findViewById(R.id.noCurrentMsg);
+            noAvailableMessage.setVisibility(View.VISIBLE);
         }
     }
 
