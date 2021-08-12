@@ -72,7 +72,7 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
 
                     String guestCount;
                     if (numGuests.getText().toString().equals("")) {
-                        guestCount = "0";
+                        guestCount = "1";
                     }
                     else {
                         guestCount = numGuests.getText().toString();

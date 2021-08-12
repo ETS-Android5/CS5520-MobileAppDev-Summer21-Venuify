@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -90,6 +91,8 @@ public class VenueDetailsPage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        EditText editText = findViewById(R.id.numGuests);
+        editText.getText().clear();
     }
 
     private void initializeAttributes() {
@@ -119,7 +122,6 @@ public class VenueDetailsPage extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
         findViewById(R.id.textView7).setVisibility(View.GONE);
         findViewById(R.id.textView8).setVisibility(View.GONE);
-        //findViewById(R.id.dateSelector).setVisibility(View.GONE);
 
 
         //only goes through this part if there are reservations
@@ -134,11 +136,9 @@ public class VenueDetailsPage extends AppCompatActivity {
                     //when there are reservations available, set "select a date" = visible
                     findViewById(R.id.textView7).setVisibility(View.VISIBLE);
                     findViewById(R.id.textView8).setVisibility(View.VISIBLE);
-                    //findViewById(R.id.dateSelector).setVisibility(View.VISIBLE);
-
-
-
-                    //                   progressBar.setVisibility(View.GONE);
+                }
+                else {
+                    noAvailableMessage.setVisibility(View.VISIBLE);
                 }
             }
         });
