@@ -96,7 +96,7 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            reservation.setNumGuests(Integer.valueOf(numGuests.getText().toString()));
+                            reservation.setNumGuests(Integer.valueOf(guestCount));
                             reservation.setAvailable(false);
                             reservation.setResUid(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
                             Map<String, Object> map = new HashMap<>();
