@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -110,14 +111,16 @@ public class AccountPageActivity extends AppCompatActivity {
 
     public void openLoginPage() {
         Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         startActivity(intent);
+        finish();
     }
 
     public void getNumReservations() {
 
         mDatabase.child("reservations").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String prevChildKey) {
                 // New child added, increment count
                 Reservation reservation = dataSnapshot.getValue(Reservation.class);
                 if (reservation.user.equals(mAuth.getCurrentUser().getUid())) {
@@ -130,7 +133,7 @@ public class AccountPageActivity extends AppCompatActivity {
                 pBar.setProgress(Integer.parseInt(String.valueOf(count)));
 
                 TextView tv = findViewById(R.id.tv);
-                tv.setText(count + "/" + pBar.getMax());
+                tv.setText(MessageFormat.format("{0}/{1}", count, pBar.getMax()));
 
             }
             @Override

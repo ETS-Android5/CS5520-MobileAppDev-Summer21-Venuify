@@ -15,21 +15,23 @@
             android:label="@string/title_activity_reservation_page1"
             android:theme="@style/Theme.Venuify.NoActionBar" />
         <activity android:name=".Authentication.RegisterUserActivity" />
-        <activity android:name=".Authentication.LoginActivity" />
+        <activity android:name=".Authentication.LoginActivity">
+
+        </activity>
         <activity
             android:name=".reservationPage.ReservationPageActivity"
             android:label="@string/title_activity_reservation_page1"
             android:theme="@style/Theme.Venuify.NoActionBar" />
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+<!--        <activity android:name=".MainActivity">-->
+<!--        </activity>-->
         <activity
             android:name=".HomePage"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity
             android:name=".QR_Activity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
