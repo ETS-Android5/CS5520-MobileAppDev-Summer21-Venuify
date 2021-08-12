@@ -28,6 +28,7 @@ import java.util.Objects;
 import edu.neu.venuify.DateComparator;
 import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
+import edu.neu.venuify.ReservationComparator;
 import edu.neu.venuify.Utils;
 
 /**
@@ -162,7 +163,7 @@ public class ReservationPageActivity extends BaseActivity {
     //adds a reservation object to the recycler view of all upcoming reservations
     private void addReservationObjectToRecycler(Reservation reservation) {
         reservationsList.add(0, reservation);
-        Collections.sort(reservationsList, new DateComparator());
+        Collections.sort(reservationsList, new ReservationComparator());
         recyclerViewAdapter.notifyDataSetChanged();
     }
 
