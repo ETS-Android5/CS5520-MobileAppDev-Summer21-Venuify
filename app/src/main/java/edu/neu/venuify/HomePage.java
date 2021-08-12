@@ -1,6 +1,9 @@
 package edu.neu.venuify;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -30,6 +33,7 @@ public class HomePage extends BaseActivity {
     LinearLayoutManager linearLayoutManager;
     RecyclerView venueCategoryRecyclerView;
     ProgressBar loadingBar;
+    boolean isInitialized = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,8 @@ public class HomePage extends BaseActivity {
         loadingBar = findViewById(R.id.loadingBar);
         buildCategories();
         getVenuesFromDatabase();
+        databaseTimeout();
+        handleIntent(getIntent());
     }
 
     @Override
@@ -57,18 +63,20 @@ public class HomePage extends BaseActivity {
                     venueCategories.forEach(category -> {
                         if (category.getVenueCategory().equals(venueObject.getCategory())) {
                             category.getVenueObjectList().add(venueObject);
-
-
+                            Utils.venueMap.put(venueObject.getVenueName(), dataSnapshot.getKey());
                         }
                     });
                 }
-                venueCategoryAdapter = new VenueCategoryAdapter(venueCategories);
-                venueCategoryAdapter.setHasStableIds(true);
-                linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-                venueCategoryRecyclerView.setLayoutManager(linearLayoutManager);
-                venueCategoryRecyclerView.setAdapter(venueCategoryAdapter);
-                loadingBar.setVisibility(View.GONE);
-                venueCategoryRecyclerView.setVisibility(View.VISIBLE);
+                if (!isInitialized) {
+                    venueCategoryAdapter = new VenueCategoryAdapter(venueCategories);
+                    venueCategoryAdapter.setHasStableIds(true);
+                    linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                    venueCategoryRecyclerView.setLayoutManager(linearLayoutManager);
+                    venueCategoryRecyclerView.setAdapter(venueCategoryAdapter);
+                    loadingBar.setVisibility(View.GONE);
+                    venueCategoryRecyclerView.setVisibility(View.VISIBLE);
+                    isInitialized = true;
+                }
             }
 
             @Override
@@ -87,6 +95,27 @@ public class HomePage extends BaseActivity {
         VenueCategory workspace = new VenueCategory(Utils.Category.WORKSPACE.toString(), new ArrayList<VenueObject>());
         venueCategories = new ArrayList<>();
         venueCategories.addAll(List.of(restaurants, sports, music, workspace));
+    }
+
+
+
+
+    private void databaseTimeout() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (venueCategoryAdapter == null) {
+                    Toast.makeText(getApplicationContext(), "Could not load venues from database.", Toast.LENGTH_LONG).show();
+                    loadingBar.setVisibility(View.INVISIBLE);
+                }
+            }
+        }, 10000);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (intent.hasExtra("stopTimer")) {
+            stopService(new Intent(this, BackgroundService.class).putExtra("stopTimer", true));
+        }
     }
 
 }

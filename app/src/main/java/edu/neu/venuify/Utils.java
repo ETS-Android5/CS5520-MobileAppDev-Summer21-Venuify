@@ -1,27 +1,26 @@
 package edu.neu.venuify;
-import android.content.ServiceConnection;
-import android.text.format.DateFormat;
-import android.text.format.DateUtils;
+
+import android.content.Context;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
-import java.util.TimeZone;
+
 
 import edu.neu.venuify.Models.VenueCategory;
 import edu.neu.venuify.Models.VenueObject;
 
 public class Utils {
     static List<VenueCategory> venueCategories;
+    static Map<String, String> venueMap = new HashMap<>();
 
     public static void createVenueDatabase() {
         new Thread(new Runnable() {
@@ -62,44 +61,44 @@ public class Utils {
 
     private static List<VenueObject> getRestaurants() {
         List<VenueObject> venueList = new ArrayList<>();
-        venueList.add(new VenueObject("Restaurant 1", Category.RESTAURANTS.toString(),  R.drawable.restaurant_1));
-        venueList.add(new VenueObject("Restaurant 2", Category.RESTAURANTS.toString(), R.drawable.restaurant_2));
-        venueList.add(new VenueObject("Restaurant 3", Category.RESTAURANTS.toString(), R.drawable.restaurant_3));
-        venueList.add(new VenueObject("Restaurant 4", Category.RESTAURANTS.toString(), R.drawable.restaurant_4));
-        venueList.add(new VenueObject("Restaurant 5", Category.RESTAURANTS.toString(), R.drawable.restaurant_5));
-        venueList.add(new VenueObject("Restaurant 6", Category.RESTAURANTS.toString(), R.drawable.restaurant_6));
+        venueList.add(new VenueObject("Restaurant 1", Category.RESTAURANTS.toString(),  "restaurant_1"));
+        venueList.add(new VenueObject("Restaurant 2", Category.RESTAURANTS.toString(), "restaurant_2"));
+        venueList.add(new VenueObject("Restaurant 3", Category.RESTAURANTS.toString(), "restaurant_3"));
+        venueList.add(new VenueObject("Restaurant 4", Category.RESTAURANTS.toString(), "restaurant_4"));
+        venueList.add(new VenueObject("Restaurant 5", Category.RESTAURANTS.toString(), "restaurant_5"));
+        venueList.add(new VenueObject("Restaurant 6", Category.RESTAURANTS.toString(), "restaurant_6"));
         return  venueList;
     }
 
     private static List<VenueObject> getSports() {
         List<VenueObject> venueList = new ArrayList<>();
-        venueList.add(new VenueObject("Tennis", Category.SPORTS.toString(), R.drawable.tennis_ball));
-        venueList.add(new VenueObject("Football Field", Category.SPORTS.toString(), R.drawable.football_field));
-        venueList.add(new VenueObject("Soccer Field", Category.SPORTS.toString(), R.drawable.soccer_field));
-        venueList.add(new VenueObject("Basketball Court", Category.SPORTS.toString(), R.drawable.basketball_court));
-        venueList.add(new VenueObject("Archery", Category.SPORTS.toString(), R.drawable.archery));
-        venueList.add(new VenueObject("Rock Climbing", Category.SPORTS.toString(), R.drawable.rock_climbing));
+        venueList.add(new VenueObject("Tennis", Category.SPORTS.toString(), "tennis_ball"));
+        venueList.add(new VenueObject("Football Field", Category.SPORTS.toString(), "football_field"));
+        venueList.add(new VenueObject("Soccer Field", Category.SPORTS.toString(), "soccer_field"));
+        venueList.add(new VenueObject("Basketball Court", Category.SPORTS.toString(), "basketball_court"));
+        venueList.add(new VenueObject("Archery", Category.SPORTS.toString(), "archery"));
+        venueList.add(new VenueObject("Rock Climbing", Category.SPORTS.toString(), "rock_climbing"));
         return  venueList;
     }
 
     private static List<VenueObject> getMusic() {
         List<VenueObject> venueList = new ArrayList<>();
-        venueList.add(new VenueObject("Concert Hall", Category.MUSIC.toString(), R.drawable.concert));
-        venueList.add(new VenueObject("Band", Category.MUSIC.toString(), R.drawable.band_stage));
-        venueList.add(new VenueObject("DJ", Category.MUSIC.toString(), R.drawable.turn_table));
-        venueList.add(new VenueObject("Recording Studio", Category.MUSIC.toString(), R.drawable.microphone));
+        venueList.add(new VenueObject("Concert Hall", Category.MUSIC.toString(), "concert"));
+        venueList.add(new VenueObject("Band", Category.MUSIC.toString(), "band_stage"));
+        venueList.add(new VenueObject("DJ", Category.MUSIC.toString(), "turn_table"));
+        venueList.add(new VenueObject("Recording Studio", Category.MUSIC.toString(), "microphone"));
 
         return  venueList;
     }
 
     private static List<VenueObject> getWorkSpace() {
         List<VenueObject> venueList = new ArrayList<>();
-        venueList.add(new VenueObject("Wood Shop", Category.WORKSPACE.toString(), R.drawable.wood_working));
-        venueList.add(new VenueObject("Yoga", Category.WORKSPACE.toString(), R.drawable.yoga));
-        venueList.add(new VenueObject("Office Space 1", Category.WORKSPACE.toString(), R.drawable.office_space_1));
-        venueList.add(new VenueObject("Office Space 2", Category.WORKSPACE.toString(), R.drawable.office_space_2));
-        venueList.add(new VenueObject("Art Gallery", Category.WORKSPACE.toString(), R.drawable.art_gallery));
-        venueList.add(new VenueObject("Paint Shop", Category.WORKSPACE.toString(), R.drawable.paint_supplies));
+        venueList.add(new VenueObject("Wood Shop", Category.WORKSPACE.toString(), "wood_working"));
+        venueList.add(new VenueObject("Yoga", Category.WORKSPACE.toString(), "yoga"));
+        venueList.add(new VenueObject("Office Space 1", Category.WORKSPACE.toString(), "office_space_1"));
+        venueList.add(new VenueObject("Office Space 2", Category.WORKSPACE.toString(), "office_space_2"));
+        venueList.add(new VenueObject("Art Gallery", Category.WORKSPACE.toString(), "art_gallery"));
+        venueList.add(new VenueObject("Paint Shop", Category.WORKSPACE.toString(), "paint_supplies"));
         return  venueList;
     }
 
@@ -145,16 +144,16 @@ public class Utils {
 
         //accounts for the weird format of 08 and 09 being too large to be an "int"
         //to see the prob try this: int i = 08;
-        if (reservationMonth.toString() == "08") {
+        if (reservationMonth.toString().equals("08")) {
             reservationMonth = 8;
         }
-        if (reservationMonth.toString() == "09") {
+        if (reservationMonth.toString().equals("09")) {
             reservationMonth = 9;
         }
-        if (reservationDay.toString() == "08") {
+        if (reservationDay.toString().equals("08")) {
             reservationDay = 8;
         }
-        if (reservationDay.toString() == "09") {
+        if (reservationDay.toString().equals("09")) {
             reservationDay = 9;
         }
 
@@ -174,14 +173,16 @@ public class Utils {
             //if its this year, and this month, then compare day
             if (currentMonth.equals(reservationMonth)) {
                 //check day
-                if (currentDay <= reservationDay) {
-                    return true;
-                }
+                return currentDay <= reservationDay;
 
             }
         }
 
         return false;
+    }
+
+    public static int getImageResourceId(Context context, VenueObject venueObject) {
+        return context.getResources().getIdentifier(venueObject.getImageId(), "drawable", "edu.neu.venuify");
     }
 
 }

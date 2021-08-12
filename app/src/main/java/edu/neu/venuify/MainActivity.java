@@ -2,13 +2,21 @@ package edu.neu.venuify;
 
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import edu.neu.venuify.Authentication.LoginActivity;
 import edu.neu.venuify.reservationPage.ReservationPageActivity;
@@ -18,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
 
     private Button logOutBtn;
     FirebaseAuth mAuth;
+    private TextView numReservations;
+    private DatabaseReference mDatabase;
+    final AtomicInteger count = new AtomicInteger();
+
 
 
     @Override
@@ -26,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         logOutBtn = findViewById(R.id.logout_btn);
         logOutBtn.setOnClickListener(view -> {
             mAuth.signOut();
