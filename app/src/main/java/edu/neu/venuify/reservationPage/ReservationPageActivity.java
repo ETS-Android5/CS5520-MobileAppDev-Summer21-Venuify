@@ -3,6 +3,7 @@ package edu.neu.venuify.reservationPage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -62,6 +63,9 @@ public class ReservationPageActivity extends BaseActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //TextView noAvailableMessage = findViewById(R.id.noCurrentMsg);
+        //noAvailableMessage.setVisibility(View.GONE);
+
         //creating the database and recycler views
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -98,10 +102,11 @@ public class ReservationPageActivity extends BaseActivity {
         RecyclerView.LayoutManager recycleLayoutManager = new LinearLayoutManager(this);
         RecyclerView recyclerView = findViewById(R.id.recyclerViewUpcomingReservationPage);
         recyclerView.setHasFixedSize(true);
-        //Collections.sort(reservationsList, new DateComparator()); //maybe doesn't work?
         recyclerViewAdapter = new RecyclerViewAdapterReservationPage(reservationsList);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(recycleLayoutManager);
+
+
     }
 
     //gets info from database to populate the recycler view of reservations you have in the upcoming list
@@ -125,6 +130,7 @@ public class ReservationPageActivity extends BaseActivity {
 
                             //if dateIsInTheFuture is true, then add it here
                             if (Utils.dateIsInFuture(reservationDate)) {
+
                                 addReservationObjectToRecycler(reservation);
                             }
 
@@ -163,6 +169,12 @@ public class ReservationPageActivity extends BaseActivity {
     //adds a reservation object to the recycler view of all upcoming reservations
     private void addReservationObjectToRecycler(Reservation reservation) {
         reservationsList.add(0, reservation);
+
+        //does not display "no reservations available" message if have a reservation
+        if (reservationsList.size() > 0) {
+            TextView noAvailableMessage = findViewById(R.id.noCurrentMsg);
+            noAvailableMessage.setVisibility(View.GONE);
+        }
         Collections.sort(reservationsList, new ReservationComparator());
         recyclerViewAdapter.notifyDataSetChanged();
     }

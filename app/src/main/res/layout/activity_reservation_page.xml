@@ -7,6 +7,7 @@
     tools:context=".reservationPage.ReservationPageActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -14,9 +15,9 @@
             android:id="@+id/upcoming1button"
             android:layout_width="0dp"
             android:layout_height="59dp"
+            android:backgroundTint="#A6AAF4"
             android:text="@string/upcoming1"
             android:translationY="-5dp"
-            android:backgroundTint="#A6AAF4"
             app:layout_constraintEnd_toStartOf="@+id/past1button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +64,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/past1button" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
@@ -73,6 +75,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/noCurrentMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No current reservations available."
+        android:visibility="visible"
+        app:layout_anchor="@+id/constraintLayout"
+        app:layout_anchorGravity="center" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
