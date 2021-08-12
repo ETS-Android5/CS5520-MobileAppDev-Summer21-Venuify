@@ -3,10 +3,13 @@ package edu.neu.venuify.Authentication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -56,6 +59,17 @@ public class RegisterUserActivity extends AppCompatActivity {
 
         registerBtn.setOnClickListener(view -> {
             createUser();
+        });
+
+        EditText password2 = findViewById(R.id.password2);
+        password2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (v.getId() == R.id.password2 && !hasFocus) {
+                    InputMethodManager imm =  (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
         });
     }
 
