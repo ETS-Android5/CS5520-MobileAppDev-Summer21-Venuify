@@ -222,6 +222,11 @@ public class ReservationPageActivity extends BaseActivity {
                 }
             }
         }
+        //if the size after remove the item is zero, then display the "no current reservation" msg
+        if (reservationsList.size() == 0) {
+            TextView noAvailableMessage = findViewById(R.id.noCurrentMsg);
+            noAvailableMessage.setVisibility(View.VISIBLE);
+        }
         // add a reservation
         if (Objects.requireNonNull(mAuth.getCurrentUser()).getUid().equals(reservation.getResUid())
                 && !reservation.isAvailable() && Utils.dateIsInFuture(reservation.getDate())) {
