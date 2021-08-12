@@ -73,7 +73,7 @@ public class QR_Activity extends BaseActivity {
     }
 
     private boolean venueExistsInDatabase(VenueObject venueObject) {
-      return Utils.venueMap.containsValue(venueObject.getVenueName());
+      return Utils.venueMap.containsKey(venueObject.getVenueName());
     }
 
 
