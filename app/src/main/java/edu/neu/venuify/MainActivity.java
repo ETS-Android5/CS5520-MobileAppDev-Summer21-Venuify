@@ -24,7 +24,7 @@ import edu.neu.venuify.reservationPage.ReservationPageActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button logOutBtn;
+    //private Button logOutBtn;
     FirebaseAuth mAuth;
     private TextView numReservations;
     private DatabaseReference mDatabase;
@@ -40,11 +40,11 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        logOutBtn = findViewById(R.id.logout_btn);
+       /* logOutBtn = findViewById(R.id.logout_btn);
         logOutBtn.setOnClickListener(view -> {
             mAuth.signOut();
             openLoginPage();
-        });
+        });*/
     }
 
     @Override
@@ -72,4 +72,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intentForRes = new Intent(this, ReservationPageActivity.class);
         startActivity(intentForRes);
     }
+
+
 }

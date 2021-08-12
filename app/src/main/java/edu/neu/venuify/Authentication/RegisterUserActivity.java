@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.neu.venuify.Entities.User;
+import edu.neu.venuify.HomePage;
 import edu.neu.venuify.MainActivity;
 import edu.neu.venuify.R;
 
@@ -99,7 +100,7 @@ public class RegisterUserActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Toast.makeText(RegisterUserActivity.this, "User created and signed in successfully!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(RegisterUserActivity.this, MainActivity.class));
+                    startActivity(new Intent(RegisterUserActivity.this, HomePage.class));
                 }
             })
             .addOnFailureListener(new OnFailureListener() {

@@ -1,13 +1,13 @@
 package edu.neu.venuify;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
+import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +26,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
         setContentView(getContentViewId());
         navigationView = findViewById(R.id.bottom_nav_bar);
         navigationView.setOnItemSelectedListener(this);
-        createNotificationChannel();
     }
 
     @Override
@@ -54,9 +53,13 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
     }
 
     @Override
-    protected void onStop() {
-        startService(new Intent(this, BackgroundService.class));
-        super.onStop();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        if (item.getItemId() == R.id.account) {
+            startActivity(new Intent(this, AccountPageActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -92,11 +95,14 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
             return true;
 
         }
+
         return false;
     }
 
 
-    private void updateNavigationBarState(){
+
+
+    void updateNavigationBarState(){
         int actionId = getNavigationMenuItemId();
         selectBottomNavigationBarItem(actionId);
     }
@@ -113,18 +119,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
         }
     }
 
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence channelName = "VenuifyNotificationChannel";
-            String description = "Notification channel for Venuify app";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel("notifyVenuify", channelName, importance);
-            channel.setDescription(description);
 
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
+
 
     public abstract int getContentViewId();
 

@@ -21,4 +21,16 @@ public class User {
     public String toString() {
         return firstName;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getUid() {
+        return uid;
+    }
 }

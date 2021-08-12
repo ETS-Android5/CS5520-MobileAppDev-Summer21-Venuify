@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,10 +24,13 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.neu.venuify.Adapters.VenueCategoryAdapter;
+import edu.neu.venuify.Authentication.LoginActivity;
 import edu.neu.venuify.Models.VenueCategory;
 import edu.neu.venuify.Models.VenueObject;
 
 public class HomePage extends BaseActivity {
+    FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
     List<VenueCategory> venueCategories;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     VenueCategoryAdapter venueCategoryAdapter;
@@ -38,12 +42,23 @@ public class HomePage extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         venueCategoryRecyclerView = findViewById(R.id.parent_recyclerview);
         loadingBar = findViewById(R.id.loadingBar);
-        buildCategories();
-        getVenuesFromDatabase();
-        databaseTimeout();
-        handleIntent(getIntent());
+        if (mAuth.getCurrentUser() != null) {
+            buildCategories();
+            getVenuesFromDatabase();
+            databaseTimeout();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mAuth.getCurrentUser() == null) {
+            openLoginPage();
+        }
     }
 
     @Override
@@ -112,10 +127,15 @@ public class HomePage extends BaseActivity {
         }, 10000);
     }
 
-    private void handleIntent(Intent intent) {
-        if (intent.hasExtra("stopTimer")) {
-            stopService(new Intent(this, BackgroundService.class).putExtra("stopTimer", true));
-        }
+//    private void handleIntent(Intent intent) {
+//        if (intent.hasExtra("stopTimer")) {
+//            stopService(new Intent(this, BackgroundService.class).putExtra("stopTimer", true));
+//        }
+//    }
+
+    public void openLoginPage() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
 }
