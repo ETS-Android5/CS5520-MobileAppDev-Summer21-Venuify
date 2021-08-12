@@ -10,8 +10,9 @@
         android:id="@+id/register_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register Page (needs formatting)"
-        android:textSize="20sp"
+        android:text="Register new user"
+        android:textColor="@color/purple_500"
+        android:textSize="23sp"
         app:layout_constraintBottom_toTopOf="@+id/first_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,31 +22,31 @@
         android:id="@+id/first_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_first_name"
+        android:hint="Enter first name"
+        app:layout_constraintBottom_toTopOf="@+id/last_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_heading"
-        app:layout_constraintBottom_toTopOf="@+id/last_name"/>
+        app:layout_constraintTop_toBottomOf="@+id/register_heading" />
 
     <EditText
         android:id="@+id/last_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_last_name"
+        android:hint="Enter last name"
+        app:layout_constraintBottom_toTopOf="@+id/email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/first_name"
-        app:layout_constraintBottom_toTopOf="@+id/email"/>
+        app:layout_constraintTop_toBottomOf="@+id/first_name" />
 
     <EditText
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_new_username"
+        android:hint="Enter email address"
+        app:layout_constraintBottom_toTopOf="@+id/password1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/last_name"
-        app:layout_constraintBottom_toTopOf="@+id/password1"/>
+        app:layout_constraintTop_toBottomOf="@+id/last_name" />
 
     <EditText
         android:id="@+id/password1"
