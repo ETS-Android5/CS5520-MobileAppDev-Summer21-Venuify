@@ -1,8 +1,10 @@
 package edu.neu.venuify;
 
+import android.content.Context;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -86,13 +88,26 @@ public class VenueDetailsPage extends AppCompatActivity {
                 //
             }
         });
+
+        EditText numGuests = findViewById(R.id.numGuests);
+        numGuests.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (v.getId() == R.id.numGuests && !hasFocus) {
+                    InputMethodManager imm =  (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        });
+
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        EditText editText = findViewById(R.id.numGuests);
-        editText.getText().clear();
+        EditText numGuests = findViewById(R.id.numGuests);
+        numGuests.getText().clear();
     }
 
     private void initializeAttributes() {
