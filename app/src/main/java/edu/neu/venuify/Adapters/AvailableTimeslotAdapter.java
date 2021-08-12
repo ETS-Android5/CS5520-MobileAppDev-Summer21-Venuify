@@ -147,8 +147,8 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
     public MyView onCreateViewHolder(ViewGroup parent,
                                      int viewType) {
 
-      EditText numGuests = parent.getRootView().findViewById(R.id.numGuests);
-      View itemView
+        EditText numGuests = parent.getRootView().findViewById(R.id.numGuests);
+        View itemView
                 = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.available_timeslot,
