@@ -197,6 +197,11 @@ public class ReservationPageActivity extends BaseActivity {
                     recyclerViewAdapter.notifyItemRemoved(i);
                     return;
                 }
+                if (!Utils.dateIsInFuture(reservation.getDate())) {
+                    reservationsList.remove(i);
+                    recyclerViewAdapter.notifyItemRemoved(i);
+                    return;
+                }
                 else {
                     reservationsList.set(i, reservation);
                     recyclerViewAdapter.notifyItemChanged(i);
