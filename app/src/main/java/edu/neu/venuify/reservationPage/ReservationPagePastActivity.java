@@ -108,8 +108,8 @@ public class ReservationPagePastActivity extends BaseActivity {
                         mAuth = FirebaseAuth.getInstance();
                         String currentUserUid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
-                        //if the user id is equal the user id listed under the reservation, display it
-                        if (currentUserUid.equals(reservation.getResUid())) {
+                        //if the user id is equal the user id listed under the reservation and the reservation status is booked
+                        if (currentUserUid.equals(reservation.getResUid()) && !reservation.isAvailable()) {
 
 
                             //get reservation date and send to function to evaluate if in past

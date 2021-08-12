@@ -85,6 +85,11 @@ public class VenueDetailsPage extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     private void initializeAttributes() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         dateSelector = findViewById(R.id.dateSelector);
@@ -214,5 +219,10 @@ public class VenueDetailsPage extends AppCompatActivity {
 
     private boolean dateAlreadySeen(Reservation r) {
         return reservationListToDisplay.contains(r);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 }
