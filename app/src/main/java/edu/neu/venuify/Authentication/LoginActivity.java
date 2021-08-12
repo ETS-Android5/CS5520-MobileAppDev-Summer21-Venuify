@@ -17,7 +17,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import edu.neu.venuify.HomePage;
-import edu.neu.venuify.MainActivity;
 import edu.neu.venuify.R;
 
 public class LoginActivity extends AppCompatActivity {

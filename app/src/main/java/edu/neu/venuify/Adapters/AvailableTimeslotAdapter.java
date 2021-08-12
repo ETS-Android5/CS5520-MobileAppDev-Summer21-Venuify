@@ -72,7 +72,7 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
 
                     String guestCount;
                     if (numGuests.getText().toString().equals("")) {
-                        guestCount = "0";
+                        guestCount = "1";
                     }
                     else {
                         guestCount = numGuests.getText().toString();
@@ -96,7 +96,7 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            reservation.setNumGuests(Integer.valueOf(numGuests.getText().toString()));
+                            reservation.setNumGuests(Integer.valueOf(guestCount));
                             reservation.setAvailable(false);
                             reservation.setResUid(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
                             Map<String, Object> map = new HashMap<>();
@@ -147,8 +147,8 @@ public class AvailableTimeslotAdapter extends RecyclerView.Adapter<AvailableTime
     public MyView onCreateViewHolder(ViewGroup parent,
                                      int viewType) {
 
-      EditText numGuests = parent.getRootView().findViewById(R.id.numGuests);
-      View itemView
+        EditText numGuests = parent.getRootView().findViewById(R.id.numGuests);
+        View itemView
                 = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.available_timeslot,

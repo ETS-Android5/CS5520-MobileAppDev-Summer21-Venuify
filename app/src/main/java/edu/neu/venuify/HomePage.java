@@ -50,6 +50,7 @@ public class HomePage extends BaseActivity {
             buildCategories();
             getVenuesFromDatabase();
             databaseTimeout();
+            stopService(new Intent(this, BackgroundService.class).putExtra("stopTimer", true));
         }
     }
 
@@ -129,7 +130,7 @@ public class HomePage extends BaseActivity {
 
 //    private void handleIntent(Intent intent) {
 //        if (intent.hasExtra("stopTimer")) {
-//            stopService(new Intent(this, BackgroundService.class).putExtra("stopTimer", true));
+//
 //        }
 //    }
 

@@ -1,13 +1,12 @@
 package edu.neu.venuify;
 
-import android.annotation.SuppressLint;
-import android.content.ClipData;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
         setContentView(getContentViewId());
         navigationView = findViewById(R.id.bottom_nav_bar);
         navigationView.setOnItemSelectedListener(this);
+        createNotificationChannel();
     }
 
     @Override
@@ -44,6 +44,12 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
     protected void onPause() {
         super.onPause();
         overridePendingTransition(0, 0);
+    }
+
+    @Override
+    protected void onStop() {
+        startService(new Intent(this, BackgroundService.class));
+        super.onStop();
     }
 
     @Override
@@ -116,6 +122,19 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
                 item.setChecked(true);
                 break;
             }
+        }
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence channelName = "VenuifyNotificationChannel";
+            String description = "Notification channel for Venuify app";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("notifyVenuify", channelName, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 

@@ -67,6 +67,13 @@
         <activity android:name=".AccountPageActivity"
             android:configChanges="orientation|screenLayout|keyboardHidden">
         </activity>
+        <service android:name=".BackgroundService"
+            android:exported="false">
+        </service>
+        <receiver android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
+        </receiver>
     </application>
 
 </manifest>
