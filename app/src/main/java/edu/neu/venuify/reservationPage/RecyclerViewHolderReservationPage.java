@@ -28,6 +28,7 @@ import edu.neu.venuify.VenueDetailsPage;
 
 /**
  * Holder class for the recycler view used in the ReservationPageActivity.
+ * Holder layout reference: class materials titled "RecyclerViewSample"
  */
 public class RecyclerViewHolderReservationPage extends RecyclerView.ViewHolder {
 
