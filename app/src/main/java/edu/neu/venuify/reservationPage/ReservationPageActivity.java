@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,14 +22,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.neu.venuify.BaseActivity;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
+
 
 import edu.neu.venuify.DateComparator;
 import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
-import edu.neu.venuify.ReservationDetailsPage;
 import edu.neu.venuify.Utils;
 
 /**
@@ -39,7 +37,7 @@ import edu.neu.venuify.Utils;
  * Referenced A7, class textbook.
  */
 public class ReservationPageActivity extends BaseActivity {
-
+    static int pos;
     //reference to the database
     private DatabaseReference mDatabase;
 
@@ -135,20 +133,19 @@ public class ReservationPageActivity extends BaseActivity {
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
-
-                        int pos = reservationsList.indexOf(reservation);
-                        reservationsList.set(pos, reservation);
-                        recyclerViewAdapter.notifyItemChanged(pos);
-
+                        updateReservationList(reservation);
                     }
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                         Reservation reservation = Objects.requireNonNull(snapshot.getValue(Reservation.class));
-
-                        int pos = reservationsList.indexOf(reservation);
-                        reservationsList.remove(pos);
-                        recyclerViewAdapter.notifyItemChanged(pos);
+                        for (int i=0; i<reservationsList.size(); i++ ) {
+                            if (reservationsList.get(i).getReservationId().equals(reservation.getReservationId())) {
+                                reservationsList.remove(i);
+                                recyclerViewAdapter.notifyItemRemoved(i);
+                                break;
+                            }
+                        }
 
                     }
 
@@ -181,6 +178,36 @@ public class ReservationPageActivity extends BaseActivity {
             outState.putString(KEY_OF_INSTANCE + i + "0", reservationsList.get(i).getVenue());
         }
         super.onSaveInstanceState(outState);
+    }
+
+    private void updateReservationList(Reservation reservation) {
+
+        for (int i=0; i<reservationsList.size(); i++ ) {
+            if (reservation.getReservationId().equals(reservationsList.get(i).getReservationId())) {
+                // remove an existing reservation that was canceled
+                if (reservation.isAvailable) {
+                    reservationsList.remove(i);
+                    recyclerViewAdapter.notifyItemRemoved(i);
+                    return;
+                }
+
+                // reservation was in the list but the user names don't match
+                if (!(Objects.requireNonNull(mAuth.getCurrentUser()).getUid().equals(reservation.getResUid()))) {
+                    reservationsList.remove(i);
+                    recyclerViewAdapter.notifyItemRemoved(i);
+                    return;
+                }
+                else {
+                    reservationsList.set(i, reservation);
+                    recyclerViewAdapter.notifyItemChanged(i);
+                }
+            }
+        }
+        // add a reservation
+        if (Objects.requireNonNull(mAuth.getCurrentUser()).getUid().equals(reservation.getResUid())
+                && !reservation.isAvailable() && Utils.dateIsInFuture(reservation.getDate())) {
+            addReservationObjectToRecycler(reservation);
+        }
     }
 
 

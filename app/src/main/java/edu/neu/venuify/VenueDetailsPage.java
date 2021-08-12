@@ -206,6 +206,7 @@ public class VenueDetailsPage extends AppCompatActivity {
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
                         Reservation changedReservation = Objects.requireNonNull(dataSnapshot.getValue(Reservation.class));
 
+
                         if (!changedReservation.isAvailable && changedReservation.venue.equals(venueObject.getVenueName())) {
                             ListIterator<Reservation> timeslotIter = availableSlotsByDayList.listIterator();
                             int count = 0;
