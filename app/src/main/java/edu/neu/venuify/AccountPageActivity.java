@@ -128,15 +128,20 @@ public class AccountPageActivity extends AppCompatActivity {
 
                 pBar = findViewById(R.id.progress_bar);
                 TextView tv = findViewById(R.id.tv);
+                TextView countdown = findViewById(R.id.countdown);
 
                 Integer mod = Integer.parseInt(String.valueOf(count)) % 5;
+                Integer remainderTillPrize = 5 - mod;
 
                 if (mod == 0 && Integer.parseInt(String.valueOf(count)) != 0) {
                     pBar.setProgress(5);
                     tv.setText("5" + "/" + pBar.getMax());
+                    countdown.setText("You have earned a prize!");
                 } else {
                     pBar.setProgress(mod);
                     tv.setText(mod + "/" + pBar.getMax());
+                    countdown.setText("You are " + remainderTillPrize + " reservations away from your next prize!");
+
                 }
 
                // pBar.setProgress(Integer.parseInt(String.valueOf(count)));

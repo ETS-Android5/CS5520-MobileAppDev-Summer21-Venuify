@@ -9,18 +9,17 @@
         android:id="@+id/logout_btn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="96dp"
         android:text="@string/logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
-        android:layout_marginBottom="68dp"
         android:text="Account Information"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -32,11 +31,10 @@
 
     <LinearLayout
         android:id="@+id/linearLayout4"
-        android:layout_width="288dp"
-        android:layout_height="132dp"
-        android:layout_marginBottom="246dp"
+        android:layout_width="290dp"
+        android:layout_height="162dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/logout_btn2"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,65 +85,84 @@
                 android:textAlignment="viewEnd"
                 android:textSize="16sp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="140dp"
+                android:layout_height="43dp"
+                android:text="Total Venuify Reservations"
+                android:textAlignment="viewStart"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/numReservations"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:text="TextView"
+                android:textAlignment="textEnd"
+                android:textSize="16sp" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <ImageView
         android:id="@+id/goBack"
-        android:layout_width="62dp"
-        android:layout_height="46dp"
+        android:layout_width="42dp"
+        android:layout_height="35dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="333dp"
         android:layout_marginBottom="135dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.164"
         app:srcCompat="@drawable/go_back" />
 
-    <TextView
-        android:id="@+id/numReservations"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="290dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="163dp"
-        android:layout_marginTop="55dp"
-        android:layout_marginEnd="190dp"
-        android:layout_marginBottom="172dp"
-        android:text="TextView"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/logout_btn2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="130dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="170dp"
-        android:layout_marginTop="67dp"
-        android:layout_marginEnd="193dp"
-        android:layout_marginBottom="89dp"
-        android:indeterminate="false"
-        android:max="5"
-        android:progress="0"
-        app:layout_constraintBottom_toTopOf="@+id/logout_btn2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/numReservations" />
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:indeterminate="false"
+            android:max="5"
+            android:progress="0" />
 
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="174dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="179dp"
-        android:layout_marginBottom="31dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/logout_btn2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="TextView"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/countdown"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
