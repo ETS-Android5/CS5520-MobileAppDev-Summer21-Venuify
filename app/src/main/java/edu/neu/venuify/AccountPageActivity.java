@@ -17,7 +17,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -120,7 +119,7 @@ public class AccountPageActivity extends AppCompatActivity {
 
         mDatabase.child("reservations").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String prevChildKey) {
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 // New child added, increment count
                 Reservation reservation = dataSnapshot.getValue(Reservation.class);
                 if (reservation.user.equals(mAuth.getCurrentUser().getUid())) {
@@ -130,10 +129,26 @@ public class AccountPageActivity extends AppCompatActivity {
                 numReservations.setText(String.valueOf(count));
 
                 pBar = findViewById(R.id.progress_bar);
-                pBar.setProgress(Integer.parseInt(String.valueOf(count)));
-
                 TextView tv = findViewById(R.id.tv);
-                tv.setText(MessageFormat.format("{0}/{1}", count, pBar.getMax()));
+                TextView countdown = findViewById(R.id.countdown);
+
+                Integer mod = Integer.parseInt(String.valueOf(count)) % 5;
+                Integer remainderTillPrize = 5 - mod;
+
+                if (mod == 0 && Integer.parseInt(String.valueOf(count)) != 0) {
+                    pBar.setProgress(5);
+                    tv.setText("5" + "/" + pBar.getMax());
+                    countdown.setText("You have earned a prize!");
+                } else {
+                    pBar.setProgress(mod);
+                    tv.setText(mod + "/" + pBar.getMax());
+                    countdown.setText("You are " + remainderTillPrize + " reservations away from your next prize!");
+
+                }
+
+               // pBar.setProgress(Integer.parseInt(String.valueOf(count)));
+
+              //  tv.setText(mod + "/" + pBar.getMax());
 
             }
             @Override

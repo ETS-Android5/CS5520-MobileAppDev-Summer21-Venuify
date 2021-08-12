@@ -65,7 +65,7 @@
         </activity>
 
         <activity android:name=".AccountPageActivity"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
+            android:configChanges="orientation|screenLayout|keyboardHidden">
         </activity>
     </application>
 
