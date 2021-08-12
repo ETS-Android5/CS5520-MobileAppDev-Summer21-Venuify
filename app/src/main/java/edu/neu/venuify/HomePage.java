@@ -1,5 +1,8 @@
 package edu.neu.venuify;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -59,6 +62,7 @@ public class HomePage extends BaseActivity {
         if (mAuth.getCurrentUser() == null) {
             openLoginPage();
         }
+       stopAlarm();
     }
 
     @Override
@@ -131,6 +135,13 @@ public class HomePage extends BaseActivity {
     public void openLoginPage() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    private void stopAlarm() {
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        Intent newIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        PendingIntent noAlarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, newIntent, 0);
+        alarmManager.cancel(noAlarmIntent);
     }
 
 }

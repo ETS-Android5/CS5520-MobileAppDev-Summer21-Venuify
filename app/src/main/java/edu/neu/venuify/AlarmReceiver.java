@@ -18,7 +18,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyVenuify")
                 .setSmallIcon(R.drawable.ic_baseline_priority_high_24)
                 .setContentTitle("Book a Venu with Venuify today!")
-                .setContentText("Hundreds of venues have been booked this week! You're missing out!")
+                .setContentText("New venues are being added daily! You're missing out!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent);
 

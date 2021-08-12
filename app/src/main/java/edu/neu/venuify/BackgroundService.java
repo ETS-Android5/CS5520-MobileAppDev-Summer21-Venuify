@@ -12,8 +12,7 @@ import androidx.annotation.Nullable;
 
 
 public class BackgroundService extends Service {
-    AlarmManager alarmMgr;
-    int TEN_MINUTES = 10 * 60 * 1000;
+    public AlarmManager alarmMgr;
     int TEN_SECONDS = 10 * 1000;
 
     public void startTimer() {
@@ -22,9 +21,8 @@ public class BackgroundService extends Service {
         alarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         if (BuildConfig.DEBUG) {
 
-            alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime() + TEN_SECONDS,
-                    TEN_MINUTES, alarmIntent);
+            alarmMgr.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime() + TEN_SECONDS, alarmIntent);
         } else {
             alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                     SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_HOUR,
