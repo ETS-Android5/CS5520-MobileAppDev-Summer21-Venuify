@@ -25,10 +25,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Objects;
 
 import edu.neu.venuify.Adapters.AvailableTimeslotAdapter;
 
+import edu.neu.venuify.Authentication.LoginActivity;
 import edu.neu.venuify.Models.VenueObject;
 
 public class VenueDetailsPage extends AppCompatActivity {
@@ -151,6 +153,7 @@ public class VenueDetailsPage extends AppCompatActivity {
                 availableSlotsByDayList.add(r);
             }
         }
+        Collections.sort(availableSlotsByDayList, new TimeComparator());
         byDayAdapter.notifyDataSetChanged();
 
     }
@@ -179,14 +182,41 @@ public class VenueDetailsPage extends AppCompatActivity {
                         }
                     }
 
+
+                    /*
+                    Right now just handles the case of an available reservation for the venue
+                    becoming unavailable. Removes the reservation from the selectable list
+                     */
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
                         Reservation changedReservation = Objects.requireNonNull(dataSnapshot.getValue(Reservation.class));
-                        if (!changedReservation.isAvailable) {
-                            for (Reservation r : availableSlotsByDayList) {
+
+                        if (!changedReservation.isAvailable && changedReservation.venue.equals(venueObject.getVenueName())) {
+                            ListIterator<Reservation> timeslotIter = availableSlotsByDayList.listIterator();
+                            int count = 0;
+
+                            while (timeslotIter.hasNext()) {
+                                Reservation r = timeslotIter.next();
+                                if (changedReservation.date.equals(r.date)) {
+                                    count++;
+                                }
                                 if (changedReservation.getReservationId().equals(r.getReservationId())) {
-                                    availableSlotsByDayList.remove(r);
+                                    timeslotIter.remove();
                                     byDayAdapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            //Handles the case where the reservation that was just made needs to remove
+                            // a date option from the dropdown (aka the reservation taken was the last
+                            // available time on the particular date
+                            if (count == 1) {
+                                ListIterator<Reservation> dateDropdownIter = reservationListToDisplay.listIterator();
+                                while (dateDropdownIter.hasNext()) {
+                                    if (changedReservation.date.equals(dateDropdownIter.next().date)) {
+                                        dateDropdownIter.remove();
+                                        adapter.notifyDataSetChanged();
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -211,9 +241,8 @@ public class VenueDetailsPage extends AppCompatActivity {
         );
     }
 
-    //Todo also filter out past reservations
     private boolean isFutureAvailableReservation(Reservation reservation, VenueObject venueObject) {
-        return reservation.venue.equals(venueObject.getVenueName()) &&
+        return Utils.dateIsInFuture(reservation.date) && reservation.venue.equals(venueObject.getVenueName()) &&
              reservation.isAvailable;
     }
 
