@@ -21,10 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import edu.neu.venuify.BaseActivity;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import edu.neu.venuify.DateComparator;
 import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
 import edu.neu.venuify.ReservationDetailsPage;
@@ -97,6 +99,7 @@ public class ReservationPageActivity extends BaseActivity {
         RecyclerView.LayoutManager recycleLayoutManager = new LinearLayoutManager(this);
         RecyclerView recyclerView = findViewById(R.id.recyclerViewUpcomingReservationPage);
         recyclerView.setHasFixedSize(true);
+        //Collections.sort(reservationsList, new DateComparator()); //maybe doesn't work?
         recyclerViewAdapter = new RecyclerViewAdapterReservationPage(reservationsList);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(recycleLayoutManager);
@@ -162,6 +165,7 @@ public class ReservationPageActivity extends BaseActivity {
     //adds a reservation object to the recycler view of all upcoming reservations
     private void addReservationObjectToRecycler(Reservation reservation) {
         reservationsList.add(0, reservation);
+        Collections.sort(reservationsList, new DateComparator());
         recyclerViewAdapter.notifyDataSetChanged();
     }
 
