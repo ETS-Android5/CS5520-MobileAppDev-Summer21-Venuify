@@ -17,10 +17,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
 
 import edu.neu.venuify.BaseActivity;
+import edu.neu.venuify.DateComparator;
 import edu.neu.venuify.R;
 import edu.neu.venuify.Reservation;
 import edu.neu.venuify.Utils;
@@ -155,8 +157,9 @@ public class ReservationPagePastActivity extends BaseActivity {
     private void addReservationObjectToRecycler(Reservation reservation) {
 
         reservationsList.add(0, reservation);
+        Collections.sort(reservationsList, new DateComparator());
+        Collections.reverse(reservationsList);
         recyclerViewAdapter.notifyDataSetChanged();
-
 
     }
 

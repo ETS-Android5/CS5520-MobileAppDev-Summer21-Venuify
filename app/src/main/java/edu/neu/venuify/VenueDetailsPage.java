@@ -102,17 +102,36 @@ public class VenueDetailsPage extends AppCompatActivity {
                 false);
         recyclerView.setLayoutManager(HorizontalLayout);
         recyclerView.setAdapter(byDayAdapter);
+
     }
 
     private void handleProgressBarAndNoReservationsFound() {
 
+        //makes the progress bar disappear when the reservation either appears or no res found
+        //initially set all things to GONE, then if reservations, it will later set to visible
+        progressBar.setVisibility(View.GONE);
+        findViewById(R.id.textView7).setVisibility(View.GONE);
+        findViewById(R.id.textView8).setVisibility(View.GONE);
+        //findViewById(R.id.dateSelector).setVisibility(View.GONE);
+
+
+        //only goes through this part if there are reservations
         adapter.registerDataSetObserver(new DataSetObserver() {
             @Override
             public void onChanged() {
                 super.onChanged();
+
                 if(adapter.getCount() > 0){
+                    //when there are reservations available, set noAvailable to gone
                     noAvailableMessage.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.GONE);
+                    //when there are reservations available, set "select a date" = visible
+                    findViewById(R.id.textView7).setVisibility(View.VISIBLE);
+                    findViewById(R.id.textView8).setVisibility(View.VISIBLE);
+                    //findViewById(R.id.dateSelector).setVisibility(View.VISIBLE);
+
+
+
+                    //                   progressBar.setVisibility(View.GONE);
                 }
             }
         });
@@ -128,6 +147,7 @@ public class VenueDetailsPage extends AppCompatActivity {
             }
         }
         byDayAdapter.notifyDataSetChanged();
+
     }
 
     private void loadData() {
