@@ -205,6 +205,7 @@ public class ReservationPageActivity extends BaseActivity {
                 else {
                     reservationsList.set(i, reservation);
                     recyclerViewAdapter.notifyItemChanged(i);
+                    return;
                 }
             }
         }
