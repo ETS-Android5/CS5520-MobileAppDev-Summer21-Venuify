@@ -1,3 +1,5 @@
+# CS5520 - Mobile Application Development
+
 Term project for Mobile App Development (Android): "Venuify"
 
 Leora Fink, Mark Meuse, Jeffrey Taylor, Kaelyn Jefferson
